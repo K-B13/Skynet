@@ -25,7 +25,9 @@ jobs:
             cache: 'npm'
         
         - name: Install dependencies
-          run: npm install package-lock-only 
+          run: | 
+           cd frontend
+           npm ci
         
         - name: Start MongoDB
           uses: supercharge/mongodb-github-action@1.11.0
