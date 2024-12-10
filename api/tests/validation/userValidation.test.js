@@ -91,4 +91,29 @@ describe('User Validation', () => {
             expect(password.message).toEqual('password must be a string')
         })
     })
+
+    describe('password has no trailing or leading spaces function', () => {
+        it('password has no leading or trailing spaces', () => {
+            const password = passwordNoTrailingSpaces('Something1?')
+            expect(password.passes).toEqual(true)
+        })
+
+        it('password has a trailing space', () => {
+            const password = passwordNoTrailingSpaces('Something1? ')
+            expect(password.passes).toEqual(false)
+            expect(password.message).toEqual('password must not have spaces on either end of the password')
+        })
+
+        it('password has a leading space', () => {
+            const password = passwordNoTrailingSpaces(' Something1?')
+            expect(password.passes).toEqual(false)
+            expect(password.message).toEqual('password must not have spaces on either end of the password')
+        })
+
+        it('password has a trailing and leading space', () => {
+            const password = passwordNoTrailingSpaces(' Something1? ')
+            expect(password.passes).toEqual(false)
+            expect(password.message).toEqual('password must not have spaces on either end of the password')
+        })
+    })
 })
