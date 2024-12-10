@@ -8,7 +8,7 @@ const {
     passwordNoTrailingSpaces 
 } = require('../../validation/passwordValidation')
 
-describe('User Validation', () => {
+describe('Password Validation', () => {
     describe('password length', () => {
         it('password of length 9 should pass', () => {
             const password = passwordLength('something')
