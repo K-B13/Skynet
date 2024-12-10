@@ -16,7 +16,9 @@ const passwordHasAnInteger = (password) => {
 }
 
 const passwordIncludesUpperCase = (password) => {
-
+    const uppercaseRegex = /[A-Z]/
+    if (uppercaseRegex.test(password)) return { passes: true }
+    return { passes: false, message: 'password does not have an upper case letter' }
 }
 
 const passwordIncludesLowerCase = (password) => {
