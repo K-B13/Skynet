@@ -39,4 +39,17 @@ describe('User Validation', () => {
             expect(password.message).toEqual('password does not have special character')
         })
     })
+
+    describe('password has an integer', () => {
+        it('password has an integer', () => {
+            const password = passwordHasAnInteger('something1?')
+            expect(password.passes).toEqual(true)
+        })
+
+        it('password does not have an integer', () => {
+            const password = passwordHasAnInteger('finally')
+            expect(password.passes).toEqual(false)
+            expect(password.message).toEqual('password does not have an integer')
+        })
+    })
 })
