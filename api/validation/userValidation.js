@@ -33,7 +33,8 @@ const passwordIsString = (password) => {
 }
 
 const passwordNoTrailingSpaces = (password) => {
-
+    if (password[0] === ' ' || password[password.length - 1] === ' ') return { passes: false, message: 'password must not have spaces on either end of the password' }
+    return { passes: true }
 }
 
 const userValidation = {
