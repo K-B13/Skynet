@@ -22,7 +22,9 @@ const passwordIncludesUpperCase = (password) => {
 }
 
 const passwordIncludesLowerCase = (password) => {
-    
+    const lowercaseRegex = /[a-z]/
+    if (lowercaseRegex.test(password)) return { passes: true }
+    return { passes: false, message: 'password does not have a lower case letter' }
 }
 
 const passwordIsString = (password) => {
