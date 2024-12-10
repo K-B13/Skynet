@@ -20,7 +20,7 @@ jobs:
         - name: Use Node.js ${{ matrix.node-version }}
           uses: actions/setup-node@v4.0.2
           with:
-            cache-dependency-path: frontend
+            cache-dependency-path: frontend/packege-lock.json
             node-version: ${{ matrix.node-version }}
             cache: 'npm'
         
