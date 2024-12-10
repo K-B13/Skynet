@@ -28,7 +28,8 @@ const passwordIncludesLowerCase = (password) => {
 }
 
 const passwordIsString = (password) => {
-
+    if (typeof password === 'string') return { passes: true }
+    return { passes: false, message: 'password must be a string' }
 }
 
 const passwordNoTrailingSpaces = (password) => {
