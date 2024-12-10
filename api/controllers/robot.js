@@ -1,23 +1,25 @@
 const Robot = require("../models/robot");
 
-function createRobot(req, res) {
-    const name = req.body.name;
-    const likes = req.body.likes;
-    const dislikes = req.body.dislikes;
+async function createRobot(req, res) {
+    
+    try{
+        const name = req.body.name;
+        const likes = req.body.likes;
+        const dislikes = req.body.dislikes;
+        const userId = req.body.userId;
 
-    const robot = new Robot({
-        name, likes, dislikes
-    });
+        const robot = new Robot({
+            name, likes, dislikes, userId
+        });
 
-    robot.save()
-    .then((robot) => {
+        await robot.save()
         console.log("Robot created");
         res.status(201).json({message: "Robot created"});
-    })
-    .catch((err) => {
+
+    } catch (err) {
         console.log(err);
         res.status(400).json({message: "Robot creation failed"});
-    });
+    };
 };
 
 const RobotsController = {
