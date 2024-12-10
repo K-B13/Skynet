@@ -20,13 +20,13 @@ jobs:
         - name: Use Node.js ${{ matrix.node-version }}
           uses: actions/setup-node@v4.0.2
           with:
-            cache-dependency-path: frontend/package-lock.json
+            cache-dependency-path: api/package-lock.json
             node-version: ${{ matrix.node-version }}
             cache: 'npm'
         
         - name: Install dependencies
           run: | 
-           cd frontend
+           cd api
            npm ci
         
         - name: Start MongoDB
@@ -40,6 +40,8 @@ jobs:
             CI: true
         
         - name: Run all tests
-          run: npm test
+          run: |
+           cd api
+           npm test
           env:
             CI: true
