@@ -6,7 +6,7 @@ const {
     passwordIncludesLowerCase, 
     passwordIsString, 
     passwordNoTrailingSpaces 
-} = require('../../validation/userValidation')
+} = require('../../validation/passwordValidation')
 
 describe('User Validation', () => {
     describe('password length', () => {

@@ -37,7 +37,7 @@ const passwordNoTrailingSpaces = (password) => {
     return { passes: true }
 }
 
-const userValidation = {
+const passwordValidation = {
     passwordLength: passwordLength,
     passwordSpecialCharacter: passwordSpecialCharacter,
     passwordHasAnInteger: passwordHasAnInteger,
@@ -47,4 +47,4 @@ const userValidation = {
     passwordNoTrailingSpaces: passwordNoTrailingSpaces
 }
 
-module.exports = userValidation
+module.exports = passwordValidation
