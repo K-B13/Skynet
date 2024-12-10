@@ -113,7 +113,7 @@ describe("/users", () => {
       expect(users[0].password).toEqual("5678");
     })
 
-    it("changies one and only the one when there are multiple users", async() => {
+    it("changes one and only the one when there are multiple users", async() => {
       const user = await User.create({
         email: "someone@example.com",
         password: "1234"
@@ -134,8 +134,22 @@ describe("/users", () => {
       expect(users[1].email).toEqual("someone2@example.com");
       expect(users[1].password).toEqual("1234");
     })
+
+    it("Makes sure changed user is returned", async() => {
+      const user = await User.create({
+        email: "someone@example.com",
+        password: "1234"
+      })
+      const token = createToken(user._id)
+      const response = await request(app)
+      .put(`/users/${user._id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ email: 'someone3@example.com', password: "5678" });
+      expect(response.status).toEqual(202)
+      expect(response.body.user.email).toEqual("someone3@example.com");
+      expect(response.body.user.password).toEqual("5678");
+    })
   })
-  // res.status(401).json({ message: "auth error" });
 
   describe('PUT, when no token is provided', () => {
     it("changing email without a token returns an error", async() => {
@@ -146,8 +160,6 @@ describe("/users", () => {
       const response = await request(app)
         .put(`/users/${user._id}`)
         .send({ email: "someone2@example.com" });
-
-      console.log(response)
       expect(response.status).toEqual(401)
       expect(response.body.message).toEqual('auth error');
     })
@@ -162,7 +174,81 @@ describe("/users", () => {
         .put(`/users/${user._id}`)
         .send({ password: "5678" });
 
-      console.log(response)
+      expect(response.status).toEqual(401);
+      expect(response.body.message).toEqual('auth error');
+    })
+  })
+
+  describe('DELETE, delete user when valid token', () => {
+    it('delete a given user and make sure status code is 202', async () => {
+      const user = await User.create({
+        email: "someone@example.com",
+        password: "1234"
+      })
+      const token = createToken(user._id)
+      const response = await request(app)
+      .delete(`/users/${user._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      
+      const users = await User.find()
+      expect(response.status).toBe(202)
+      expect(users.length).toBe(0)
+    })
+
+    it('deleted a given user when there are multiple users', async () => {
+      const user = await User.create({
+        email: "someone@example.com",
+        password: "1234"
+      })
+      const user2 = await User.create({
+        email: "someone2@example.com",
+        password: "1234"
+      })
+      const user3 = await User.create({
+        email: "someone3@example.com",
+        password: "1234"
+      })
+      const token = createToken(user2._id)
+      const response = await request(app)
+      .delete(`/users/${user2._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      
+      const users = await User.find()
+      expect(response.status).toBe(202)
+      expect(users[0].email).toEqual("someone@example.com")
+      expect(users[1].email).toEqual("someone3@example.com")
+    })
+
+    it('deleted a given user when there are multiple users', async () => {
+      const user = await User.create({
+        email: "someone@example.com",
+        password: "1234"
+      })
+      const user2 = await User.create({
+        email: "someone2@example.com",
+        password: "1234"
+      })
+      const token = createToken(user._id)
+      const response = await request(app)
+      .delete(`/users/${user2._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      
+      expect(response.status).toBe(400)
+      expect(response.body.message).toEqual('You cannot delete someone elses account')
+    })
+  })
+
+  describe('DELETE, try to delete a user when invalid token', () => {
+    it('Fails to delete a user without a valid token', async () => {
+      const user = await User.create({
+        email: "someone@example.com",
+        password: "1234"
+      })
+
+      const response = await request(app)
+      .delete(`/users/${user._id}`)
+
+      
       expect(response.status).toEqual(401);
       expect(response.body.message).toEqual('auth error');
     })
