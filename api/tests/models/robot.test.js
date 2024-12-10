@@ -1,9 +1,12 @@
 require("../mongodb_helper");
 const Robot = require("../../models/robot");
+const mongoose = require("mongoose");
 
 describe("Robots model", () => {
+    let mockUserId
     beforeEach(async () => {
         await Robot.deleteMany({});
+        mockUserId = new mongoose.Types.ObjectId();
     });
 
     const robot = new Robot({
@@ -17,7 +20,8 @@ describe("Robots model", () => {
         isAlive: true,
         mood: "Neutral",
         likes: ["apples", "politics"],
-        dislikes: ["oranges"]
+        dislikes: ["oranges"],
+        userId: mockUserId
     });
 
     it('has a name', () => {
@@ -67,6 +71,10 @@ describe("Robots model", () => {
         expect(robot.dislikes[0]).toEqual("oranges");
     });
 
+    it('has userId', () => {
+        expect(robot.userId).toEqual(mockUserId);
+    })
+
     it('has a createdAt', () => {
         expect(robot.createdAt).not.toEqual("");
     });
@@ -83,7 +91,8 @@ describe("Robots model", () => {
             isAlive: true,
             mood: "Happy",
             likes: ["pompoms", "tuna", "sunlight"],
-            dislikes: ["cucumbers"]
+            dislikes: ["cucumbers"],
+            userId: mockUserId
         });
 
         expect(robot1.name).toEqual("ella");
@@ -101,6 +110,7 @@ describe("Robots model", () => {
         expect(robot1.likes[2]).toEqual("sunlight");
         expect(robot1.dislikes.length).toEqual(1);
         expect(robot1.dislikes[0]).toEqual("cucumbers");
+        expect(robot1.userId).toEqual(mockUserId);
     });
 
     it('name should be a string', () => {

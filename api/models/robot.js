@@ -11,7 +11,8 @@ const RobotSchema = new mongoose.Schema({
     isAlive: { type: Boolean, default: true },
     mood: { type: String },
     likes: { type: Array },
-    dislikes: { type: Array }
+    dislikes: { type: Array },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User"}
 });
 
 const Robot = mongoose.model("Robot", RobotSchema);
