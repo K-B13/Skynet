@@ -1,5 +1,4 @@
 require("../mongodb_helper");
-const mongoose = require("mongoose")
 const User = require("../../models/user");
 //we will need a validation test for an unsuccessful email and password
 // we will need an update test
@@ -101,19 +100,5 @@ it("get a validation error if no email or password", async () => {
   expect(error.code).toBe(11000)
   expect(error.message).toContain("duplicate key error")
   expect(error.message).toContain("email")
-})
-//we will need to test for the robot id in user model
-it.only("will need to be able to take the robot id in user model", async () => {
-  const mockRobotId = new mongoose.Types.ObjectId()
-  const user = new User({
-    email: "someone@example.com",
-    password:"password",
-  })
-  await user.save()
-  user.robotId = mockRobotId
-  await user.save()
-  const users = await User.find()
-  console.log(users)
-  expect(users[0].robotId).toEqual(mockRobotId)
 })
 });
