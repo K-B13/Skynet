@@ -78,4 +78,17 @@ describe('User Validation', () => {
             expect(password.message).toEqual('password does not have a lower case letter')
         })
     })
+
+    describe('password is a string function', () => {
+        it('password is a string', () => {
+            const password = passwordIsString('Something1?')
+            expect(password.passes).toEqual(true)
+        })
+
+        it('password is not a string', () => {
+            const password = passwordIsString(24)
+            expect(password.passes).toEqual(false)
+            expect(password.message).toEqual('password must be a string')
+        })
+    })
 })
