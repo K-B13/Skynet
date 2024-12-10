@@ -11,7 +11,7 @@ const secret = process.env.JWT_SECRET;
 function createToken(userId) {
   return JWT.sign(
     {
-      user_id: userId,
+      userId: userId,
       // Backdate this token of 5 minutes
       iat: Math.floor(Date.now() / 1000) - 5 * 60,
       // Set the JWT token to expire in 10 minutes
@@ -97,7 +97,7 @@ describe("/users", () => {
       expect(users[0].password).toEqual("1234");
     })
 
-    it("changing password", async() => {
+    it("changing password", async () => {
       const user = await User.create({
         email: "someone@example.com",
         password: "1234"
@@ -143,16 +143,13 @@ describe("/users", () => {
         email: "someone@example.com",
         password: "1234"
       })
-      let error;
-      try {
-        await request(app)
+      const response = await request(app)
         .put(`/users/${user._id}`)
         .send({ email: "someone2@example.com" });
-      } catch (err) {
-        error = err
-      }
-      expect(error.status).toEqual(401)
-      expect(error.message).toEqual('auth error')
+
+      console.log(response)
+      expect(response.status).toEqual(401)
+      expect(response.body.message).toEqual('auth error');
     })
 
     it("changing the password without a token returns an error", async() => {
@@ -160,17 +157,14 @@ describe("/users", () => {
         email: "someone@example.com",
         password: "1234"
       })
-      let error;
-      try {
-        await request(app)
+
+      const response = await request(app)
         .put(`/users/${user._id}`)
         .send({ password: "5678" });
-      } catch (err) {
-        error = err
-      }
 
-      expect(error.status).toEqual(401);
-      expect(error.message).toEqual('auth error');
+      console.log(response)
+      expect(response.status).toEqual(401);
+      expect(response.body.message).toEqual('auth error');
     })
   })
 });
