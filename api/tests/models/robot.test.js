@@ -5,6 +5,7 @@ describe("Robots model", () => {
     beforeEach(async () => {
         await Robot.deleteMany({});
     });
+
     const robot = new Robot({
         name: "kimi",
         currency: 100,
@@ -100,5 +101,10 @@ describe("Robots model", () => {
         expect(robot1.likes[2]).toEqual("sunlight");
         expect(robot1.dislikes.length).toEqual(1);
         expect(robot1.dislikes[0]).toEqual("cucumbers");
+    });
+
+    it('name should be a string', () => {
+        expect(typeof robot.name).toBe("string");
+        expect(typeof robot.name).not.toBe("number");
     });
 });
