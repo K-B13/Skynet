@@ -29,7 +29,9 @@ describe('/robot', () => {
                    dislikes: ["oranges"]
                 });
             const robots = await Robot.find();
-            expect(robots[robots.length-1].name).toEqual("kimi");
+            expect(robots[0].name).toEqual("kimi");
+            expect(robots[0].likes).toEqual(["apples", "politics"]);
+            expect(robots[0].dislikes).toEqual(["oranges"]);
         });
 
         it('responds with 400 when no name given', async () => {
