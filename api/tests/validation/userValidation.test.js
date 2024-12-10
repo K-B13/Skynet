@@ -65,4 +65,17 @@ describe('User Validation', () => {
             expect(password.message).toEqual('password does not have an upper case letter')
         })
     })
+
+    describe('password includes lower case', () => {
+        it('password has a lowercase letter', () => {
+            const password = passwordIncludesUpperCase('Something1?')
+            expect(password.passes).toEqual(true)
+        })
+
+        it('password does not have a lowercase letter', () => {
+            const password = passwordIncludesUpperCase('FINALLY')
+            expect(password.passes).toEqual(false)
+            expect(password.message).toEqual('password does not have a lower case letter')
+        })
+    })
 })
