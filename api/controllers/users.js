@@ -28,9 +28,27 @@ const update = async (req, res) => {
   }
 }
 
+
+const deleteUser = async (req, res) => {
+  const { id } = req.params
+  if (req.userId !== id) {
+    return res.status(400).json({ message: 'You cannot delete someone elses account'})
+  }
+
+  try {
+    await User.findByIdAndDelete(id)
+    res.status(202).json({ message: 'Deleted user' })
+  } catch (err) {
+    console.log(err)
+    console.log('something')
+    res.status(400).json({ message: 'Error deleting users' })
+  }
+}
+
 const UsersController = {
   create: create,
-  update: update
+  update: update,
+  deleteUser: deleteUser
 };
 
 module.exports = UsersController;

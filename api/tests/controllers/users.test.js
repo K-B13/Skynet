@@ -247,7 +247,6 @@ describe("/users", () => {
 
       const response = await request(app)
       .delete(`/users/${user._id}`)
-
       
       expect(response.status).toEqual(401);
       expect(response.body.message).toEqual('auth error');
