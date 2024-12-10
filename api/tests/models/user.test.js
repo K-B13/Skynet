@@ -46,7 +46,7 @@ describe("User model", () => {
     expect(users[0].email).toEqual("someone@example.com");
     expect(users[0].password).toEqual("password");
   });
-  // we will need a test for if theres no email
+  
   it("get a validation error if no email", async () => {
     const user = new User({
       password: "password",
@@ -62,7 +62,7 @@ describe("User model", () => {
     expect(error.name).toBe("ValidationError")
     expect(error.message).toBe("User validation failed: email: Path `email` is required.")
   })
-// we will need a test for if theres no password
+
 it("get a validation error if no password", async () => {
   const user = new User({
     email: "someone@example.com",
@@ -78,8 +78,8 @@ it("get a validation error if no password", async () => {
   expect(error.name).toBe("ValidationError")
   expect(error.message).toBe("User validation failed: password: Path `password` is required.")
 })
-// we will need a test for if theres a integer in the email or password
-it("get a validation error if no email or password", async () => {
+
+it("testing that an email has to be unique", async () => {
   const user = new User({
     email: "someone@example.com",
     password: "password",
