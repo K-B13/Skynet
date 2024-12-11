@@ -29,7 +29,7 @@ describe("/users", () => {
     test("the response code is 201", async () => {
       const response = await request(app)
         .post("/users")
-        .send({ email: "poppy@email.com", password: "1234" });
+        .send({ email: "poppy@email.com", password: "Something1?" });
 
       expect(response.statusCode).toBe(201);
     });
@@ -37,12 +37,12 @@ describe("/users", () => {
     test("a user is created", async () => {
       await request(app)
         .post("/users")
-        .send({ email: "scarconstt@email.com", password: "1234" });
+        .send({ email: "scarconstt@email.com", password: "Something1?" });
 
       const users = await User.find();
       const newUser = users[users.length - 1];
       expect(newUser.email).toEqual("scarconstt@email.com");
-      expect(newUser.password).toEqual("1234");
+      expect(newUser.password).toEqual("Something1?");
     });
   });
 
@@ -67,13 +67,13 @@ describe("/users", () => {
     test("response code is 400", async () => {
       const response = await request(app)
         .post("/users")
-        .send({ password: "1234" });
+        .send({ password: "Something1?" });
 
       expect(response.statusCode).toBe(400);
     });
 
     test("does not create a user", async () => {
-      await request(app).post("/users").send({ password: "1234" });
+      await request(app).post("/users").send({ password: "Something1?" });
 
       const users = await User.find();
       expect(users.length).toEqual(0);
@@ -84,7 +84,7 @@ describe("/users", () => {
     it("changing email", async() => {
       const user = await User.create({
         email: "someone@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const token = createToken(user._id)
       const response = await request(app)
@@ -94,60 +94,94 @@ describe("/users", () => {
       expect(response.status).toEqual(202)
       const users = await User.find();
       expect(users[0].email).toEqual("someone2@example.com");
-      expect(users[0].password).toEqual("1234");
+      expect(users[0].password).toEqual("Something1?");
     })
 
     it("changing password", async () => {
       const user = await User.create({
         email: "someone@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const token = createToken(user._id)
       const response = await request(app)
       .put(`/users/${user._id}`)
       .set("Authorization", `Bearer ${token}`)
-      .send({ password: "5678" });
+      .send({ password: "Something123?" });
       expect(response.status).toEqual(202)
       const users = await User.find();
       expect(users[0].email).toEqual("someone@example.com");
-      expect(users[0].password).toEqual("5678");
+      expect(users[0].password).toEqual("Something123?");
     })
 
     it("changes one and only the one when there are multiple users", async() => {
       const user = await User.create({
         email: "someone@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       await User.create({
         email: "someone2@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const token = createToken(user._id)
       const response = await request(app)
       .put(`/users/${user._id}`)
       .set("Authorization", `Bearer ${token}`)
-      .send({ email: 'someone3@example.com', password: "5678" });
+      .send({ email: 'someone3@example.com', password: "Something123?" });
       expect(response.status).toEqual(202)
       const users = await User.find();
       expect(users[0].email).toEqual("someone3@example.com");
-      expect(users[0].password).toEqual("5678");
+      expect(users[0].password).toEqual("Something123?");
       expect(users[1].email).toEqual("someone2@example.com");
-      expect(users[1].password).toEqual("1234");
+      expect(users[1].password).toEqual("Something1?");
     })
 
     it("Makes sure changed user is returned", async() => {
       const user = await User.create({
         email: "someone@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const token = createToken(user._id)
       const response = await request(app)
       .put(`/users/${user._id}`)
       .set("Authorization", `Bearer ${token}`)
-      .send({ email: 'someone3@example.com', password: "5678" });
+      .send({ email: 'someone3@example.com', password: "Something123?" });
       expect(response.status).toEqual(202)
       expect(response.body.user.email).toEqual("someone3@example.com");
-      expect(response.body.user.password).toEqual("5678");
+      expect(response.body.user.password).toEqual("Something123?");
+    })
+
+    it("Makes sure if email is wrong it is not updated", async() => {
+      const user = await User.create({
+        email: "someone@example.com",
+        password: "Something1?"
+      })
+      const token = createToken(user._id)
+      const response = await request(app)
+      .put(`/users/${user._id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ email: 'someone3example.com' });
+      expect(response.status).toEqual(400)
+      expect(response.body.emailErrors).toEqual(['Email must be in the correct format'])
+      const foundUser = await User.findById(user._id)
+      expect(foundUser.email).toEqual("someone@example.com");
+      expect(foundUser.password).toEqual("Something1?");
+    })
+
+    it("Makes sure if password is wrong it is not updated", async() => {
+      const user = await User.create({
+        email: "someone@example.com",
+        password: "Something1?"
+      })
+      const token = createToken(user._id)
+      const response = await request(app)
+      .put(`/users/${user._id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ password: "Something" });
+      expect(response.status).toEqual(400)
+      expect(response.body.passwordErrors).toEqual(['password does not have special character', 'password does not have an integer'])
+      const foundUser = await User.findById(user._id)
+      expect(foundUser.email).toEqual("someone@example.com");
+      expect(foundUser.password).toEqual("Something1?");
     })
   })
 
@@ -155,7 +189,7 @@ describe("/users", () => {
     it("changing email without a token returns an error", async() => {
       const user = await User.create({
         email: "someone@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const response = await request(app)
         .put(`/users/${user._id}`)
@@ -167,12 +201,12 @@ describe("/users", () => {
     it("changing the password without a token returns an error", async() => {
       const user = await User.create({
         email: "someone@example.com",
-        password: "1234"
+        password: "Something1?"
       })
 
       const response = await request(app)
         .put(`/users/${user._id}`)
-        .send({ password: "5678" });
+        .send({ password: "Something123?" });
 
       expect(response.status).toEqual(401);
       expect(response.body.message).toEqual('auth error');
@@ -183,7 +217,7 @@ describe("/users", () => {
     it('delete a given user and make sure status code is 202', async () => {
       const user = await User.create({
         email: "someone@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const token = createToken(user._id)
       const response = await request(app)
@@ -198,15 +232,15 @@ describe("/users", () => {
     it('deleted a given user when there are multiple users', async () => {
       const user = await User.create({
         email: "someone@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const user2 = await User.create({
         email: "someone2@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const user3 = await User.create({
         email: "someone3@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const token = createToken(user2._id)
       const response = await request(app)
@@ -222,11 +256,11 @@ describe("/users", () => {
     it('deleted a given user when there are multiple users', async () => {
       const user = await User.create({
         email: "someone@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const user2 = await User.create({
         email: "someone2@example.com",
-        password: "1234"
+        password: "Something1?"
       })
       const token = createToken(user._id)
       const response = await request(app)
@@ -242,7 +276,7 @@ describe("/users", () => {
     it('Fails to delete a user without a valid token', async () => {
       const user = await User.create({
         email: "someone@example.com",
-        password: "1234"
+        password: "Something1?"
       })
 
       const response = await request(app)
