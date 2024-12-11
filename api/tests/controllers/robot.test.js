@@ -190,13 +190,63 @@ describe('PUT Currency', () => {
     });
 });
 
-//Currency:
-    //Does not go below zero
+describe('PUT Battery life', () => {
+    beforeEach(async () => {
+        await Robot.deleteMany();
+    });
 
-//Battery life:
-    //Can be changed
-    //Also does not go below zero
-    //If battery hits 0 isAlive = false
+    it('Should return a 200 when robot battery life is updated', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/battery`)
+        .send({
+            batteryLife: -20
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.batteryLife).toEqual(80)
+        
+    });
+    it('Battery Life should not drop below 0', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/battery`)
+        .send({
+            batteryLife: -250
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.batteryLife).toEqual(0)
+        expect(response.body.robot.isAlive).toBe(false)
+    });
+});
+
 
 //Memory capacity:
     //Can increase not decrease

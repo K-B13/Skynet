@@ -37,14 +37,10 @@ async function getRobot(req, res) {
 async function updateRobotCurrency(req, res) {
     try{
         const robotId = req.params.id
-        console.log("ROBOT ID In CONTROLLER: ",robotId);
-        
         const newAmount = req.body.currency
-        console.log("AMOUNT FROM REQ: ",newAmount);
         
         const singleRobot = await Robot.findById(robotId)
         newCurrency = singleRobot.currency += newAmount
-        console.log("NEW CURR: ", newCurrency);
         
         if(newCurrency <=0){
             singleRobot.currency = 0
@@ -58,14 +54,38 @@ async function updateRobotCurrency(req, res) {
 
     } catch (err) {
         console.log(err);
-        res.status(404).json({message: "Failed to get robot"});
+        res.status(400).json({message: "Failed to update robot currency"});
+    };
+};
+
+async function updateRobotBattery(req, res) {
+    try{
+        const robotId = req.params.id
+        const newBatteryLife = req.body.batteryLife
+        const singleRobot = await Robot.findById(robotId)
+        newBattery = singleRobot.batteryLife += newBatteryLife
+        
+        if(newBattery <=0){
+            singleRobot.batteryLife = 0
+            singleRobot.isAlive = false
+        }
+        else{
+            singleRobot.batteryLife = newBattery
+        }
+        
+        res.status(200).json({robot: singleRobot});
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to update robot battery life"});
     };
 };
 
 const RobotsController = {
     createRobot: createRobot,
     getRobot: getRobot,
-    updateRobotCurrency: updateRobotCurrency
+    updateRobotCurrency: updateRobotCurrency,
+    updateRobotBattery: updateRobotBattery
 };
 
 module.exports = RobotsController;
