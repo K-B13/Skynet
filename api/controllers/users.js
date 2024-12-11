@@ -1,12 +1,19 @@
 const User = require("../models/user");
+const { allPasswordChecks } = require('../validation/passwordValidation')
+const { allEmailChecks } = require('../validation/emailValidation')
 
 const create = async (req, res) => {
   const { email, password } = req.body
 
+  // Password and Email Checks
+  const { emailErrors, passwordErrors } = validateFields(email, password)
+  if (emailErrors.length !== 0 || passwordErrors.length !== 0 ) {
+    return res.status(400).json({ passwordErrors, emailErrors })
+  }
+
   const user = new User({ email, password });
   try {
     await user.save()
-    console.log("User created, id:", user._id.toString());
     res.status(201).json({ message: "OK" });
   } catch (err) {
     console.error(err);
@@ -15,9 +22,13 @@ const create = async (req, res) => {
 }
 
 const update = async (req, res) => {
-  // Below could be used if using verification
-  // const { email, password } = req.body
+  const { email, password } = req.body
   const { id } = req.params
+
+  const { emailErrors, passwordErrors } = validateFields(email, password)
+  if (emailErrors.length !== 0 || passwordErrors.length !== 0 ) {
+    return res.status(400).json({ passwordErrors, emailErrors })
+  }
 
   try {
     const user = await User.findByIdAndUpdate(id, { $set: { ...req.body } }, { new: true })
@@ -43,6 +54,12 @@ const deleteUser = async (req, res) => {
     console.log('something')
     res.status(400).json({ message: 'Error deleting users' })
   }
+}
+
+const validateFields = (email, password) => {
+  const emailErrors = email ? allEmailChecks(email) : [];
+  const passwordErrors = password ? allPasswordChecks(password) : [];
+  return { emailErrors, passwordErrors}
 }
 
 const UsersController = {

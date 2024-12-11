@@ -1,6 +1,11 @@
-const passwordLength = (password) => {
+const passwordMinLength = (password) => {
     if (password.length >= 8) return { passes: true }
     return { passes: false, message: 'password is too short' }
+}
+
+const passwordMaxLength = (password) => {
+    if (password.length <= 20) return { passes: true }
+    return { passes: false, message: 'password is too long' }
 }
 
 const passwordSpecialCharacter = (password) => {
@@ -37,14 +42,57 @@ const passwordNoTrailingSpaces = (password) => {
     return { passes: true }
 }
 
+const allPasswordChecks = (password) => {
+    let errorMessages = []
+    if (!password) {
+        errorMessages.push('Invalid password type')
+        return errorMessages
+    }
+    let result = passwordMinLength(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordMaxLength(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordIncludesUpperCase(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordIncludesLowerCase(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordSpecialCharacter(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordHasAnInteger(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordIsString(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordNoTrailingSpaces(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    return errorMessages
+}
+
 const passwordValidation = {
-    passwordLength: passwordLength,
+    passwordMinLength: passwordMinLength,
+    passwordMaxLength: passwordMaxLength,
     passwordSpecialCharacter: passwordSpecialCharacter,
     passwordHasAnInteger: passwordHasAnInteger,
     passwordIncludesUpperCase: passwordIncludesUpperCase,
     passwordIncludesLowerCase: passwordIncludesLowerCase,
     passwordIsString: passwordIsString,
-    passwordNoTrailingSpaces: passwordNoTrailingSpaces
+    passwordNoTrailingSpaces: passwordNoTrailingSpaces,
+    allPasswordChecks: allPasswordChecks
 }
 
 module.exports = passwordValidation

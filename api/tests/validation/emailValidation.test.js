@@ -1,4 +1,4 @@
-const { emailFormat } = require('../../validation/emailValidation')
+const { emailFormat, allEmailChecks } = require('../../validation/emailValidation')
 
 describe('Email Validation', () => {
     describe('email in the right format', () => {
@@ -39,6 +39,23 @@ describe('Email Validation', () => {
             const email = emailFormat('example2%@outlook.')
             expect(email.passes).toEqual(false)
             expect(email.message).toEqual('Email must be in the correct format')
+        })
+    })
+
+    describe('test all email checks', () => {
+        it('test with a valid email', () => {
+            const emailResponse = allEmailChecks('example@outlook.com')
+            expect(emailResponse).toEqual([])
+        })
+
+        it('test with invalid email', () => {
+            const emailResponse = allEmailChecks('exampleoutlook.com')
+            expect(emailResponse).toEqual(['Email must be in the correct format'])
+        })
+
+        it('test with no email or undefined', () => {
+            const emailResponse = allEmailChecks(undefined)
+            expect(emailResponse).toEqual(['Invalid email type'])
         })
     })
 })
