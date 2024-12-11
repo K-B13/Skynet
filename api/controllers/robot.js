@@ -95,12 +95,61 @@ async function updateRobotMemory(req, res) {
     };
 };
 
+async function updateRobotIntelligence(req, res) {
+    try{
+        const robotId = req.params.id
+        const brain = req.body.intelligence
+        const singleRobot = await Robot.findById(robotId)
+
+        newIntelligence = singleRobot.intelligence += brain
+
+        if(newIntelligence > singleRobot.memoryCapacity){
+            singleRobot.intelligence = singleRobot.memoryCapacity
+        }
+        else{
+            singleRobot.intelligence = newIntelligence
+        }
+
+        
+        res.status(200).json({robot: singleRobot});
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to update robot memory"});
+    };
+};
+
+async function updateRobotHardware(req, res) {
+    try{
+        const robotId = req.params.id
+        const newHardwareAmount = req.body.hardware
+        const singleRobot = await Robot.findById(robotId)
+        newHardware = singleRobot.hardware += newHardwareAmount
+        
+        if(newHardware <=0){
+            singleRobot.hardware = 0
+            singleRobot.isAlive = false
+        }
+        else{
+            singleRobot.hardware = newHardware
+        }
+        
+        res.status(200).json({robot: singleRobot});
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to update robot hardware"});
+    };
+};
+
 const RobotsController = {
     createRobot: createRobot,
     getRobot: getRobot,
     updateRobotCurrency: updateRobotCurrency,
     updateRobotBattery: updateRobotBattery,
     updateRobotMemory: updateRobotMemory,
+    updateRobotIntelligence: updateRobotIntelligence,
+    updateRobotHardware: updateRobotHardware
 };
 
 module.exports = RobotsController;

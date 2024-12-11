@@ -276,15 +276,146 @@ describe('PUT Memory', () => {
     });
 });
 
+describe('PUT Intelligence', () => {
+    beforeEach(async () => {
+        await Robot.deleteMany();
+    });
 
-//Intelligence:
-    //Can increase not decrease
-    //Can only ever be < || = memory capacity
+    it('Should return a 200 when robot intelligence is updated', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 100,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/intelligence`)
+        .send({
+            intelligence: 10
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.intelligence).toEqual(10)
+        
+    });
 
-//Hardware:
-    //Can go up or down
-    //Cannot drop below 0
-    //If it is 0 isAlive = false
+    it('Should not go above memory capacity', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 100,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/intelligence`)
+        .send({
+            intelligence: 150
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.intelligence).toEqual(100)
+        
+    });
+});
+
+describe('PUT Hardware', () => {
+    beforeEach(async () => {
+        await Robot.deleteMany();
+    });
+
+    it('Should return a 200 when robot hardware is updated', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/hardware`)
+        .send({
+            hardware: -50
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.hardware).toEqual(50)
+        
+    });
+    it('Hardware should not drop below 0', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/hardware`)
+        .send({
+            hardware: -250
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.hardware).toEqual(0)
+        expect(response.body.robot.isAlive).toBe(false)
+    });
+
+    it('Hardware can be increased', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/hardware`)
+        .send({
+            hardware: 50
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.hardware).toEqual(150)
+    });
+});
+
 
 //Mood:
     //Mood can be set to neutral, happy or sad
