@@ -142,6 +142,27 @@ async function updateRobotHardware(req, res) {
     };
 };
 
+async function updateRobotMood(req, res) {
+    try{
+        const robotId = req.params.id
+        const singleRobot = await Robot.findById(robotId)
+        if(typeof req.body.mood === 'string'){
+            singleRobot.mood = req.body.mood
+
+        }
+        else{
+        return res.status(400).json({message: "Mood must be a string!!"});
+        }
+
+        
+        res.status(200).json({robot: singleRobot});
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to update robot mood"});
+    };
+};
+
 const RobotsController = {
     createRobot: createRobot,
     getRobot: getRobot,
@@ -149,7 +170,8 @@ const RobotsController = {
     updateRobotBattery: updateRobotBattery,
     updateRobotMemory: updateRobotMemory,
     updateRobotIntelligence: updateRobotIntelligence,
-    updateRobotHardware: updateRobotHardware
+    updateRobotHardware: updateRobotHardware,
+    updateRobotMood: updateRobotMood
 };
 
 module.exports = RobotsController;

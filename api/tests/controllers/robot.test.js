@@ -416,7 +416,58 @@ describe('PUT Hardware', () => {
     });
 });
 
+describe('PUT Mood', () => {
+    beforeEach(async () => {
+        await Robot.deleteMany();
+    });
 
-//Mood:
-    //Mood can be set to neutral, happy or sad
-    //Triggered by hardware/battery stats
+    it('Should return a 200 when robot mood is updated', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/mood`)
+        .send({
+            mood: "happy"
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.mood).toEqual("happy")
+    });
+
+    it('Should only accept a string as a mood', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/mood`)
+        .send({
+            mood: 123
+        });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toEqual("Mood must be a string!!")
+    });
+});

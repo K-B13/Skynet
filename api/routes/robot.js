@@ -11,5 +11,6 @@ router.put("/:id/battery", RobotsController.updateRobotBattery);
 router.put("/:id/memory", RobotsController.updateRobotMemory);
 router.put("/:id/intelligence", RobotsController.updateRobotIntelligence);
 router.put("/:id/hardware", RobotsController.updateRobotHardware);
+router.put("/:id/mood", RobotsController.updateRobotMood);
 
 module.exports = router;
