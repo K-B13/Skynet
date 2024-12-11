@@ -163,6 +163,29 @@ async function updateRobotMood(req, res) {
     };
 };
 
+async function deleteRobot(req, res) {
+    try{
+        const robotId = req.params.id
+        const singleRobot = await Robot.findById(robotId)
+        
+        if (singleRobot.isAlive === false){
+            const deleteRobot = await Robot.findByIdAndDelete(robotId)
+            if(deleteRobot){
+                return res.status(200).json({message: "Robot deleted"});
+            }
+        }
+        else{
+            return res.status(400).json({message: "Robot is not dead!"});
+        }
+
+        
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to delete robot"});
+    };
+};
+
 const RobotsController = {
     createRobot: createRobot,
     getRobot: getRobot,
@@ -171,7 +194,8 @@ const RobotsController = {
     updateRobotMemory: updateRobotMemory,
     updateRobotIntelligence: updateRobotIntelligence,
     updateRobotHardware: updateRobotHardware,
-    updateRobotMood: updateRobotMood
+    updateRobotMood: updateRobotMood,
+    deleteRobot: deleteRobot
 };
 
 module.exports = RobotsController;

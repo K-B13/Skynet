@@ -471,3 +471,31 @@ describe('PUT Mood', () => {
         expect(response.body.message).toEqual("Mood must be a string!!")
     });
 });
+
+describe('DELETE Robot', () => {
+    beforeEach(async () => {
+        await Robot.deleteMany();
+    });
+
+    it('Should return a 200 when a robot is deleted', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: false,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .delete(`/robot/${robotId}`)
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).toEqual("Robot deleted")
+    });
+});
