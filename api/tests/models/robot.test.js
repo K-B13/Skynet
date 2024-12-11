@@ -3,10 +3,9 @@ const Robot = require("../../models/robot");
 const mongoose = require("mongoose");
 
 describe("Robots model", () => {
-    let mockUserId
+    const mockUserId = new mongoose.Types.ObjectId();
     beforeEach(async () => {
         await Robot.deleteMany({});
-        mockUserId = new mongoose.Types.ObjectId();
     });
 
     const robot = new Robot({
