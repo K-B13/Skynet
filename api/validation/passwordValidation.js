@@ -1,6 +1,11 @@
-const passwordLength = (password) => {
+const passwordMinLength = (password) => {
     if (password.length >= 8) return { passes: true }
     return { passes: false, message: 'password is too short' }
+}
+
+const passwordMaxLength = (password) => {
+    if (password.length <= 20) return { passes: true }
+    return { passes: false, message: 'password is too long' }
 }
 
 const passwordSpecialCharacter = (password) => {
@@ -39,7 +44,15 @@ const passwordNoTrailingSpaces = (password) => {
 
 const allPasswordChecks = (password) => {
     let errorMessages = []
-    let result = passwordLength(password)
+    if (!password) {
+        errorMessages.push('Invalid password type')
+        return errorMessages
+    }
+    let result = passwordMinLength(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordMaxLength(password)
     if (!result.passes) {
         errorMessages.push(result.message)
     }
@@ -71,14 +84,15 @@ const allPasswordChecks = (password) => {
 }
 
 const passwordValidation = {
-    passwordLength: passwordLength,
+    passwordMinLength: passwordMinLength,
+    passwordMaxLength: passwordMaxLength,
     passwordSpecialCharacter: passwordSpecialCharacter,
     passwordHasAnInteger: passwordHasAnInteger,
     passwordIncludesUpperCase: passwordIncludesUpperCase,
     passwordIncludesLowerCase: passwordIncludesLowerCase,
     passwordIsString: passwordIsString,
     passwordNoTrailingSpaces: passwordNoTrailingSpaces,
-    allCPasswordChecks: allPasswordChecks
+    allPasswordChecks: allPasswordChecks
 }
 
 module.exports = passwordValidation

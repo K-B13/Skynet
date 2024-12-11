@@ -9,8 +9,22 @@ const emailFormat = (email) => {
     return { passes: false, message: 'Email must be in the correct format' }
 }
 
+const allEmailChecks = (email) => {
+    errorMessages = []
+    if (!email) {
+        errorMessages.push('Invalid email type')
+        return errorMessages
+    }
+    let result = emailFormat(email)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    return errorMessages
+}
+
 const emailValidation = {
-    emailFormat: emailFormat
+    emailFormat: emailFormat,
+    allEmailChecks: allEmailChecks
 }
 
 module.exports = emailValidation
