@@ -6,6 +6,7 @@ import { signup } from "../../services/authentication";
 export function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   async function handleSubmit(event) {
@@ -27,27 +28,47 @@ export function SignupPage() {
     setPassword(event.target.value);
   }
 
+  function togglePasswordVisibility() {
+    setShowPassword((prevState) => !prevState);
+  }
+
   return (
-    <>
-      <h2>Signup</h2>
+    <div>
+      <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
         <input
           id="email"
           type="text"
           value={email}
           onChange={handleEmailChange}
+          placeholder="Email"
         />
-        <label htmlFor="password">Password:</label>
-        <input
-          placeholder="Password"
-          id="password"
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        <input role="submit-button" id="submit" type="submit" value="Submit" />
+        <div>
+          <input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            value={password}
+            onChange={handlePasswordChange}
+            placeholder="Password"
+          />
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        </div>
+        <button
+          type="submit"
+        >
+          Submit
+        </button>
       </form>
-    </>
+      <p>
+        <a href="/login">
+          Already Have Account
+        </a>
+      </p>
+    </div>
   );
 }
