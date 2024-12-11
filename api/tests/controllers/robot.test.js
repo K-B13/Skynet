@@ -64,34 +64,43 @@ describe('GET', () => {
         await Robot.deleteMany({});
     });
 
-    const robot = new Robot({
-        name: "kimi",
-        currency: 100,
-        batteryLife: 100,
-        memoryCapacity: 128,
-        intelligence: 0,
-        hardware: 1,
-        image: "",
-        isAlive: true,
-        mood: "Neutral",
-        likes: ["apples", "politics"],
-        dislikes: ["oranges"],
-        userId: mockUserId
-    });
-
-    //WHY DOES THIS MAKE THE NEXT ONE FAIL!!!!???
-    
-    // it('responds with 200', async () => {
-    //     await robot.save()
-    //     const robotId = robot._id.toString()
-    //     const response = await request(app)
-    //         .get(`/robot/${robotId}`)
-    //         expect(response.statusCode).toBe(200);
-    //     });
+    it('responds with 200', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+            .get(`/robot/${robotId}`)
+            expect(response.statusCode).toBe(200);
+        });
         
     it('returns the robot', async () => {
-        console.log("ROBOT: ", robot);
-        
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId
+        });
         await robot.save()
         const robotId = robot._id.toString()
         const response = await request(app)
@@ -102,6 +111,20 @@ describe('GET', () => {
     });
 
     it('returns error if robot does not exist', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId
+        });
         const response = await request(app)
             .get("/robot/123")
             expect(response.statusCode).toBe(404)
@@ -109,3 +132,84 @@ describe('GET', () => {
         
     });
 });
+
+describe('PUT Currency', () => {
+    beforeEach(async () => {
+        await Robot.deleteMany();
+    });
+
+    it('Should return a 200 when robot currency is updated', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/currency`)
+        .send({
+            currency: -10
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.currency).toEqual(90)
+        
+    });
+
+    it('Currency should not drop below 0', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/currency`)
+        .send({
+            currency: -200
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.currency).toEqual(0)
+    });
+});
+
+//Currency:
+    //Does not go below zero
+
+//Battery life:
+    //Can be changed
+    //Also does not go below zero
+    //If battery hits 0 isAlive = false
+
+//Memory capacity:
+    //Can increase not decrease
+
+//Intelligence:
+    //Can increase not decrease
+    //Can only ever be < || = memory capacity
+
+//Hardware:
+    //Can go up or down
+    //Cannot drop below 0
+    //If it is 0 isAlive = false
+
+//Mood:
+    //Mood can be set to neutral, happy or sad
+    //Triggered by hardware/battery stats

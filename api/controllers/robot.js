@@ -25,9 +25,35 @@ async function createRobot(req, res) {
 async function getRobot(req, res) {
     try{
         const robotId = req.params.id
-        console.log("ID IN CONTROLLER: ", robotId)
         const singleRobot = await Robot.findById(robotId)
-        console.log("Robot found: ", singleRobot);
+        res.status(200).json({robot: singleRobot});
+
+    } catch (err) {
+        console.log(err);
+        res.status(404).json({message: "Failed to get robot"});
+    };
+};
+
+async function updateRobotCurrency(req, res) {
+    try{
+        const robotId = req.params.id
+        console.log("ROBOT ID In CONTROLLER: ",robotId);
+        
+        const newAmount = req.body.currency
+        console.log("AMOUNT FROM REQ: ",newAmount);
+        
+        const singleRobot = await Robot.findById(robotId)
+        newCurrency = singleRobot.currency += newAmount
+        console.log("NEW CURR: ", newCurrency);
+        
+        if(newCurrency <=0){
+            singleRobot.currency = 0
+        }
+        else{
+            singleRobot.currency = newCurrency
+        }
+        console.log("RETURNED ROBOT: ", singleRobot);
+        
         res.status(200).json({robot: singleRobot});
 
     } catch (err) {
@@ -38,7 +64,8 @@ async function getRobot(req, res) {
 
 const RobotsController = {
     createRobot: createRobot,
-    getRobot: getRobot
+    getRobot: getRobot,
+    updateRobotCurrency: updateRobotCurrency
 };
 
 module.exports = RobotsController;
