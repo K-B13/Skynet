@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { getPayloadFromToken } from '../../helpfulFunctions/helpfulFunctions'
+import { createRobot } from '../../services/robot'
+import { useNavigate } from 'react-router-dom'
 
 const CreateRobot = () => {
     const [ formDetails, setFormDetails ] = useState({
@@ -8,6 +10,8 @@ const CreateRobot = () => {
     })
     const [ likeInputs, setLikeInputs] = useState([])
     const [ dislikeInputs, setDislikeInputs] = useState([])
+
+    const navigate = useNavigate()
 
     
     const handleChanges = (e) => {
@@ -26,6 +30,14 @@ const CreateRobot = () => {
         newArray[position] = e.target.value
         changeInput([...newArray])
         setFormDetails({ ...formDetails, [descriptor]: [...newArray] })
+    }
+
+    const handleSubmit = async () => {
+        const token = localStorage.getItem('token')
+        const userId = getPayloadFromToken(token).userId
+        const response = await createRobot({...formDetails, userId: userId}, token)
+        console.log(response)
+        navigate('/landingpage')
     }
 
     return (
@@ -130,7 +142,7 @@ const CreateRobot = () => {
                 id='create-robot-submit'
                 onClick={(e) => {
                     e.preventDefault()
-                    console.log(formDetails)
+                    handleSubmit()
                 }}
             >Submit</button>
             </form>
