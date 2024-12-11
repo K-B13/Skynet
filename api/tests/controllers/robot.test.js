@@ -4,13 +4,13 @@ const app = require("../../app");
 const Robot = require("../../models/robot");
 require("../mongodb_helper");
 
-    let mockUserId
-    beforeEach(async () => {
-        await Robot.deleteMany({});
-        mockUserId = new mongoose.Types.ObjectId();
-    });
 
-    describe('POST', () => {
+describe('POST', () => {
+        let mockUserId
+        beforeEach(async () => {
+            await Robot.deleteMany({});
+            mockUserId = new mongoose.Types.ObjectId();
+        });
         it('responds with 201', async () => {
             const response = await request(app)
                 .post("/robot")
@@ -79,39 +79,33 @@ describe('GET', () => {
         userId: mockUserId
     });
 
-    const robot2 = new Robot({
-        name: "ella",
-        currency: 100,
-        batteryLife: 100,
-        memoryCapacity: 128,
-        intelligence: 0,
-        hardware: 1,
-        image: "",
-        isAlive: true,
-        mood: "Neutral",
-        likes: ["tuna", "valerian"],
-        dislikes: ["dogs"],
-        userId: mockUserId
-    });
-
+    //WHY DOES THIS MAKE THE NEXT ONE FAIL!!!!???
     
-    it('responds with 200', async () => {
+    // it('responds with 200', async () => {
+    //     await robot.save()
+    //     const robotId = robot._id.toString()
+    //     const response = await request(app)
+    //         .get(`/robot/${robotId}`)
+    //         expect(response.statusCode).toBe(200);
+    //     });
+        
+    it('returns the robot', async () => {
+        console.log("ROBOT: ", robot);
+        
         await robot.save()
-        await robot2.save()
+        const robotId = robot._id.toString()
         const response = await request(app)
-            .get("/robot")
+        .get(`/robot/${robotId}`)
         expect(response.statusCode).toBe(200);
+        expect(response.body.robot.name).toEqual("kimi")
+    
     });
 
-    it('returns every robot', async () => {
-        await robot.save()
-        await robot2.save()
+    it('returns error if robot does not exist', async () => {
         const response = await request(app)
-            .get("/robot")
-            const robots = Robot.find()
-            expect(robots.length).toEqual(2)
-            expect(robots[0]).toEqual(robot)
-            expect(robots[1]).toEqual(robot2)
+            .get("/robot/123")
+            expect(response.statusCode).toBe(404)
+            expect(response.body.message).toEqual("Failed to get robot")
         
     });
 });

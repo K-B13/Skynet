@@ -22,8 +22,23 @@ async function createRobot(req, res) {
     };
 };
 
+async function getRobot(req, res) {
+    try{
+        const robotId = req.params.id
+        console.log("ID IN CONTROLLER: ", robotId)
+        const singleRobot = await Robot.findById(robotId)
+        console.log("Robot found: ", singleRobot);
+        res.status(200).json({robot: singleRobot});
+
+    } catch (err) {
+        console.log(err);
+        res.status(404).json({message: "Failed to get robot"});
+    };
+};
+
 const RobotsController = {
-    createRobot: createRobot
+    createRobot: createRobot,
+    getRobot: getRobot
 };
 
 module.exports = RobotsController;
