@@ -247,9 +247,35 @@ describe('PUT Battery life', () => {
     });
 });
 
+describe('PUT Memory', () => {
+    beforeEach(async () => {
+        await Robot.deleteMany();
+    });
 
-//Memory capacity:
-    //Can increase not decrease
+    it('Should return a 200 when robot memory capacity is updated', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 100,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/memory`)
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.memoryCapacity).toEqual(200)
+        
+    });
+});
+
 
 //Intelligence:
     //Can increase not decrease

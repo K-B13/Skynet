@@ -81,11 +81,26 @@ async function updateRobotBattery(req, res) {
     };
 };
 
+async function updateRobotMemory(req, res) {
+    try{
+        const robotId = req.params.id
+        const singleRobot = await Robot.findById(robotId)
+        singleRobot.memoryCapacity = singleRobot.memoryCapacity * 2
+        
+        res.status(200).json({robot: singleRobot});
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to update robot memory"});
+    };
+};
+
 const RobotsController = {
     createRobot: createRobot,
     getRobot: getRobot,
     updateRobotCurrency: updateRobotCurrency,
-    updateRobotBattery: updateRobotBattery
+    updateRobotBattery: updateRobotBattery,
+    updateRobotMemory: updateRobotMemory,
 };
 
 module.exports = RobotsController;
