@@ -1,30 +1,49 @@
 const { 
-    passwordLength, 
+    passwordMinLength,
+    passwordMaxLength, 
     passwordSpecialCharacter,
     passwordHasAnInteger,
     passwordIncludesUpperCase, 
     passwordIncludesLowerCase, 
     passwordIsString, 
     passwordNoTrailingSpaces,
-    allCPasswordChecks 
+    allPasswordChecks 
 } = require('../../validation/passwordValidation')
 
 describe('Password Validation', () => {
-    describe('password length', () => {
+    describe('password min length', () => {
         it('password of length 9 should pass', () => {
-            const password = passwordLength('something')
+            const password = passwordMinLength('something')
             expect(password.passes).toEqual(true)
         })
 
         it('password of length 8 should pass', () => {
-            const password = passwordLength('dramatic')
+            const password = passwordMinLength('dramatic')
             expect(password.passes).toEqual(true)
         })
 
         it('password of length 7 should fail', () => {
-            const password = passwordLength('finally')
+            const password = passwordMinLength('finally')
             expect(password.passes).toEqual(false)
             expect(password.message).toEqual('password is too short')
+        })
+    })
+
+    describe('password max length', () => {
+        it('password of length 19 should pass', () => {
+            const password = passwordMaxLength('B5#tPq$9Xm!1oLv@Z2Kr')
+            expect(password.passes).toEqual(true)
+        })
+
+        it('password of length 20 should pass', () => {
+            const password = passwordMaxLength('B5#tPq$9Xm!1oLv@Z2Kr')
+            expect(password.passes).toEqual(true)
+        })
+
+        it('password of length 21 should fail', () => {
+            const password = passwordMaxLength('K3@d9Zv!6Y2Q#xTp$1nMl')
+            expect(password.passes).toEqual(false)
+            expect(password.message).toEqual('password is too long')
         })
     })
 
@@ -120,30 +139,30 @@ describe('Password Validation', () => {
 
     describe('testing the allPasswordChecks function', () => {
         it('password Something1? which should pass', () => {
-            const passwordErrors = allCPasswordChecks('Something1?')
+            const passwordErrors = allPasswordChecks('Something1?')
             expect(passwordErrors.length).toEqual(0)
         })
 
         it('password something1? which should have 1 error', () => {
-            const passwordErrors = allCPasswordChecks('something1?')
+            const passwordErrors = allPasswordChecks('something1?')
             expect(passwordErrors.length).toEqual(1)
             expect(passwordErrors[0]).toEqual('password does not have an upper case letter')
         })
 
         it('password Something? which should have 1 error', () => {
-            const passwordErrors = allCPasswordChecks('Something?')
+            const passwordErrors = allPasswordChecks('Something?')
             expect(passwordErrors.length).toEqual(1)
             expect(passwordErrors[0]).toEqual('password does not have an integer')
         })
 
         it('password S0mething which should have 1 error', () => {
-            const passwordErrors = allCPasswordChecks('S0mething')
+            const passwordErrors = allPasswordChecks('S0mething')
             expect(passwordErrors.length).toEqual(1)
             expect(passwordErrors[0]).toEqual('password does not have special character')
         })
 
         it('password some which should have multiple error', () => {
-            const passwordErrors = allCPasswordChecks('some')
+            const passwordErrors = allPasswordChecks('some')
             expect(passwordErrors.length).toEqual(4)
             expect(passwordErrors[0]).toEqual('password is too short')
             expect(passwordErrors[1]).toEqual('password does not have an upper case letter')
