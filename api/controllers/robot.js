@@ -13,7 +13,6 @@ async function createRobot(req, res) {
         });
 
         await robot.save()
-        console.log("Robot created");
         res.status(201).json({message: "Robot created"});
 
     } catch (err) {
@@ -22,11 +21,28 @@ async function createRobot(req, res) {
     };
 };
 
-async function getRobot(req, res) {
+// async function getRobot(req, res) {
+//     try{
+//         const robotId = req.params.id
+//         const singleRobot = await Robot.findById(robotId)
+//         res.status(200).json({robot: singleRobot});
+
+//     } catch (err) {
+//         console.log(err);
+//         res.status(404).json({message: "Failed to get robot"});
+//     };
+// };
+
+async function getRobotByUserId(req, res) {
     try{
-        const robotId = req.params.id
-        const singleRobot = await Robot.findById(robotId)
+        const loggedInUser = req.params.id
+        console.log("USER ID CONTROLLER: ", loggedInUser);
+        
+        const singleRobot = await Robot.findOne({userId: loggedInUser})
+        console.log("ROBOT RETURNED: ", singleRobot);
+        
         res.status(200).json({robot: singleRobot});
+
 
     } catch (err) {
         console.log(err);
@@ -37,6 +53,7 @@ async function getRobot(req, res) {
 async function updateRobotCurrency(req, res) {
     try{
         const robotId = req.params.id
+        
         const newAmount = req.body.currency
         
         const singleRobot = await Robot.findById(robotId)
@@ -48,7 +65,6 @@ async function updateRobotCurrency(req, res) {
         else{
             singleRobot.currency = newCurrency
         }
-        console.log("RETURNED ROBOT: ", singleRobot);
         
         res.status(200).json({robot: singleRobot});
 
@@ -188,14 +204,15 @@ async function deleteRobot(req, res) {
 
 const RobotsController = {
     createRobot: createRobot,
-    getRobot: getRobot,
+    // getRobot: getRobot,
     updateRobotCurrency: updateRobotCurrency,
     updateRobotBattery: updateRobotBattery,
     updateRobotMemory: updateRobotMemory,
     updateRobotIntelligence: updateRobotIntelligence,
     updateRobotHardware: updateRobotHardware,
     updateRobotMood: updateRobotMood,
-    deleteRobot: deleteRobot
+    deleteRobot: deleteRobot,
+    getRobotByUserId: getRobotByUserId
 };
 
 module.exports = RobotsController;

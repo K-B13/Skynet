@@ -58,7 +58,82 @@ describe('POST', () => {
     });
 
 
-describe('GET', () => {
+// describe('GET', () => {
+//     const mockUserId = new mongoose.Types.ObjectId();
+//     beforeEach(async () => {
+//         await Robot.deleteMany({});
+//     });
+
+//     it('responds with 200', async () => {
+//         const robot = new Robot({
+//             name: "kimi",
+//             currency: 100,
+//             batteryLife: 100,
+//             memoryCapacity: 128,
+//             intelligence: 0,
+//             hardware: 100,
+//             image: "",
+//             isAlive: true,
+//             mood: "Neutral",
+//             likes: ["apples", "politics"],
+//             dislikes: ["oranges"],
+//             userId: mockUserId
+//         });
+//         await robot.save()
+//         const robotId = robot._id.toString()
+//         const response = await request(app)
+//             .get(`/robot/${robotId}`)
+//             expect(response.statusCode).toBe(200);
+//         });
+        
+//     it('returns the robot', async () => {
+//         const robot = new Robot({
+//             name: "kimi",
+//             currency: 100,
+//             batteryLife: 100,
+//             memoryCapacity: 128,
+//             intelligence: 0,
+//             hardware: 100,
+//             image: "",
+//             isAlive: true,
+//             mood: "Neutral",
+//             likes: ["apples", "politics"],
+//             dislikes: ["oranges"],
+//             userId: mockUserId
+//         });
+//         await robot.save()
+//         const robotId = robot._id.toString()
+//         const response = await request(app)
+//         .get(`/robot/${robotId}`)
+//         expect(response.statusCode).toBe(200);
+//         expect(response.body.robot.name).toEqual("kimi")
+    
+//     });
+
+//     it('returns error if robot does not exist', async () => {
+//         const robot = new Robot({
+//             name: "kimi",
+//             currency: 100,
+//             batteryLife: 100,
+//             memoryCapacity: 128,
+//             intelligence: 0,
+//             hardware: 100,
+//             image: "",
+//             isAlive: true,
+//             mood: "Neutral",
+//             likes: ["apples", "politics"],
+//             dislikes: ["oranges"],
+//             userId: mockUserId
+//         });
+//         const response = await request(app)
+//             .get("/robot/123")
+//             expect(response.statusCode).toBe(404)
+//             expect(response.body.message).toEqual("Failed to get robot")
+        
+//     });
+// });
+
+describe('GET by user id', () => {
     const mockUserId = new mongoose.Types.ObjectId();
     beforeEach(async () => {
         await Robot.deleteMany({});
@@ -80,13 +155,14 @@ describe('GET', () => {
             userId: mockUserId
         });
         await robot.save()
-        const robotId = robot._id.toString()
+        const userId = robot.userId.toString()
         const response = await request(app)
-            .get(`/robot/${robotId}`)
+        
+            .get(`/robot/${userId}`)
             expect(response.statusCode).toBe(200);
         });
         
-    it('returns the robot', async () => {
+    it('returns the correct robot', async () => {
         const robot = new Robot({
             name: "kimi",
             currency: 100,
@@ -102,9 +178,9 @@ describe('GET', () => {
             userId: mockUserId
         });
         await robot.save()
-        const robotId = robot._id.toString()
+        const userId = robot.userId.toString()
         const response = await request(app)
-        .get(`/robot/${robotId}`)
+        .get(`/robot/${userId}`)
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.name).toEqual("kimi")
     
