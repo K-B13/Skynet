@@ -37,6 +37,39 @@ const passwordNoTrailingSpaces = (password) => {
     return { passes: true }
 }
 
+const allPasswordChecks = (password) => {
+    let errorMessages = []
+    let result = passwordLength(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordIncludesUpperCase(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordIncludesLowerCase(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordSpecialCharacter(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordHasAnInteger(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordIsString(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = passwordNoTrailingSpaces(password)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    return errorMessages
+}
+
 const passwordValidation = {
     passwordLength: passwordLength,
     passwordSpecialCharacter: passwordSpecialCharacter,
@@ -44,7 +77,8 @@ const passwordValidation = {
     passwordIncludesUpperCase: passwordIncludesUpperCase,
     passwordIncludesLowerCase: passwordIncludesLowerCase,
     passwordIsString: passwordIsString,
-    passwordNoTrailingSpaces: passwordNoTrailingSpaces
+    passwordNoTrailingSpaces: passwordNoTrailingSpaces,
+    allCPasswordChecks: allPasswordChecks
 }
 
 module.exports = passwordValidation
