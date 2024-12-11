@@ -1,0 +1,185 @@
+#create-robot-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#create-robot-personality-btns, #create-robot-submit-btn-container {
+    display: flex;
+    justify-content: space-around;
+    min-width: 30vw;
+    align-items: center;
+}
+
+.personality-btns, .add-like-btn, .create-robot-submit {
+    align-items: center;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter,sans-serif;
+    font-size: 16px;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    margin: 1.2rem 1.2rem 1.5rem 1.2rem;
+}
+
+.personality-btns:after, .add-like-btn:after, .create-robot-submit:after {
+    background-color: #111;
+    border-radius: 8px;
+    content: "";
+    display: block;
+    height: 48px;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    top: -2px;
+    transform: translate(8px, 8px);
+    transition: transform .2s ease-out;
+    z-index: -1;
+}
+
+.personality-btns:hover:after, .add-like-btn:hover:after, .create-robot-submit:hover:after {
+    transform: translate(0, 0);
+}
+
+.personality-btns:hover, .add-like-btn:hover, .create-robot-submit:hover {
+    outline: 0;
+}
+
+.selected-btn {
+    background-color: #e83511;
+}
+
+.selected-btn:active {
+    background-color: #e83511;
+    outline: 0;
+}
+
+.not-selected-btn, .add-like-btn, .create-robot-submit  {
+    background-color: #e0722e;
+}
+
+.not-selected-btn:active, .add-like-btn:active, .create-robot-submit:active {
+    background-color: #e0722e;
+    outline: 0;
+}
+
+#create-robot-likes-dislikes-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#create-robot-all-likes, #create-robot-all-dislikes, #create-robot-name-outer-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    flex-direction: column;
+}
+
+.like-container, .name-container {
+    position: relative;
+    margin-bottom: 1.2rem;
+}
+
+.like-input, .name-input {
+    padding: 10px;
+    height: 40px;
+    border: 2px solid #0B2447;
+    border-top: none;
+    border-bottom: none;
+    font-size: 16px;
+    background: transparent;
+    outline: none;
+    box-shadow: 7px 7px 0px 0px #0B2447;
+    transition: all 0.5s;
+}
+
+.like-input:focus, .name-input:focus {
+    box-shadow: none;
+    transition: all 0.5s;
+}
+
+.like-label, .name-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #0B2447;
+    transition: all 0.5s;
+    transform: scale(0);
+    z-index: -1;
+}
+
+.like-container .like-topline {
+    position: absolute;
+    content: "";
+    background-color: #0B2447;
+    width: 0%;
+    height: 2px;
+    right: 0;
+    top: 0;
+    transition: all 0.5s;
+}
+.name-container .name-topline {
+    position: absolute;
+    content: "";
+    background-color: #0B2447;
+    width: 0%;
+    height: 2px;
+    right: 0;
+    top: 0;
+    transition: all 0.5s;
+}
+
+.like-container input[type="text"]:focus ~ .like-topline,
+.name-container input[type="text"]:focus ~ .name-topline 
+{
+    width: 65%;
+    transition: all 0.5s;
+}
+
+.like-container .like-underline, 
+.name-container .name-underline
+{
+    position: absolute;
+    content: "";
+    background-color: #0B2447;
+    width: 0%;
+    height: 2px;
+    right: 0;
+    bottom: 0;
+    transition: all 0.5s;
+}
+
+.like-container input[type="text"]:focus ~ .like-underline, 
+.name-container input[type="text"]:focus ~ .name-underline
+{
+    width: 100%;
+    transition: all 0.5s;
+}
+
+.like-container input[type="text"]:focus ~ .like-label, 
+.name-container input[type="text"]:focus ~ .name-label
+{
+    top: -10px;
+    transform: scale(1);
+    transition: all 0.5s;
+}
+
+@media (min-width: 768px) {
+    .personality-btns {
+        padding: 0 40px;
+    }
+}
