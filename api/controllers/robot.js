@@ -36,10 +36,8 @@ async function createRobot(req, res) {
 async function getRobotByUserId(req, res) {
     try{
         const loggedInUser = req.params.id
-        console.log("USER ID CONTROLLER: ", loggedInUser);
         
         const singleRobot = await Robot.findOne({userId: loggedInUser})
-        console.log("ROBOT RETURNED: ", singleRobot);
         
         res.status(200).json({robot: singleRobot});
 
