@@ -1,79 +1,69 @@
 import { useState } from 'react'
+import { getPayloadFromToken } from '../../helpfulFunctions/helpfulFunctions'
 
 const CreateRobot = () => {
     const [ formDetails, setFormDetails ] = useState({
         name: '',
-        personality:''
+        personality: 'Helpful'
     })
     const [ likeInputs, setLikeInputs] = useState([])
     const [ dislikeInputs, setDislikeInputs] = useState([])
 
-    const addLikeInputs = (e) => {
-        e.preventDefault()
-        if (likeInputs.length < 5) {
-            const newLikes = [...likeInputs, '']
-            setLikeInputs([...newLikes])
-            setFormDetails({ ...formDetails, likes: [...newLikes]})
-        }
-    }
-
-    const addDislikeInputs = (e) => {
-        e.preventDefault()
-        if (dislikeInputs.length < 5) {
-            const newDislikes = [...dislikeInputs, '']
-            setDislikeInputs([...newDislikes])
-            setFormDetails({ ...formDetails, dislikes: [...newDislikes]})
-        }
-    }
-
+    
     const handleChanges = (e) => {
         setFormDetails({ ...formDetails, [e.target.name]: e.target.value })
     }
-
-    const likeChanges = (e, position) => {
-        const newLikes = [...likeInputs]
-        newLikes[position] = e.target.value
-        setLikeInputs([...newLikes])
-        setFormDetails({ ...formDetails, likes: [...newLikes] })
+    
+    const addLikeDislikeInputs = (currentInput, changeInput, descriptor) => {
+        if (currentInput.length < 5) {
+            const newArray = [...currentInput, '']
+            changeInput([...newArray])
+            setFormDetails({ ...formDetails, [descriptor]: [...newArray]})
+        }
     }
-
-    const dislikeChanges = (e, position) => {
-        const newDislikes = [...dislikeInputs]
-        newDislikes[position] = e.target.value
-        setDislikeInputs([...newDislikes])
-        setFormDetails({ ...formDetails, dislikes: [...newDislikes] })
+    const likeDislikeChanges = (e, position, currentInput, changeInput, descriptor) => {
+        const newArray = [...currentInput]
+        newArray[position] = e.target.value
+        changeInput([...newArray])
+        setFormDetails({ ...formDetails, [descriptor]: [...newArray] })
     }
 
     return (
         <div id='create-robot-page'>
             <h2 id='create-robot-heading'>Create Robot</h2>
+            <form id='create-robot-form'>
             <input
             id='create-robot-name'
             placeholder='Name'
             name='name'
             value={formDetails.name}
             onChange={handleChanges}
+            required
             />
             <div id='create-robot-personality-btns'>
-                <button 
+                <button
+                    type='button' 
                     id='create-robot-helpful' 
                     onClick={handleChanges} 
                     value='Helpful' 
                     name='personality'
                     >Helpful</button>
-                <button 
+                <button
+                    type='button'  
                     id='create-robot-playful' 
                     onClick={handleChanges} 
                     value='Playful' 
                     name='personality'
                 >Playful</button>
-                <button 
+                <button
+                    type='button'  
                     id='create-robot-wise' 
                     onClick={handleChanges} 
                     value='Wise' 
                     name='personality'
                 >Wise</button>
-                <button 
+                <button
+                    type='button'  
                     id='create-robot-fiery' 
                     onClick={handleChanges} 
                     value='Fiery' 
@@ -90,18 +80,20 @@ const CreateRobot = () => {
                         name={index} 
                         id={`create-robot-like-${index}`}
                         value={like}
-                        onChange={(e) => likeChanges(e, index)}
+                        onChange={(e) => likeDislikeChanges(e, index,likeInputs, setLikeInputs, 'likes')}
                         />
                     })
                 }
                 {
                     likeInputs.length === 0 ? 
-                    <button 
-                        onClick={addLikeInputs}
+                    <button
+                        type='button'  
+                        onClick={() => addLikeDislikeInputs(likeInputs, setLikeInputs, 'likes')}
                         id='create-robot-add-first-like'
                     >Add a Like (Max 5)</button> : 
-                    <button 
-                        onClick={addLikeInputs}
+                    <button
+                        type='button'  
+                        onClick={() => addLikeDislikeInputs(likeInputs, setLikeInputs, 'likes')}
                         id='create-robot-add-like'
                         >Add Another Like (Max 5)</button>
                 }
@@ -116,26 +108,32 @@ const CreateRobot = () => {
                         name={index}  
                         id={`create-robot-dislike-${index}`}
                         value={dislike}
-                        onChange={(e) => dislikeChanges(e, index)}
+                        onChange={(e) => likeDislikeChanges(e, index,dislikeInputs, setDislikeInputs, 'dislikes')}
                         />
                     })
                 }
                 {
                     dislikeInputs.length === 0 ?
-                    <button 
-                        onClick={addDislikeInputs}
+                    <button
+                        type='button'  
+                        onClick={() => addLikeDislikeInputs(dislikeInputs, setDislikeInputs, 'dislikes')}
                         id='create-robot-add-first-dislike'
                     >Add a dislike (Max 5)</button> : 
-                    <button 
-                        onClick={addDislikeInputs}
+                    <button
+                        type='button' 
+                        onClick={() => addLikeDislikeInputs(dislikeInputs, setDislikeInputs, 'dislikes')}
                         id='create-robot-add-dislike' 
                     >Add Another dislike (Max 5)</button>
                 }
             </div>
             <button
-            id='create-robot-submit'
-            onClick={() => console.log(formDetails)}
+                id='create-robot-submit'
+                onClick={(e) => {
+                    e.preventDefault()
+                    console.log(formDetails)
+                }}
             >Submit</button>
+            </form>
         </div>
     )
 }
