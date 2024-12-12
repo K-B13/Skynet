@@ -3,6 +3,8 @@ import { getPayloadFromToken } from '../../helpfulFunctions/helpfulFunctions'
 import { createRobot } from '../../services/robot'
 import { useNavigate } from 'react-router-dom'
 import './CreateRobot.css'
+import AddFavourites from '../../components/CreateRobot/addFavourites'
+import PersonalityBtns from '../../components/CreateRobot/PersonalityBtns'
 
 const CreateRobot = () => {
     const [ formDetails, setFormDetails ] = useState({
@@ -89,115 +91,15 @@ const CreateRobot = () => {
                     </div>
                 </div>
                 <div id='create-robot-personality-btns'>
-                    <button
-                        type='button' 
-                        id='create-robot-helpful' 
-                        className={`personality-btns ${formDetails.personality === 'Helpful' ? 'selected-btn' : 'not-selected-btn'}`}
-                        onClick={handleChanges} 
-                        value='Helpful' 
-                        name='personality'
-                        >Helpful</button>
-                    <button
-                        type='button'  
-                        id='create-robot-playful' 
-                        className={`personality-btns ${formDetails.personality === 'Playful' ? 'selected-btn' : 'not-selected-btn'}`}
-                        onClick={handleChanges} 
-                        value='Playful' 
-                        name='personality'
-                    >Playful</button>
-                    <button
-                        type='button'  
-                        id='create-robot-wise' 
-                        className={`personality-btns ${formDetails.personality === 'Wise' ? 'selected-btn' : 'not-selected-btn'}`}
-                        onClick={handleChanges} 
-                        value='Wise' 
-                        name='personality'
-                    >Wise</button>
-                    <button
-                        type='button'  
-                        id='create-robot-fiery' 
-                        className={`personality-btns ${formDetails.personality === 'Fiery' ? 'selected-btn' : 'not-selected-btn'}`}
-                        onClick={handleChanges} 
-                        value='Fiery' 
-                        name='personality'
-                        >Fiery</button>
+                    <PersonalityBtns personality='Helpful' formDetails={formDetails} handleChanges={handleChanges}/>
+                    <PersonalityBtns personality='Playful' formDetails={formDetails} handleChanges={handleChanges}/>
+                    <PersonalityBtns personality='Wise' formDetails={formDetails} handleChanges={handleChanges}/>
+                    <PersonalityBtns personality='Fiery' formDetails={formDetails} handleChanges={handleChanges}/>
                 </div>
                 <div id='create-robot-likes-dislikes-container'>
-                    <div id='create-robot-all-likes'>
-                        {
-                            likeInputs.length > 0 &&
-                            likeInputs.map((like, index) => {
-                                return (
-                                    <div key={index + 1}  className='like-container'>
-                                        <input
-                                            type='text'
-                                            className='like-input'
-                                            name={index} 
-                                            id={`create-robot-like-${index}`}
-                                            value={like}
-                                            onChange={(e) => likeDislikeChanges(e, index,likeInputs, setLikeInputs, 'likes')}
-                                        />
-                                        <label className='like-label' id={`like-label-${index + 1}`}>Like</label>
-                                        <div className='like-topline' id={`like-topline-${index + 1}`}></div>
-                                        <div className='like-underline' id={`like-underline-${index + 1}`}></div>
-                                </div>
-                                )
-                            })
-                        }
-                        {
-                            likeInputs.length === 0 ? 
-                            <button
-                                type='button'  
-                                onClick={() => addLikeDislikeInputs(likeInputs, setLikeInputs, 'likes')}
-                                id='create-robot-add-first-like'
-                                className='add-like-btn'
-                            >Add a Like (Max 5)</button> : 
-                            <button
-                                type='button'  
-                                onClick={() => addLikeDislikeInputs(likeInputs, setLikeInputs, 'likes')}
-                                id='create-robot-add-like'
-                                className='add-like-btn'
-                            >Add Another Like (Max 5)</button>
-                        }
-                    </div>
-                    <div id='create-robot-all-dislikes'>
-                        {
-                            dislikeInputs.length > 0 &&
-                            dislikeInputs.map((dislike, index) => {
-                                return (
-                                    <div key={index + 1} className='like-container'>
-                                    
-                                        <input
-                                            type='text'
-                                            className='like-input' 
-                                            name={index}  
-                                            id={`create-robot-dislike-${index}`}
-                                            value={dislike}
-                                            onChange={(e) => likeDislikeChanges(e, index,dislikeInputs, setDislikeInputs, 'dislikes')}
-                                        />
-                                        <label className='like-label' id={`dislike-label-${index + 1}`}>Dislike</label>
-                                        <div className='like-topline' id={`dislike-topline-${index + 1}`}></div>
-                                        <div className='like-underline' id={`like-underline-${index + 1}`}></div>
-                                    </div>
-                                )
-                            })
-                        }
-                        {
-                            dislikeInputs.length === 0 ?
-                            <button
-                                type='button'  
-                                onClick={() => addLikeDislikeInputs(dislikeInputs, setDislikeInputs, 'dislikes')}
-                                id='create-robot-add-first-dislike'
-                                className='add-like-btn'
-                            >Add a dislike (Max 5)</button> : 
-                            <button
-                                type='button' 
-                                onClick={() => addLikeDislikeInputs(dislikeInputs, setDislikeInputs, 'dislikes')}
-                                id='create-robot-add-dislike'
-                                className='add-like-btn'  
-                            >Add Another dislike (Max 5)</button>
-                        }
-                    </div>
+                
+                <AddFavourites input={likeInputs} changeInput={setLikeInputs} descriptor='like' placeholder='Like' onChangeFunction={likeDislikeChanges} onClickFunction={addLikeDislikeInputs} />
+                <AddFavourites input={dislikeInputs} changeInput={setDislikeInputs} descriptor='dislike' placeholder='Dislike' onChangeFunction={likeDislikeChanges} onClickFunction={addLikeDislikeInputs} />
                 </div>
                 <div id='create-robot-submit-btn-container'>
                     <button
