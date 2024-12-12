@@ -204,6 +204,21 @@ async function updateRobotMood(req, res) {
     };
 };
 
+async function killRobot(req, res){
+    try{
+        const robotId = req.params.id
+        const singleRobot = await Robot.findById(robotId);
+
+        singleRobot.isAlive = false;
+        await singleRobot.save();
+        
+        res.status(200).json({robot: singleRobot, message: "killed robot"});
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to kill robot"});
+    };
+};
+
 async function deleteRobot(req, res) {
     try{
         const robotId = req.params.id
@@ -239,6 +254,7 @@ const RobotsController = {
     updateRobotIntelligence: updateRobotIntelligence,
     updateRobotHardware: updateRobotHardware,
     updateRobotMood: updateRobotMood,
+    killRobot: killRobot,
     deleteRobot: deleteRobot,
     getRobotByUserId: getRobotByUserId
 };

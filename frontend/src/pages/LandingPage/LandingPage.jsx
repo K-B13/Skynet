@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { getRobotByUserId } from "../../services/robot";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 import RobotScreen from "../../components/RobotScreen"
 import MemoryButtons from "../../components/MemoryButtons"
 import RepairButton from "../../components/RepairButton"
 import SpeakButton from "../../components/SpeakButton"
 import EnergyButtons from "../../components/EnergyButtons"
-import { getRobotByUserId } from "../../services/robot";
+import KillButton from "../../components/KillButton"
+
 
 const LandingPage = () => {
 
@@ -36,7 +38,8 @@ const LandingPage = () => {
             intelligence={robotData.intelligence}
             hardware={robotData.hardware}
             mood={robotData.mood}
-            img={robotData.img}/>
+            img={robotData.img}
+            isAlive={robotData.isAlive}/>
         {didNotLearn && (
             <p id="learning-fail">Sorry your robot failed to learn!</p>
 
@@ -56,6 +59,9 @@ const LandingPage = () => {
             setRobotData={setRobotData}
             robotId={robotData._id}/>
         <SpeakButton/>
+        <KillButton
+            setRobotData={setRobotData}
+            robotId={robotData._id}/>
         </>
     )
 }
