@@ -110,8 +110,8 @@ async function updateRobotMemory(req, res) {
         const robotId = req.params.id
         const singleRobot = await Robot.findById(robotId)
         singleRobot.memoryCapacity = singleRobot.memoryCapacity * 2
-        
-        res.status(200).json({robot: singleRobot});
+        await singleRobot.save()
+        res.status(200).json({robot: singleRobot, message: "Robot memory upgraded"});
 
     } catch (err) {
         console.log(err);
@@ -119,23 +119,36 @@ async function updateRobotMemory(req, res) {
     };
 };
 
+
 async function updateRobotIntelligence(req, res) {
+    
     try{
         const robotId = req.params.id
         const brain = req.body.intelligence
+        
+        
         const singleRobot = await Robot.findById(robotId)
 
         newIntelligence = singleRobot.intelligence += brain
-
-        if(newIntelligence > singleRobot.memoryCapacity){
-            singleRobot.intelligence = singleRobot.memoryCapacity
-        }
-        else{
-            singleRobot.intelligence = newIntelligence
-        }
-
+        const randomNumber = Math.floor(Math.random() * 10);
         
-        res.status(200).json({robot: singleRobot});
+        if(randomNumber <=8){
+            
+            if(newIntelligence > singleRobot.memoryCapacity){
+                singleRobot.intelligence = singleRobot.memoryCapacity
+                await singleRobot.save()
+                return res.status(200).json({robot: singleRobot, message: "Robot intelligence increased"});
+            }
+            else{
+                singleRobot.intelligence = newIntelligence
+                await singleRobot.save()
+                return res.status(200).json({robot: singleRobot, message: "Robot intelligence increased"});
+            }
+        }
+        else if(randomNumber >8){
+            return res.status(200).json({robot: singleRobot, message: "Robot intelligence did not increase"});
+        }
+
 
     } catch (err) {
         console.log(err);

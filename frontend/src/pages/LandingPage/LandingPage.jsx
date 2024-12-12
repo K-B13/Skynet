@@ -9,7 +9,8 @@ import { getRobotByUserId } from "../../services/robot";
 
 const LandingPage = () => {
 
-    const [robotData, setRobotData] = useState([]);
+    const [robotData, setRobotData] = useState({});
+    const [didNotLearn, setDidNotLearn] = useState(false)
 
     useEffect(() => {
         const fetchRobot = async() => {
@@ -36,11 +37,21 @@ const LandingPage = () => {
             hardware={robotData.hardware}
             mood={robotData.mood}
             img={robotData.img}/>
+        {didNotLearn && (
+            <p id="learning-fail">Sorry your robot failed to learn!</p>
+
+        )}
+
         <EnergyButtons
             setRobotData={setRobotData}
             robotId={robotData._id}
             batteryLife={robotData.batteryLife}/>
-        <MemoryButtons/>
+        <MemoryButtons
+            setRobotData={setRobotData}
+            robotId={robotData._id}
+            memoryCapacity={robotData.memoryCapacity}
+            setDidNotLearn={setDidNotLearn}
+        />
         <RepairButton
             setRobotData={setRobotData}
             robotId={robotData._id}/>

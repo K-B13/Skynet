@@ -94,3 +94,38 @@ export const updateRobotCurrency = async (robotId, currency) => {
     const data = await response.json()
     return data;
 }
+
+export const updateRobotMemory = async (robotId) => {
+
+    const requestOptions = {
+        method: 'PUT',
+    }
+
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/memory`, requestOptions);
+
+    if (!response.ok) {
+        throw new Error('Failed to upgrade robots memory')
+    }
+
+    const data = await response.json()
+    return data
+}
+
+export const updateRobotIntelligence = async (robotId, intelligence) => {
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({intelligence: intelligence})
+    }
+
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/intelligence`, requestOptions);
+
+    if (!response.ok) {
+        throw new Error('Failed to upgrade robots intelligence')
+    }
+
+    const data = await response.json()
+    return data
+}
