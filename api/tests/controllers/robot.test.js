@@ -25,8 +25,8 @@ describe('POST', () => {
 
         it('creates a robot', async () => {
             const response = await request(app)
-               .post("/robot")
-               .send({
+                .post("/robot")
+                .send({
                     name: "kimi",
                     likes: ["apples", "politics"],
                     dislikes: ["oranges"],
@@ -264,6 +264,30 @@ describe('PUT Currency', () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.currency).toEqual(0)
     });
+
+    it('Should return 400 if invalid id passed', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const invalidRobotId = '12345';
+        const response = await request(app)
+            .put(`/robot/${invalidRobotId}/currency`)
+            .send({ currency: 10 });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe('Failed to update robot currency');
+    });
+
 });
 
 describe('PUT Battery life', () => {
@@ -321,6 +345,29 @@ describe('PUT Battery life', () => {
         expect(response.body.robot.batteryLife).toEqual(0)
         expect(response.body.robot.isAlive).toBe(false)
     });
+
+    it('Should return 400 if invalid id passed', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const invalidRobotId = '12345';
+        const response = await request(app)
+            .put(`/robot/${invalidRobotId}/battery`)
+            .send({ currency: 10 });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe('Failed to update robot battery life');
+    });
     it('Battery Life should not go above 100', async () => {
         const robot = new Robot({
             name: "kimi",
@@ -373,6 +420,29 @@ describe('PUT Memory', () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.memoryCapacity).toEqual(200)
         
+    });
+
+    it('Should return 400 if invalid id passed', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const invalidRobotId = '12345';
+        const response = await request(app)
+            .put(`/robot/${invalidRobotId}/memory`)
+            .send({ currency: 10 });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe('Failed to update robot memory');
     });
 });
 
@@ -431,6 +501,29 @@ describe('PUT Intelligence', () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.intelligence).toEqual(100)
         
+    });
+
+    it('Should return 400 if invalid id passed', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const invalidRobotId = '12345';
+        const response = await request(app)
+            .put(`/robot/${invalidRobotId}/intelligence`)
+            .send({ currency: 10 });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe('Failed to update robot intelligence');
     });
 });
 
@@ -514,6 +607,28 @@ describe('PUT Hardware', () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.hardware).toEqual(150)
     });
+    it('Should return 400 if invalid id passed', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const invalidRobotId = '12345';
+        const response = await request(app)
+            .put(`/robot/${invalidRobotId}/hardware`)
+            .send({ currency: 10 });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe('Failed to update robot hardware');
+    });
 });
 
 describe('PUT Mood', () => {
@@ -570,6 +685,29 @@ describe('PUT Mood', () => {
         expect(response.statusCode).toBe(400);
         expect(response.body.message).toEqual("Mood must be a string!!")
     });
+
+    it('Should return 400 if invalid id passed', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const invalidRobotId = '12345';
+        const response = await request(app)
+            .put(`/robot/${invalidRobotId}/mood`)
+            .send({ currency: 10 });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe('Failed to update robot mood');
+    });
 });
 
 describe('DELETE Robot', () => {
@@ -597,5 +735,74 @@ describe('DELETE Robot', () => {
         .delete(`/robot/${robotId}`)
         expect(response.statusCode).toBe(200);
         expect(response.body.message).toEqual("Robot deleted")
+    });
+
+    it('Should return a 400 when a robot is not dead', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .delete(`/robot/${robotId}`)
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toEqual("Robot is not dead!")
+    });
+
+    it('Should return 400 if invalid id passed', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: false,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const invalidRobotId = '12345';
+        const response = await request(app)
+            .delete(`/robot/${invalidRobotId}`)
+            .send({ currency: 10 });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe('Failed to delete robot');
+    });
+
+    it('Should return 404 if delete returns null', async () => {
+        jest.spyOn(Robot, 'findByIdAndDelete').mockResolvedValue(null);
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: false,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save();
+        const robotId = robot._id.toString();
+        const response = await request(app)
+            .delete(`/robot/${robotId}`);
+        expect(response.statusCode).toBe(404); 
+        expect(response.body.message).toBe('Robot not found or already deleted'); 
+        Robot.findByIdAndDelete.mockRestore();
     });
 });

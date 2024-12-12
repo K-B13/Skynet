@@ -51,17 +51,20 @@ async function getRobotByUserId(req, res) {
 async function updateRobotCurrency(req, res) {
     try{
         const robotId = req.params.id
-        
         const newAmount = req.body.currency
         
         const singleRobot = await Robot.findById(robotId)
+
+
         newCurrency = singleRobot.currency += newAmount
         
         if(newCurrency <=0){
             singleRobot.currency = 0
+            await singleRobot.save();
         }
         else{
             singleRobot.currency = newCurrency
+            await singleRobot.save();
         }
         
         res.status(200).json({robot: singleRobot});
@@ -132,7 +135,7 @@ async function updateRobotIntelligence(req, res) {
 
     } catch (err) {
         console.log(err);
-        res.status(400).json({message: "Failed to update robot memory"});
+        res.status(400).json({message: "Failed to update robot intelligence"});
     };
 };
 
@@ -189,6 +192,9 @@ async function deleteRobot(req, res) {
             const deleteRobot = await Robot.findByIdAndDelete(robotId)
             if(deleteRobot){
                 return res.status(200).json({message: "Robot deleted"});
+            }
+            else if (!deleteRobot) {
+                return res.status(404).json({ message: 'Robot not found or already deleted' });
             }
         }
         else{
