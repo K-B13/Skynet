@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
+import { getRobotByUserId } from "../../services/robot";
 
 import { login } from "../../services/authentication";
 
@@ -9,12 +11,29 @@ export function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+
+
+    const fetchRobot = async() => {
+        const token = localStorage.getItem("token");
+        const user = getPayloadFromToken(token);
+        try {
+            const robot = await getRobotByUserId(user.userId);
+            if (robot.robot === null ){
+                navigate("/createRobot");
+            } else {
+                navigate("/landingpage");
+            }
+        } catch (err) {
+            console.error("error fetching user robot", err);
+        }
+    }
+
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const token = await login(email, password);
-      localStorage.setItem("token", token);
-      navigate("/landingpage");
+        const token = await login(email, password);
+        localStorage.setItem("token", token);
+        fetchRobot();
     } catch (err) {
       console.error(err);
       navigate("/login");
