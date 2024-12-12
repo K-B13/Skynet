@@ -25,6 +25,10 @@ const update = async (req, res) => {
   const { email, password } = req.body
   const { id } = req.params
 
+  if (req.userId !== id) {
+    return res.status(400).json({ message: 'You cannot update someone elses account'})
+  }
+
   const { emailErrors, passwordErrors } = validateFields(email, password)
   if (emailErrors.length !== 0 || passwordErrors.length !== 0 ) {
     return res.status(400).json({ passwordErrors, emailErrors })
