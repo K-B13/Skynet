@@ -368,6 +368,30 @@ describe('PUT Battery life', () => {
         expect(response.statusCode).toBe(400);
         expect(response.body.message).toBe('Failed to update robot battery life');
     });
+    it('Battery Life should not go above 100', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 10,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/battery`)
+        .send({
+            batteryLife: 150
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.batteryLife).toEqual(100);
+    });
 });
 
 describe('PUT Memory', () => {
