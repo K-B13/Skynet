@@ -129,3 +129,21 @@ export const updateRobotIntelligence = async (robotId, intelligence) => {
     const data = await response.json()
     return data
 }
+
+export const killRobot = async (robotId) => {
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/killrobot`, requestOptions);
+
+    if (!response.ok) {
+        throw new Error('Failed to kill robot')
+    }
+
+    const data = await response.json()
+    return data
+}
