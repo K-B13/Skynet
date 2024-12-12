@@ -83,6 +83,9 @@ async function updateRobotBattery(req, res) {
             singleRobot.batteryLife = 0
             singleRobot.isAlive = false
         }
+        else if(newBattery > 100){
+            singleRobot.batteryLife = 100
+        }
         else{
             singleRobot.batteryLife = newBattery
         }
