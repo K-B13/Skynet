@@ -110,6 +110,7 @@ async function updateRobotMemory(req, res) {
         const robotId = req.params.id
         const singleRobot = await Robot.findById(robotId)
         singleRobot.memoryCapacity = singleRobot.memoryCapacity * 2
+        singleRobot.currency = singleRobot.currency -= 200
         await singleRobot.save()
         res.status(200).json({robot: singleRobot, message: "Robot memory upgraded"});
 
@@ -128,13 +129,14 @@ async function updateRobotIntelligence(req, res) {
         
         
         const singleRobot = await Robot.findById(robotId)
-
+        singleRobot.currency = singleRobot.currency -=30
         newIntelligence = singleRobot.intelligence += brain
         const randomNumber = Math.floor(Math.random() * 10);
         
         if(randomNumber <=8){
             
             if(newIntelligence > singleRobot.memoryCapacity){
+                
                 singleRobot.intelligence = singleRobot.memoryCapacity
                 await singleRobot.save()
                 return res.status(200).json({robot: singleRobot, message: "Robot intelligence increased"});
@@ -163,6 +165,7 @@ async function updateRobotHardware(req, res) {
         const newHardwareAmount = req.body.hardwareChange
         
         const singleRobot = await Robot.findById(robotId)
+        singleRobot.currency = singleRobot.currency -=50
         newHardware = singleRobot.hardware += newHardwareAmount
         
         if(newHardware <= 0){
