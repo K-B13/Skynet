@@ -36,7 +36,9 @@ const LandingPage = () => {
             hardware={robotData.hardware}
             mood={robotData.mood}
             img={robotData.img}/>
-        <EnergyButtons/>
+        <EnergyButtons
+            setRobotData={setRobotData}
+            robotId={robotData._id}/>
         <MemoryButtons/>
         <RepairButton
             setRobotData={setRobotData}

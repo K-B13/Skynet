@@ -67,7 +67,7 @@ async function updateRobotCurrency(req, res) {
             await singleRobot.save();
         }
         
-        res.status(200).json({robot: singleRobot});
+        res.status(200).json({robot: singleRobot, message:"robot currency updated"});
 
     } catch (err) {
         console.log(err);
@@ -85,15 +85,19 @@ async function updateRobotBattery(req, res) {
         if(newBattery <=0){
             singleRobot.batteryLife = 0
             singleRobot.isAlive = false
+            await singleRobot.save();
         }
         else if(newBattery > 100){
             singleRobot.batteryLife = 100
+            console.log("battery full")
+            await singleRobot.save();
         }
         else{
             singleRobot.batteryLife = newBattery
+            await singleRobot.save();
         }
         
-        res.status(200).json({robot: singleRobot});
+        res.status(200).json({robot: singleRobot, message: "robot battery updated"});
 
     } catch (err) {
         console.log(err);
