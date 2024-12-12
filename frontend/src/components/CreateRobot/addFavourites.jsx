@@ -7,16 +7,16 @@ const AddFavourites = ( { input, changeInput, descriptor, placeholder, onChangeF
                 input.length > 0 &&
                 input.map((like, index) => {
                     return (
-                        <div key={index + 1}  className='like-container'>
+                        <div key={index + 1}  className='like-container' id={`like-container-${index + 1}`}>
                             <input
                                 type='text'
                                 className='like-input'
                                 name={index} 
-                                id={`create-robot-like-${index}`}
+                                id={`create-robot-${descriptor}-${index + 1}`}
                                 value={like}
                                 onChange={(e) => onChangeFunction(e, index, input, changeInput, `${descriptor}s`)}
                             />
-                            <label className='like-label' id={`${descriptor}-label-${index + 1}`}>{placeholder} {index + 1}</label>
+                            <label  htmlFor={`create-robot-${descriptor}-${index + 1}`} className='like-label' id={`${descriptor}-label-${index + 1}`}>{placeholder} {index + 1}</label>
                             <div className='like-topline' id={`${descriptor}-topline-${index + 1}`}></div>
                             <div className='like-underline' id={`${descriptor}-underline-${index + 1}`}></div>
                     </div>
@@ -30,13 +30,15 @@ const AddFavourites = ( { input, changeInput, descriptor, placeholder, onChangeF
                     onClick={() => onClickFunction(input, changeInput, `${descriptor}s`)}
                     id={`create-robot-add-first-${descriptor}`}
                     className='add-like-btn'
-                >Add a Like (Max 5)</button> : 
+                >Add a {placeholder} (Max 5)</button> : 
+                input.length !== 5 &&
                 <button
                     type='button'  
                     onClick={() => onClickFunction(input, changeInput, `${descriptor}s`)}
                     id={`create-robot-add-${descriptor}`}
-                    className='add-like-btn'
-                >Add Another Like (Max 5)</button>
+                    className={`add-like-btn`}
+                    disabled= {input.length === 5 ? true: false}
+                >Add Another {placeholder} (Max 5)</button>
             }
         </div>
     )
