@@ -53,4 +53,14 @@ describe("/tokens", () => {
     expect(response.body.token).toEqual(undefined);
     expect(response.body.message).toEqual("Password incorrect");
   });
+
+  test("returns a 404 error when accessing an invalid route", async () => {
+    let testApp = supertest(app);
+    const response = await testApp
+      .post("/invalid-route")
+      .send({ email: "auth-test@test.com", password: "1234" });
+    expect(response.status).toEqual(404);
+    expect(response.body.token).toEqual(undefined);
+    expect(response.body.err).toEqual("Error 404: Not Found");
+  })
 });
