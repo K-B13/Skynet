@@ -146,7 +146,7 @@
 .like-container input[type="text"]:focus ~ .like-topline,
 .name-container input[type="text"]:focus ~ .name-topline 
 {
-    width: 65%;
+    width: 55%;
     transition: all 0.5s;
 }
 
