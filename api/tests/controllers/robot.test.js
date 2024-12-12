@@ -402,7 +402,7 @@ describe('PUT Memory', () => {
     it('Should return a 200 when robot memory capacity is updated', async () => {
         const robot = new Robot({
             name: "kimi",
-            currency: 100,
+            currency: 500,
             batteryLife: 100,
             memoryCapacity: 100,
             intelligence: 0,
@@ -419,6 +419,7 @@ describe('PUT Memory', () => {
         .put(`/robot/${robotId}/memory`)
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.memoryCapacity).toEqual(200)
+        expect(response.body.robot.currency).toEqual(300)
         
     });
 
@@ -454,7 +455,7 @@ describe('PUT Intelligence', () => {
     it('Should return a 200 when robot intelligence is updated', async () => {
         const robot = new Robot({
             name: "kimi",
-            currency: 100,
+            currency: 500,
             batteryLife: 100,
             memoryCapacity: 100,
             intelligence: 0,
@@ -474,13 +475,14 @@ describe('PUT Intelligence', () => {
         });
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.intelligence).toEqual(10)
+        expect(response.body.robot.currency).toEqual(470)
         
     });
 
     it('Should not go above memory capacity', async () => {
         const robot = new Robot({
             name: "kimi",
-            currency: 100,
+            currency: 500,
             batteryLife: 100,
             memoryCapacity: 100,
             intelligence: 0,
@@ -500,6 +502,7 @@ describe('PUT Intelligence', () => {
         });
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.intelligence).toEqual(100)
+        expect(response.body.robot.currency).toEqual(470)
         
     });
 
@@ -535,7 +538,7 @@ describe('PUT Hardware', () => {
     it('Should return a 200 when robot hardware is updated', async () => {
         const robot = new Robot({
             name: "kimi",
-            currency: 100,
+            currency: 500,
             batteryLife: 100,
             memoryCapacity: 128,
             intelligence: 0,
@@ -555,12 +558,13 @@ describe('PUT Hardware', () => {
         });
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.hardware).toEqual(50)
+        expect(response.body.robot.currency).toEqual(450)
         
     });
     it('Hardware should not drop below 0', async () => {
         const robot = new Robot({
             name: "kimi",
-            currency: 100,
+            currency: 500,
             batteryLife: 100,
             memoryCapacity: 128,
             intelligence: 0,
@@ -581,12 +585,13 @@ describe('PUT Hardware', () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.hardware).toEqual(0)
         expect(response.body.robot.isAlive).toBe(false)
+        expect(response.body.robot.currency).toEqual(450)
     });
 
     it('Hardware can be increased', async () => {
         const robot = new Robot({
             name: "kimi",
-            currency: 100,
+            currency: 500,
             batteryLife: 100,
             memoryCapacity: 128,
             intelligence: 0,
@@ -606,6 +611,7 @@ describe('PUT Hardware', () => {
         });
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.hardware).toEqual(150)
+        expect(response.body.robot.currency).toEqual(450)
     });
     it('Should return 400 if invalid id passed', async () => {
         const robot = new Robot({
