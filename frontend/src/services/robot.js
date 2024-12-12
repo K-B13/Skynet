@@ -32,6 +32,25 @@ export const createRobot = async (robotInformation, token) => {
     }
 
     const data = await response.json()
+    return data
+}
 
+export const updateRobotHardware = async (robotId, hardwareChange) => {
+
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({hardwareChange: hardwareChange})
+    }
+
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/hardware`, requestOptions);
+
+    if (!response.ok) {
+        throw new Error('Failed to update robot hardware')
+    }
+
+    const data = await response.json()
     return data
 }
