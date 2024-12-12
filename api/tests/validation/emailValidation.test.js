@@ -57,5 +57,30 @@ describe('Email Validation', () => {
             const emailResponse = allEmailChecks(undefined)
             expect(emailResponse).toEqual(['Invalid email type'])
         })
+
+        it('test email with local part of 64 characters (allowed)', () => {
+            const emailResponse = allEmailChecks(`${"a".repeat(64)}@gmail.com`)
+            expect(emailResponse).toEqual([])
+        })
+
+        it('test email with local part of 65 characters (not allowed)', () => {
+            const emailResponse = allEmailChecks(`${"a".repeat(65)}@gmail.com`)
+            expect(emailResponse).toEqual(['Local part of email cannot exceed 64 characters'])
+        })
+
+        it('test email of 255 characters (allowed)', () => {
+            const emailResponse = allEmailChecks(`${"a".repeat(64)}@${"a".repeat(64)}.${"a".repeat(64)}.${"a".repeat(56)}.com`)
+            expect(emailResponse).toEqual([])
+        })
+
+        it('test email of 256 characters (not allowed)', () => {
+            const emailResponse = allEmailChecks(`${"a".repeat(64)}@${"a".repeat(64)}.${"a".repeat(64)}.${"a".repeat(57)}.com`)
+            expect(emailResponse).toEqual(['Email cannot exceed 255 characters'])
+        })
+
+        it('test email with incorrect format, too long local part and too long overall length', () => {
+            const emailResponse = allEmailChecks(`${"a".repeat(65)}@@${"a".repeat(64)}.${"a".repeat(64)}.${"a".repeat(57)}.com`)
+            expect(emailResponse).toEqual(['Email must be in the correct format', 'Local part of email cannot exceed 64 characters', 'Email cannot exceed 255 characters'])
+        })
     })
 })

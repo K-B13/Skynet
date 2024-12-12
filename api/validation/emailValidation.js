@@ -9,6 +9,17 @@ const emailFormat = (email) => {
     return { passes: false, message: 'Email must be in the correct format' }
 }
 
+const emailLocalLength = (email) => {
+    const localPart = email.split("@")[0]
+    if (localPart.length <= 64) return { passes: true }
+    return { passes: false, message: 'Local part of email cannot exceed 64 characters' }
+}
+
+const emailLength = (email) => {
+    if (email.length <= 255) return { passes: true }
+    return { passes: false, message: 'Email cannot exceed 255 characters' }
+}
+
 const allEmailChecks = (email) => {
     errorMessages = []
     if (!email) {
@@ -16,6 +27,14 @@ const allEmailChecks = (email) => {
         return errorMessages
     }
     let result = emailFormat(email)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = emailLocalLength(email)
+    if (!result.passes) {
+        errorMessages.push(result.message)
+    }
+    result = emailLength(email)
     if (!result.passes) {
         errorMessages.push(result.message)
     }

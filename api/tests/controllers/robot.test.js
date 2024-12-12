@@ -551,7 +551,7 @@ describe('PUT Hardware', () => {
         const response = await request(app)
         .put(`/robot/${robotId}/hardware`)
         .send({
-            hardware: -50
+            hardwareChange: -50
         });
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.hardware).toEqual(50)
@@ -576,7 +576,7 @@ describe('PUT Hardware', () => {
         const response = await request(app)
         .put(`/robot/${robotId}/hardware`)
         .send({
-            hardware: -250
+            hardwareChange: -250
         });
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.hardware).toEqual(0)
@@ -602,7 +602,7 @@ describe('PUT Hardware', () => {
         const response = await request(app)
         .put(`/robot/${robotId}/hardware`)
         .send({
-            hardware: 50
+            hardwareChange: 50
         });
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.hardware).toEqual(150)

@@ -140,21 +140,25 @@ async function updateRobotIntelligence(req, res) {
 };
 
 async function updateRobotHardware(req, res) {
+
     try{
         const robotId = req.params.id
-        const newHardwareAmount = req.body.hardware
+        const newHardwareAmount = req.body.hardwareChange
+        
         const singleRobot = await Robot.findById(robotId)
         newHardware = singleRobot.hardware += newHardwareAmount
         
-        if(newHardware <=0){
+        if(newHardware <= 0){
             singleRobot.hardware = 0
             singleRobot.isAlive = false
+            await singleRobot.save();
         }
         else{
-            singleRobot.hardware = newHardware
+            singleRobot.hardware = newHardware;
+            await singleRobot.save();
         }
         
-        res.status(200).json({robot: singleRobot});
+        res.status(200).json({robot: singleRobot, message:"robot hardware updated"});
 
     } catch (err) {
         console.log(err);

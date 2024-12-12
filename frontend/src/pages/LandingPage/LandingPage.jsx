@@ -17,7 +17,7 @@ const LandingPage = () => {
             const user = getPayloadFromToken(token);
             try {
                 const robot = await getRobotByUserId(user.userId);
-                setRobotData(robot);
+                setRobotData(robot.robot);
             } catch (err) {
                 console.error("error fetching user robot", err);
             }
@@ -27,7 +27,8 @@ const LandingPage = () => {
 
     return (
         <>
-        <RobotScreen 
+        <RobotScreen
+            name={robotData.name}
             currency={robotData.currency}
             batteryLife={robotData.batteryLife}
             memoryCapacity={robotData.memoryCapacity}
@@ -37,7 +38,9 @@ const LandingPage = () => {
             img={robotData.img}/>
         <EnergyButtons/>
         <MemoryButtons/>
-        <RepairButton/>
+        <RepairButton
+            setRobotData={setRobotData}
+            robotId={robotData._id}/>
         <SpeakButton/>
         </>
     )
