@@ -42,7 +42,10 @@ const LandingPage = () => {
 
         )}
 
-        <EnergyButtons/>
+        <EnergyButtons
+            setRobotData={setRobotData}
+            robotId={robotData._id}
+            batteryLife={robotData.batteryLife}/>
         <MemoryButtons
             setRobotData={setRobotData}
             robotId={robotData._id}
