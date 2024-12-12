@@ -47,7 +47,10 @@ const CreateRobot = () => {
     }
 
     // const clearEmptyLikesAndDislikes = () => {
-    //     const likes = likeInputs.filter(like => like)
+        const likes = likeInputs.filter(like => {
+            console.log(like)
+            return like
+        })
     //     const dislikes = dislikeInputs.filter(dislike => dislike)
     //     console.log(likes, dislikes)
     //     setFormDetails((prevFormDetails) => {
