@@ -921,6 +921,96 @@ describe('PUT change Stats On Login', () => {
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
     });
 
+    it('should change mood to sad if battery <30 && hardware <=50', async () => {
+        const mockUserId = new mongoose.Types.ObjectId();
+
+        mockRobot = {
+            _id: new mongoose.Types.ObjectId(),
+            name: "kimi",
+            currency: 100,
+            batteryLife: 20,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 40,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId,
+            save: jest.fn().mockResolvedValue(true)
+        };
+
+        Robot.findById = jest.fn().mockResolvedValue(mockRobot);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.mood).toBe("Sad");
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should change mood to neutral if battery between 31 & 70 & hardware 50 or more', async () => {
+        const mockUserId = new mongoose.Types.ObjectId();
+
+        mockRobot = {
+            _id: new mongoose.Types.ObjectId(),
+            name: "kimi",
+            currency: 100,
+            batteryLife: 70,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 65,
+            image: "",
+            isAlive: true,
+            mood: "Happy",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId,
+            save: jest.fn().mockResolvedValue(true)
+        };
+
+        Robot.findById = jest.fn().mockResolvedValue(mockRobot);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.mood).toBe("Neutral");
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should change mood to happy if battery is more than 70 & hardware more than 51', async () => {
+        const mockUserId = new mongoose.Types.ObjectId();
+
+        mockRobot = {
+            _id: new mongoose.Types.ObjectId(),
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 80,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId,
+            save: jest.fn().mockResolvedValue(true)
+        };
+
+        Robot.findById = jest.fn().mockResolvedValue(mockRobot);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.mood).toBe("Happy");
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
     it('should handle errors', async () => {
         Robot.findById = jest.fn().mockRejectedValue(new Error('Database error'));
         await changeStatsOnLogin(req, res);

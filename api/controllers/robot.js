@@ -277,8 +277,28 @@ async function changeStatsOnLogin(req, res) {
             singleRobot.Hardware = singleRobot.hardware -= 2
         }
         singleRobot.currency = singleRobot.currency += 100
-        await singleRobot.save()
-        res.status(200).json({robot: singleRobot});
+
+        const battery = singleRobot.batteryLife
+        const hardware = singleRobot.hardware
+        
+        if(battery <=30 && hardware <50){
+            singleRobot.mood = "Sad"
+            await singleRobot.save()
+            return res.status(200).json({robot: singleRobot});
+        }
+        else if(hardware >=50){
+            if(battery >=70){
+                singleRobot.mood = "Happy"
+                await singleRobot.save()
+                return res.status(200).json({robot: singleRobot});
+            }
+            else if(battery <70){
+                singleRobot.mood = "Neutral"
+                await singleRobot.save()
+                return res.status(200).json({robot: singleRobot});
+            }
+        }
+
 
     } catch (err) {
         console.log(err);
