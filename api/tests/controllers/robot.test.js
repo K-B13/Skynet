@@ -891,6 +891,7 @@ describe('PUT change Stats On Login', () => {
         expect(mockRobot.batteryLife).toBe(90);
         expect(mockRobot.hardware).toBe(85);
         expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.mood).toBe('Happy');
         expect(mockRobot.save).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
@@ -924,6 +925,54 @@ describe('PUT change Stats On Login', () => {
         expect(mockRobot.save).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should reduce battery by 35 and hardware by 5 ', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.5);
+        mockRobot.batteryLife -= 25
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(65);
+        expect(mockRobot.hardware).toBe(95);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(mockRobot.mood).toBe('Happy')
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should reduce battery by 40 and hardware by 70 making sure mood is Sad', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.5);
+
+        mockRobot.batteryLife -= 30
+        mockRobot.hardware -= 65
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(60);
+        expect(mockRobot.hardware).toBe(30);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.mood).toBe('Sad')
+    });
+
+    it('should reduce battery by 10 and hardware by 70 making sure mood is Sad', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.5);
+
+        mockRobot.hardware -= 65
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(90);
+        expect(mockRobot.hardware).toBe(30);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(mockRobot.mood).toBe('Sad')
     });
 
     it('should change mood to sad if battery <30 && hardware <=50', async () => {
