@@ -7,20 +7,24 @@ export function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [ showErrors, setShowErrors ] = useState({})
   const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      await signup(email, password);
-      navigate("/login", {
-        state: {
-          message: 'You have successfully signed up'
-        }
-      });
+      const response = await signup(email, password);
+      console.log(response)
+      if (!response){
+        navigate("/login", {
+          state: {
+            message: 'You have successfully signed up'
+          }
+      })}
+      setShowErrors(response)
     } catch (err) {
       console.error(err);
-      navigate("/signup");
+      // navigate("/signup");
     }
   }
 
@@ -39,6 +43,18 @@ export function SignupPage() {
   return (
     <div>
       <h2>Sign Up</h2>
+      {
+        showErrors.passwordErrors &&
+        showErrors.passwordErrors.map((passwordError, index) => {
+          return <p key={index} >{passwordError}</p>
+        })
+      }
+      {
+        showErrors.emailErrors &&
+        showErrors.emailErrors.map((emailError, index) => {
+          return <p key={index} >{emailError}</p>
+        })
+      }
       <form onSubmit={handleSubmit}>
         <input
           id="email"
@@ -46,6 +62,7 @@ export function SignupPage() {
           value={email}
           onChange={handleEmailChange}
           placeholder="Email"
+          required
         />
         <div>
           <input
@@ -54,6 +71,7 @@ export function SignupPage() {
             value={password}
             onChange={handlePasswordChange}
             placeholder="Password"
+            required
           />
           <button
             type="button"

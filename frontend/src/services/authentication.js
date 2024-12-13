@@ -41,12 +41,12 @@ export async function signup(email, password) {
     },
     body: JSON.stringify(payload),
   };
-
   let response = await fetch(`${BACKEND_URL}/users`, requestOptions);
-
-  // docs: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201
+  const data = await response.json()
   if (response.status === 201) {
     return;
+  } else if (response.status === 406) {
+    return data 
   } else {
     throw new Error(
       `Received status ${response.status} when signing up. Expected 201`
