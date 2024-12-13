@@ -199,11 +199,11 @@ function updateRobotMood(robot, mood) {
             robot.mood = mood
 
             if(mood === "Sad"){
-                robot.image = "/sadMood.png"
+                robot.image = "/Sadanim.gif"
             } else if (mood === "Happy"){
-                robot.image = "/happyMood.png"
+                robot.image = "/Happyanim.gif"
             } else if (mood === "Neutral"){
-                robot.image = "/neutralMood.png"
+                robot.image = "/Neutralanim.gif"
             }
         } else {
             return "Mood must be a string!";

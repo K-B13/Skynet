@@ -68,9 +68,8 @@ const LandingPage = () => {
             intelligence={robotData.intelligence}
             hardware={robotData.hardware}
             mood={robotData.mood}
-
             image={robotData.image}
-            isAlive={robotData.isAlive}/>
+            isAlive={robotData.isAlive}
             robotSpeach={robotSpeach}
             />
 

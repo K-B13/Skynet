@@ -1,4 +1,4 @@
-import { killRobot, updateRobotMood } from "../services/robot"
+import { killRobot } from "../services/robot"
 
 // add popup window?
 // should redirect to delete and create new robot
@@ -19,24 +19,12 @@ const KillButton = (props) => {
         }
     }
 
-    const changeMood = async () => {
-        try {
-            const response = await updateRobotMood(props.robotId, "Sad");
-            if(response.message === 'updated mood'){
-            props.setRobotData(response.robot);
-            }
-        } catch (err) {
-            console.error('error updating mood');
-        }
-    }
-
     return (
         <>
         <button id='kill-robot'
         onClick={handleKill}>
             Kill Robot.
         </button>
-        <button onClick={changeMood}>changeMood [TESTING]</button>
         </>
     )
 }
