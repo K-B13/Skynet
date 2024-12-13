@@ -40,20 +40,18 @@ const CreateRobot = () => {
     const handleSubmit = async () => {
         const token = localStorage.getItem('token')
         const userId = getPayloadFromToken(token).userId
-        // clearEmptyLikesAndDislikes()
-        const response = await createRobot({...formDetails, userId: userId}, token)
+        const updatedDetails = clearEmptyLikesAndDislikes()
+        const response = await createRobot({...updatedDetails, userId: userId}, token)
         console.log(response)
         navigate('/landingpage')
     }
 
-    // const clearEmptyLikesAndDislikes = () => {
-    //     const likes = likeInputs.filter(like => like)
-    //     const dislikes = dislikeInputs.filter(dislike => dislike)
-    //     console.log(likes, dislikes)
-    //     setFormDetails((prevFormDetails) => {
-    //         return {...prevFormDetails,likes: likes, dislikes: dislikes }
-    //     })
-    // }
+    const clearEmptyLikesAndDislikes =  () => {
+        const filteredLikes = likeInputs.filter(like => like)
+        const filteredDislikes = dislikeInputs.filter(dislike => dislike)
+        return {...formDetails, likes: [...filteredLikes], dislikes: [...filteredDislikes]}
+
+    }
 
     return (
         <div id='create-robot-page'>
@@ -85,7 +83,7 @@ const CreateRobot = () => {
                             onChange={handleChanges}
                             required
                         />
-                        <label className='name-label' id='create-robot-name-label'>Name</label>
+                        <label htmlFor='create-robot-name' className='name-label' id='create-robot-name-label'>Name</label>
                         <div className='name-topline' id='create-robot-name-topline'></div>
                         <div className='name-underline' id='create-robot-name-underline'></div>
                     </div>
