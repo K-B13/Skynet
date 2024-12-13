@@ -588,6 +588,31 @@ describe('PUT Hardware', () => {
         expect(response.body.robot.isAlive).toBe(false)
         expect(response.body.robot.currency).toEqual(450)
     });
+    it('Hardware should not go above 100', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 500,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 90,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/hardware`)
+        .send({
+            hardwareChange: 250
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.hardware).toEqual(100)
+        expect(response.body.robot.currency).toEqual(450)
+    });
 
     it('Hardware can be increased', async () => {
         const robot = new Robot({
@@ -596,7 +621,7 @@ describe('PUT Hardware', () => {
             batteryLife: 100,
             memoryCapacity: 128,
             intelligence: 0,
-            hardware: 100,
+            hardware: 50,
             image: "",
             isAlive: true,
             mood: "Neutral",
@@ -611,7 +636,7 @@ describe('PUT Hardware', () => {
             hardwareChange: 50
         });
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.hardware).toEqual(150)
+        expect(response.body.robot.hardware).toEqual(100)
         expect(response.body.robot.currency).toEqual(450)
     });
     it('Should return 400 if invalid id passed', async () => {

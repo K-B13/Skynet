@@ -173,6 +173,10 @@ async function updateRobotHardware(req, res) {
             singleRobot.isAlive = false
             await singleRobot.save();
         }
+        else if (newHardware >100){
+            singleRobot.hardware = 100
+            await singleRobot.save()
+        }
         else{
             singleRobot.hardware = newHardware;
             await singleRobot.save();
