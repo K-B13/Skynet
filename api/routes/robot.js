@@ -15,5 +15,6 @@ router.put("/:id/mood", RobotsController.updateRobotMood);
 router.put("/:id/killrobot", RobotsController.killRobot);
 router.delete("/:id", RobotsController.deleteRobot);
 router.put("/:id/changestats", RobotsController.changeStatsOnLogin);
+router.put("/:id/lowerbattery", RobotsController.lowerRobotBattery);
 
 module.exports = router;

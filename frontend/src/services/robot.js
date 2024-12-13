@@ -163,3 +163,19 @@ export const changeStatsOnLogin = async (robotId) => {
     const data = await response.json()
     return data
 }
+
+export const lowerRobotBattery = async (robotId) => {
+    
+    const requestOptions = {
+        method: 'PUT',
+    }
+
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/lowerbattery`, requestOptions);
+
+    if (!response.ok) {
+        throw new Error('Failed to lower robot battery')
+    }
+
+    const data = await response.json()
+    return data;
+}

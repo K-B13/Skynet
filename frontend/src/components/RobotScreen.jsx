@@ -1,5 +1,4 @@
 const RobotScreen = (props) => {
-    console.log(props);
     return (
         <>
             <div id='robot-screen'>
