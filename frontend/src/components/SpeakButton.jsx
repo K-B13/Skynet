@@ -1,4 +1,4 @@
-const SpeakButton = ({ constructSpeach, robotSpeach, setRobotSpeach }) => {
+const SpeakButton = ({ constructSpeach }) => {
     
 
     const dealWithOpinions = (opinions, stance) => {
@@ -19,15 +19,9 @@ const SpeakButton = ({ constructSpeach, robotSpeach, setRobotSpeach }) => {
 
     return (
         <>
-            {
-                robotSpeach === '' ?
-                <button id='speak-button'
-                onClick={() => constructSpeach(dealWithOpinions)}
-                >Speak</button> :
-                <button id='hide-speak-button'
-                onClick={() => setRobotSpeach('')}
-                >Hide Speach</button>
-            }
+            <button id='speak-button'
+            onClick={() => constructSpeach(dealWithOpinions)}
+            >Speak</button>
         </>
     )
 }

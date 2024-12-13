@@ -34,6 +34,13 @@ const LandingPage = () => {
         const likes = dealWithOpinions(robotData.likes, 'like')
         const dislikes = dealWithOpinions(robotData.dislikes, 'dislike')
         setRobotSpeach(`${initialGreetings} ${likes} ${dislikes}`)
+        speachClearance()
+    }
+
+    const speachClearance = () => {
+        setTimeout(() => {
+            setRobotSpeach('')
+        }, 5000)
     }
 
     return (
@@ -70,8 +77,6 @@ const LandingPage = () => {
             robotId={robotData._id}/>
         <SpeakButton 
             constructSpeach={constructSpeach} 
-            robotSpeach={robotSpeach}
-            setRobotSpeach={setRobotSpeach}
             />
         <KillButton
             setRobotData={setRobotData}
