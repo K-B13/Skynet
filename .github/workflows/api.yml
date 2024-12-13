@@ -1,5 +1,5 @@
 # The name of the workflow
-name: Skynet CI
+name: Skynet API CI/CD 
 
 # This workflow will run on any push to the repository
 on: push
