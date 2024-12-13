@@ -197,13 +197,25 @@ async function updateRobotMood(req, res) {
         if(typeof req.body.mood === 'string'){
             singleRobot.mood = req.body.mood
 
+            if(req.body.mood === "Sad"){
+                singleRobot.image = "/sadMood.png"
+                await singleRobot.save();
+            } else if (req.body.mood === "Happy"){
+                singleRobot.image = "/happyMood.png"
+                await singleRobot.save();
+            } else if (req.body.mood === "Neutral"){
+                singleRobot.image = "/neutralMood.png"
+                await singleRobot.save();
+            }
+
+            await singleRobot.save();
         }
-        else{
-        return res.status(400).json({message: "Mood must be a string!!"});
+        
+        else {
+            return res.status(400).json({message: "Mood must be a string!!"});
         }
 
-        
-        res.status(200).json({robot: singleRobot});
+        res.status(200).json({robot: singleRobot, message: 'updated mood'});
 
     } catch (err) {
         console.log(err);
