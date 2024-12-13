@@ -13,6 +13,9 @@ const RobotScreen = (props) => {
                     <p id='mood'>Mood: {props.mood}</p>
                 </div>
                 <img id='robot-image' src='/neutralMood.png' style={{width:100, height:100}}/> 
+                {props.robotSpeach !== '' && <p
+                id='robot-speach'
+                >{props.robotSpeach}</p>}
             </div>
         </>
     )

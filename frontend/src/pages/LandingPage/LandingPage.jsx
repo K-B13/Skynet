@@ -13,6 +13,7 @@ const LandingPage = () => {
 
     const [robotData, setRobotData] = useState({});
     const [didNotLearn, setDidNotLearn] = useState(false)
+    const [ robotSpeach, setRobotSpeach ] = useState('')
 
     useEffect(() => {
         const fetchRobot = async() => {
@@ -28,6 +29,20 @@ const LandingPage = () => {
         fetchRobot();
     }, []);
 
+    const constructSpeach = (dealWithOpinions) => {
+        const initialGreetings = `Hello, I am ${robotData.name}. `
+        const likes = dealWithOpinions(robotData.likes, 'like')
+        const dislikes = dealWithOpinions(robotData.dislikes, 'dislike')
+        setRobotSpeach(`${initialGreetings} ${likes} ${dislikes}`)
+        speachClearance()
+    }
+
+    const speachClearance = () => {
+        setTimeout(() => {
+            setRobotSpeach('')
+        }, 5000)
+    }
+
     return (
         <>
         <RobotScreen
@@ -39,7 +54,9 @@ const LandingPage = () => {
             hardware={robotData.hardware}
             mood={robotData.mood}
             img={robotData.img}
-            isAlive={robotData.isAlive}/>
+            isAlive={robotData.isAlive}
+            robotSpeach={robotSpeach}
+            />
         {didNotLearn && (
             <p id="learning-fail">Sorry your robot failed to learn!</p>
 
@@ -58,7 +75,9 @@ const LandingPage = () => {
         <RepairButton
             setRobotData={setRobotData}
             robotId={robotData._id}/>
-        <SpeakButton/>
+        <SpeakButton 
+            constructSpeach={constructSpeach} 
+            />
         <KillButton
             setRobotData={setRobotData}
             robotId={robotData._id}/>
