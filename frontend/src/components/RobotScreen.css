@@ -1,4 +1,4 @@
-#robot-screen {
+/* #robot-screen {
     width: 490px;
     height: 500px;
     border: 2px solid black;
@@ -24,7 +24,6 @@
     align-items: center;
     width: 100%; 
 }
-
 
 #currency {
     position: absolute;
@@ -126,4 +125,56 @@ button:hover {
     margin-top: 10px;
     width: 120px;
     align-self: center;
+} */
+
+#robot-screen {
+    display: flex;
+    justify-content: center;
+    max-height: 50vh;
+    min-height: 38vh;
+}
+
+#robot-screen-upper {
+    margin: 2rem 0;
+    display: flex;
+    width: 65vw;
+    justify-content: space-between;
+    background-color: #e0722e;
+    border: solid black 1px;
+    border-radius: 2rem;
+    padding: 0.4rem;
+}
+
+#robot-image-container {
+    display: flex;
+    align-items: flex-end;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+#robot-image {
+    
+}
+
+#currency-container {
+    width: 8rem;
+    display: flex;
+    padding: 0 0 0 0.5rem;
+}
+
+#currency {
+    font-size: 0.8rem;
+}
+
+#robot-stats {
+    width: 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.3rem;
+}
+
+#robot-stats p {
+    margin: 0.2rem;
+    font-size: 0.8rem;
 }
