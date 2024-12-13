@@ -94,12 +94,12 @@ async function updateRobotBattery(req, res) {
             await singleRobot.save();
         }
         else{
-            if(newBattery <=30){
+            if(newBattery <=30 && singleRobot.hardware <50){
                 await updateRobotMood(singleRobot, "Sad")
                 singleRobot.batteryLife = newBattery
                 await singleRobot.save();
             }
-            else if(newBattery >=70 ){
+            else if(newBattery >=70 && singleRobot.hardware >=50 ){
                 await updateRobotMood(singleRobot, "Happy")
                 singleRobot.batteryLife = newBattery
                 await singleRobot.save();
@@ -193,7 +193,7 @@ async function updateRobotHardware(req, res) {
             await singleRobot.save()
         }
         else{
-                if(newHardware <50){
+                if(newHardware <50 && singleRobot.batteryLife <=30){
                     await updateRobotMood(singleRobot, "Sad")
                     singleRobot.hardware = newHardware
                     await singleRobot.save();
