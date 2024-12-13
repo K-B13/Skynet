@@ -1,6 +1,5 @@
 import '/src/components/RobotScreen.css';
 const RobotScreen = (props) => {
-    console.log(props);
     return (
         <div id='robot-screen'>
             <div id='robot-details-border'>
@@ -25,6 +24,10 @@ const RobotScreen = (props) => {
                 <div id='speak-button-container'>
                     {props.children[props.children.length - 1]}
                 </div>
+                {props.robotSpeach !== '' && <p
+                id='robot-speach'
+                >{props.robotSpeach}</p>}
+
             </div>
         </div>
     );

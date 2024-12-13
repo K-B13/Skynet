@@ -80,6 +80,24 @@ describe("/users", () => {
     });
   });
 
+  describe("POST, when email/password fails validation check", () => {
+    it("invalid email returns 400", async () => {
+      const response = await request(app)
+        .post("/users")
+        .send({ email: "testemail9@@test.com", password: "Something1?" });
+        expect(response.statusCode).toBe(400)
+        expect(response.body.emailErrors).toEqual(['Email must be in the correct format'])
+    })
+
+    it("invalid password returns 400", async () => {
+      const response = await request(app)
+        .post("/users")
+        .send({ email: "testemail9@test.com", password: "n0capitals!" });
+        expect(response.statusCode).toBe(400)
+        expect(response.body.passwordErrors).toEqual(['password does not have an upper case letter'])
+    })
+  })
+
   describe("PUT, updating with valid token", () => {
     it("changing email", async() => {
       const user = await User.create({
@@ -182,6 +200,50 @@ describe("/users", () => {
       const foundUser = await User.findById(user._id)
       expect(foundUser.email).toEqual("someone@example.com");
       expect(foundUser.password).toEqual("Something1?");
+    })
+
+    it("cannot change someone else's password", async () => {
+      const user1 = await User.create({
+        email: "userone1@example.com",
+        password: "User1password!"
+      })
+      const user2 = await User.create({
+        email: "usertwo2@example.com",
+        password: "User2password!"
+      })
+      const user1token = createToken(user1._id)
+      const response = await request(app)
+        .put(`/users/${user2._id}`)
+        .set("Authorization", `Bearer ${user1token}`)
+        .send({ password: "User1password!" });
+      expect(response.statusCode).toBe(400)
+      const users = await User.find();
+      expect(users[0].email).toEqual("userone1@example.com");
+      expect(users[0].password).toEqual("User1password!");
+      expect(users[1].email).toEqual("usertwo2@example.com");
+      expect(users[1].password).toEqual("User2password!");
+    })
+
+    it("cannot change someone else's email", async () => {
+      const user1 = await User.create({
+        email: "userone1@example.com",
+        password: "User1password!"
+      })
+      const user2 = await User.create({
+        email: "usertwo2@example.com",
+        password: "User2password!"
+      })
+      const user1token = createToken(user1._id)
+      const response = await request(app)
+        .put(`/users/${user2._id}`)
+        .set("Authorization", `Bearer ${user1token}`)
+        .send({ email: "goodlucklogginginnow@gmail.com"});
+      expect(response.statusCode).toBe(400)
+      const users = await User.find();
+      expect(users[0].email).toEqual("userone1@example.com");
+      expect(users[0].password).toEqual("User1password!");
+      expect(users[1].email).toEqual("usertwo2@example.com");
+      expect(users[1].password).toEqual("User2password!");
     })
   })
 

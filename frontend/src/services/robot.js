@@ -147,3 +147,57 @@ export const killRobot = async (robotId) => {
     const data = await response.json()
     return data
 }
+
+export const changeStatsOnLogin = async (robotId) => {
+
+    const requestOptions = {
+        method: 'PUT',
+    }
+
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/changestats`, requestOptions);
+
+    if (!response.ok) {
+        throw new Error('Failed to update robot stats')
+    }
+
+    const data = await response.json()
+    return data
+}
+
+
+// export const updateRobotMood = async (robotId, mood) => {
+
+//     const requestOptions = {
+//         method: 'PUT',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({mood: mood})
+//     }
+
+//     const response = await fetch(`${BACKEND_URL}/robot/${robotId}/mood`, requestOptions);
+
+//     if (!response.ok) {
+//         throw new Error('Failed to update robot battery')
+//     }
+
+//     const data = await response.json()
+//     return data;
+// }
+
+export const lowerRobotBattery = async (robotId) => {
+    
+    const requestOptions = {
+        method: 'PUT',
+    }
+
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/lowerbattery`, requestOptions);
+
+    if (!response.ok) {
+        throw new Error('Failed to lower robot battery')
+    }
+
+    const data = await response.json()
+    return data;
+}
+
