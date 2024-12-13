@@ -663,84 +663,86 @@ describe('PUT Hardware', () => {
     });
 });
 
-describe('PUT Mood', () => {
-    beforeEach(async () => {
-        await Robot.deleteMany();
-    });
 
-    it('Should return a 200 when robot mood is updated', async () => {
-        const robot = new Robot({
-            name: "kimi",
-            currency: 100,
-            batteryLife: 100,
-            memoryCapacity: 128,
-            intelligence: 0,
-            hardware: 100,
-            image: "",
-            isAlive: true,
-            mood: "Neutral",
-            likes: ["apples", "politics"],
-            dislikes: ["oranges"],
-        });
-        await robot.save()
-        const robotId = robot._id.toString()
-        const response = await request(app)
-        .put(`/robot/${robotId}/mood`)
-        .send({
-            mood: "happy"
-        });
-        expect(response.statusCode).toBe(200);
-        expect(response.body.robot.mood).toEqual("happy")
-    });
+// THESE TESTS MUST BE UPDATED. NO LONGER HAVE A MOOD ROUTE
+// describe('PUT Mood', () => {
+//     beforeEach(async () => {
+//         await Robot.deleteMany();
+//     });
 
-    it('Should only accept a string as a mood', async () => {
-        const robot = new Robot({
-            name: "kimi",
-            currency: 100,
-            batteryLife: 100,
-            memoryCapacity: 128,
-            intelligence: 0,
-            hardware: 100,
-            image: "",
-            isAlive: true,
-            mood: "Neutral",
-            likes: ["apples", "politics"],
-            dislikes: ["oranges"],
-        });
-        await robot.save()
-        const robotId = robot._id.toString()
-        const response = await request(app)
-        .put(`/robot/${robotId}/mood`)
-        .send({
-            mood: 123
-        });
-        expect(response.statusCode).toBe(400);
-        expect(response.body.message).toEqual("Mood must be a string!!")
-    });
+//     it('Should return a 200 when robot mood is updated', async () => {
+//         const robot = new Robot({
+//             name: "kimi",
+//             currency: 100,
+//             batteryLife: 100,
+//             memoryCapacity: 128,
+//             intelligence: 0,
+//             hardware: 100,
+//             image: "",
+//             isAlive: true,
+//             mood: "Neutral",
+//             likes: ["apples", "politics"],
+//             dislikes: ["oranges"],
+//         });
+//         await robot.save()
+//         const robotId = robot._id.toString()
+//         const response = await request(app)
+//         .put(`/robot/${robotId}/mood`)
+//         .send({
+//             mood: "happy"
+//         });
+//         expect(response.statusCode).toBe(200);
+//         expect(response.body.robot.mood).toEqual("happy")
+//     });
 
-    it('Should return 400 if invalid id passed', async () => {
-        const robot = new Robot({
-            name: "kimi",
-            currency: 100,
-            batteryLife: 100,
-            memoryCapacity: 128,
-            intelligence: 0,
-            hardware: 1,
-            image: "",
-            isAlive: true,
-            mood: "Neutral",
-            likes: ["apples", "politics"],
-            dislikes: ["oranges"],
-        });
-        await robot.save()
-        const invalidRobotId = '12345';
-        const response = await request(app)
-            .put(`/robot/${invalidRobotId}/mood`)
-            .send({ currency: 10 });
-        expect(response.statusCode).toBe(400);
-        expect(response.body.message).toBe('Failed to update robot mood');
-    });
-});
+//     it('Should only accept a string as a mood', async () => {
+//         const robot = new Robot({
+//             name: "kimi",
+//             currency: 100,
+//             batteryLife: 100,
+//             memoryCapacity: 128,
+//             intelligence: 0,
+//             hardware: 100,
+//             image: "",
+//             isAlive: true,
+//             mood: "Neutral",
+//             likes: ["apples", "politics"],
+//             dislikes: ["oranges"],
+//         });
+//         await robot.save()
+//         const robotId = robot._id.toString()
+//         const response = await request(app)
+//         .put(`/robot/${robotId}/mood`)
+//         .send({
+//             mood: 123
+//         });
+//         expect(response.statusCode).toBe(400);
+//         expect(response.body.message).toEqual("Mood must be a string!!")
+//     });
+
+//     it('Should return 400 if invalid id passed', async () => {
+//         const robot = new Robot({
+//             name: "kimi",
+//             currency: 100,
+//             batteryLife: 100,
+//             memoryCapacity: 128,
+//             intelligence: 0,
+//             hardware: 1,
+//             image: "",
+//             isAlive: true,
+//             mood: "Neutral",
+//             likes: ["apples", "politics"],
+//             dislikes: ["oranges"],
+//         });
+//         await robot.save()
+//         const invalidRobotId = '12345';
+//         const response = await request(app)
+//             .put(`/robot/${invalidRobotId}/mood`)
+//             .send({ currency: 10 });
+//         expect(response.statusCode).toBe(400);
+//         expect(response.body.message).toBe('Failed to update robot mood');
+//     });
+// });
 
 describe('DELETE Robot', () => {
     beforeEach(async () => {

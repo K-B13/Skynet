@@ -192,36 +192,27 @@ async function updateRobotHardware(req, res) {
     };
 };
 
-async function updateRobotMood(req, res) {
+function updateRobotMood(robot, mood) {
     try{
-        const robotId = req.params.id
-        const singleRobot = await Robot.findById(robotId)
-        if(typeof req.body.mood === 'string'){
-            singleRobot.mood = req.body.mood
+        if(typeof mood === 'string'){
+            robot.mood = mood
 
-            if(req.body.mood === "Sad"){
-                singleRobot.image = "/sadMood.png"
-                await singleRobot.save();
-            } else if (req.body.mood === "Happy"){
-                singleRobot.image = "/happyMood.png"
-                await singleRobot.save();
-            } else if (req.body.mood === "Neutral"){
-                singleRobot.image = "/neutralMood.png"
-                await singleRobot.save();
+            if(mood === "Sad"){
+                robot.image = "/sadMood.png"
+            } else if (mood === "Happy"){
+                robot.image = "/happyMood.png"
+            } else if (mood === "Neutral"){
+                robot.image = "/neutralMood.png"
             }
-
-            await singleRobot.save();
-        }
-        
-        else {
-            return res.status(400).json({message: "Mood must be a string!!"});
+        } else {
+            return "Mood must be a string!";
         }
 
-        res.status(200).json({robot: singleRobot, message: 'updated mood'});
+        return robot;
 
     } catch (err) {
         console.log(err);
-        res.status(400).json({message: "Failed to update robot mood"});
+        return "Failed to update robot mood";
     };
 };
 
@@ -283,13 +274,13 @@ async function changeStatsOnLogin(req, res) {
             singleRobot.batteryLife = singleRobot.batteryLife -= 2
         }
         if(randomHardware <=2){
-            singleRobot.Hardware = singleRobot.hardware -= 15
+            singleRobot.hardware = singleRobot.hardware -= 15
         }
         else if(randomHardware >2 && randomHardware <=6){
-            singleRobot.Hardware = singleRobot.hardware -= 5
+            singleRobot.hardware = singleRobot.hardware -= 5
         }
         else if(randomHardware >6){
-            singleRobot.Hardware = singleRobot.hardware -= 2
+            singleRobot.hardware = singleRobot.hardware -= 2
         }
         singleRobot.currency = singleRobot.currency += 100
 
@@ -297,18 +288,18 @@ async function changeStatsOnLogin(req, res) {
         const hardware = singleRobot.hardware
         
         if(battery <=30 && hardware <50){
-            singleRobot.mood = "Sad"
+            updateRobotMood(singleRobot, "Sad");
             await singleRobot.save()
             return res.status(200).json({robot: singleRobot});
         }
         else if(hardware >=50){
             if(battery >=70){
-                singleRobot.mood = "Happy"
+                updateRobotMood(singleRobot, "Happy");
                 await singleRobot.save()
                 return res.status(200).json({robot: singleRobot});
             }
             else if(battery <70){
-                singleRobot.mood = "Neutral"
+                updateRobotMood(singleRobot, "Neutral");
                 await singleRobot.save()
                 return res.status(200).json({robot: singleRobot});
             }
