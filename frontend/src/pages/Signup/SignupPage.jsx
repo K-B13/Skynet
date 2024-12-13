@@ -14,7 +14,6 @@ export function SignupPage() {
     event.preventDefault();
     try {
       const response = await signup(email, password);
-      console.log(response)
       if (!response || response.message){
         navigate("/login", {
           state: {
