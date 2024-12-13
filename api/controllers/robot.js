@@ -94,8 +94,21 @@ async function updateRobotBattery(req, res) {
             await singleRobot.save();
         }
         else{
-            singleRobot.batteryLife = newBattery
-            await singleRobot.save();
+            if(newBattery <=30){
+                await updateRobotMood(singleRobot, "Sad")
+                singleRobot.batteryLife = newBattery
+                await singleRobot.save();
+            }
+            else if(newBattery >=70 ){
+                await updateRobotMood(singleRobot, "Happy")
+                singleRobot.batteryLife = newBattery
+                await singleRobot.save();
+            }
+            else{
+                await updateRobotMood(singleRobot, "Neutral")
+                singleRobot.batteryLife = newBattery
+                await singleRobot.save();
+            }
         }
         
         res.status(200).json({robot: singleRobot, message: "robot battery updated"});
@@ -180,8 +193,23 @@ async function updateRobotHardware(req, res) {
             await singleRobot.save()
         }
         else{
-            singleRobot.hardware = newHardware;
-            await singleRobot.save();
+                if(newHardware <50){
+                    await updateRobotMood(singleRobot, "Sad")
+                    singleRobot.hardware = newHardware
+                    await singleRobot.save();
+                }
+                else if(newHardware >=50 ){
+                    if(singleRobot.batteryLife >=70 ){
+                        await updateRobotMood(singleRobot, "Happy")
+                        singleRobot.hardware = newHardware
+                        await singleRobot.save();
+                    }
+                    else{
+                        await updateRobotMood(singleRobot, "Neutral")
+                        singleRobot.hardware = newHardware
+                        await singleRobot.save();
+                    }
+                }
         }
         
         res.status(200).json({robot: singleRobot, message:"robot hardware updated"});
@@ -325,6 +353,26 @@ async function lowerRobotBattery(req, res) {
             return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
         }
         else{
+            if(newBattery <=30 && singleRobot.hardware <50){
+                updateRobotMood(singleRobot, "Sad")
+                singleRobot.batteryLife = newBattery
+                await singleRobot.save()
+                return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
+            }
+            else if(singleRobot.hardware >=50){
+                if(newBattery >=70){
+                    updateRobotMood(singleRobot, "Happy")
+                    singleRobot.batteryLife = newBattery
+                    await singleRobot.save()
+                    return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
+                }
+                else if(newBattery <70){
+                    updateRobotMood(singleRobot, "Neutral")
+                    singleRobot.batteryLife = newBattery
+                    await singleRobot.save()
+                    return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
+                }
+            }
             singleRobot.batteryLife = newBattery
             await singleRobot.save();     
             return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
