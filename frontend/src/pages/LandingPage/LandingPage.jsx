@@ -58,7 +58,7 @@ const LandingPage = () => {
         <RepairButton
             setRobotData={setRobotData}
             robotId={robotData._id}/>
-        <SpeakButton/>
+        <SpeakButton robotData={robotData}/>
         <KillButton
             setRobotData={setRobotData}
             robotId={robotData._id}/>
