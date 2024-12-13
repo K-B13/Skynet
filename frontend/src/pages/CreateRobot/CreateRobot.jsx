@@ -83,7 +83,7 @@ const CreateRobot = () => {
                             onChange={handleChanges}
                             required
                         />
-                        <label className='name-label' id='create-robot-name-label'>Name</label>
+                        <label htmlFor='create-robot-name' className='name-label' id='create-robot-name-label'>Name</label>
                         <div className='name-topline' id='create-robot-name-topline'></div>
                         <div className='name-underline' id='create-robot-name-underline'></div>
                     </div>
