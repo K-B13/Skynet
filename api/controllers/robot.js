@@ -307,8 +307,7 @@ async function changeStatsOnLogin(req, res) {
     };
 };
 
-async function lowerRobotBattery(req, res) {
-    
+async function lowerRobotBattery(req, res) {  
     try{
         const robotId = req.params.id
         const singleRobot = await Robot.findById(robotId)
@@ -318,13 +317,14 @@ async function lowerRobotBattery(req, res) {
             singleRobot.batteryLife = 0
             singleRobot.isAlive = false
             await singleRobot.save();
+            return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
         }
         else{
             singleRobot.batteryLife = newBattery
-            await singleRobot.save();
+            await singleRobot.save();     
+            return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
         }
         
-        res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
 
     } catch (err) {
         console.log(err);
