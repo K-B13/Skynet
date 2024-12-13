@@ -15,16 +15,15 @@ export function SignupPage() {
     try {
       const response = await signup(email, password);
       console.log(response)
-      if (!response){
+      if (!response || response.message){
         navigate("/login", {
           state: {
-            message: 'You have successfully signed up'
+            message: response ? response.message: 'You have successfully signed up'
           }
       })}
       setShowErrors(response)
     } catch (err) {
       console.error(err);
-      // navigate("/signup");
     }
   }
 
@@ -43,6 +42,10 @@ export function SignupPage() {
   return (
     <div>
       <h2>Sign Up</h2>
+      {
+        showErrors.message &&
+        <p>{showErrors.message}</p>
+      }
       {
         showErrors.passwordErrors &&
         showErrors.passwordErrors.map((passwordError, index) => {

@@ -4,12 +4,18 @@ const { allEmailChecks } = require('../validation/emailValidation')
 
 const create = async (req, res) => {
   const { email, password } = req.body
+
+  const checkUser = await User.find({email: email})
+  console.log(checkUser, 'Check User')
+  if (checkUser.length !== 0){
+    return res.status(406).json({ message: "You already have an account" });
+  }
   // Password and Email Checks
   const { emailErrors, passwordErrors } = validateFields(email, password)
-  console.log(emailErrors, passwordErrors)
   if (emailErrors.length !== 0 || passwordErrors.length !== 0 ) {
     return res.status(406).json({ passwordErrors, emailErrors })
   }
+
   const user = new User({ email, password });
   try {
     await user.save()
