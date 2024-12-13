@@ -20,7 +20,7 @@ const LandingPage = () => {
             const user = getPayloadFromToken(token);
             try {
                 const robot = await getRobotByUserId(user.userId);
-                setRobotData(robot.robot);
+                    setRobotData(robot.robot);
             } catch (err) {
                 console.error("error fetching user robot", err);
             }
@@ -30,40 +30,38 @@ const LandingPage = () => {
 
     return (
         <>
-        <RobotScreen
-            name={robotData.name}
-            currency={robotData.currency}
-            batteryLife={robotData.batteryLife}
-            memoryCapacity={robotData.memoryCapacity}
-            intelligence={robotData.intelligence}
-            hardware={robotData.hardware}
-            mood={robotData.mood}
-            img={robotData.img}
-            isAlive={robotData.isAlive}/>
-        {didNotLearn && (
-            <p id="learning-fail">Sorry your robot failed to learn!</p>
+            <RobotScreen
+                name={robotData.name}
+                currency={robotData.currency}
+                batteryLife={robotData.batteryLife}
+                memoryCapacity={robotData.memoryCapacity}
+                intelligence={robotData.intelligence}
+                hardware={robotData.hardware}
+                mood={robotData.mood}
+                img={robotData.img}
+                isAlive={robotData.isAlive}
+            >
+                <EnergyButtons
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}
+                    batteryLife={robotData.batteryLife}
+                />
+                <MemoryButtons
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}
+                    memoryCapacity={robotData.memoryCapacity}
+                    setDidNotLearn={setDidNotLearn}
+                />
+                <RepairButton setRobotData={setRobotData} robotId={robotData._id || ""} />
+                <KillButton setRobotData={setRobotData} robotId={robotData._id || ""} />
+                <SpeakButton />
+            </RobotScreen>
 
-        )}
-
-        <EnergyButtons
-            setRobotData={setRobotData}
-            robotId={robotData._id}
-            batteryLife={robotData.batteryLife}/>
-        <MemoryButtons
-            setRobotData={setRobotData}
-            robotId={robotData._id}
-            memoryCapacity={robotData.memoryCapacity}
-            setDidNotLearn={setDidNotLearn}
-        />
-        <RepairButton
-            setRobotData={setRobotData}
-            robotId={robotData._id}/>
-        <SpeakButton/>
-        <KillButton
-            setRobotData={setRobotData}
-            robotId={robotData._id}/>
+            {didNotLearn && (
+                <p id="learning-fail">Sorry, your robot failed to learn!</p>
+            )}
         </>
-    )
-}
+    );
+};
 
 export default LandingPage
