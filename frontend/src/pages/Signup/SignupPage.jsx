@@ -13,7 +13,11 @@ export function SignupPage() {
     event.preventDefault();
     try {
       await signup(email, password);
-      navigate("/login");
+      navigate("/login", {
+        state: {
+          message: 'You have successfully signed up'
+        }
+      });
     } catch (err) {
       console.error(err);
       navigate("/signup");

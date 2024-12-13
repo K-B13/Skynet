@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 import { getRobotByUserId } from "../../services/robot";
 import { changeStatsOnLogin } from "../../services/robot";
@@ -11,7 +11,8 @@ export function LoginPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
+  const location = useLocation()
+  const { message } = location.state || '';
 
 
     const fetchRobot = async() => {
@@ -57,6 +58,7 @@ export function LoginPage() {
   return (
     <div>
       <h2>Login</h2>
+      {message && <p>{message}</p>}
       <form onSubmit={handleSubmit}>
         <label htmlFor="email"></label>
         <input
