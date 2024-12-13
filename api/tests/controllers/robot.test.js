@@ -453,7 +453,7 @@ describe('PUT Battery life', () => {
             batteryLife: 40,
             memoryCapacity: 128,
             intelligence: 0,
-            hardware: 1,
+            hardware: 60,
             image: "",
             isAlive: true,
             mood: "Happy",
