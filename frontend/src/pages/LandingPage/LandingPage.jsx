@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRobotByUserId } from "../../services/robot";
+import { getRobotByUserId, lowerRobotBattery } from "../../services/robot";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 import RobotScreen from "../../components/RobotScreen"
 import MemoryButtons from "../../components/MemoryButtons"
@@ -27,6 +27,21 @@ const LandingPage = () => {
         }
         fetchRobot();
     }, []);
+
+    useEffect(() => {
+        // const ONE_MINUTE = 60 * 1000; //Left this in incase anyone wants to test it out instead of waiting 30 mins
+        const THIRTY_MINUTES = 30 * 60 * 1000;
+        const intervalId = setInterval(async () => {
+            try {
+                const robot = await lowerRobotBattery(robotData._id);
+                setRobotData(robot.robot);
+                console.log('Battery lowered successfully');
+            } catch (error) {
+                console.error('Error decreasing battery:', error);
+            }
+        }, THIRTY_MINUTES);
+        return () => clearInterval(intervalId);
+    }, [robotData._id]);
 
     return (
         <>
