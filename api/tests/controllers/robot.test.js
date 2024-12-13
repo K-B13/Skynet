@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const app = require("../../app");
 const Robot = require("../../models/robot");
 require("../mongodb_helper");
+const { changeStatsOnLogin } = require('../../controllers/robot'); 
 
 
 describe('POST', () => {
@@ -810,5 +811,95 @@ describe('DELETE Robot', () => {
         expect(response.statusCode).toBe(404); 
         expect(response.body.message).toBe('Robot not found or already deleted'); 
         Robot.findByIdAndDelete.mockRestore();
+    });
+});
+
+describe('PUT change Stats On Login', () => {
+    let req, res, mockRobot;
+
+    beforeEach(() => {
+        req = {
+            params: { id: '12345' }
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+        const mockUserId = new mongoose.Types.ObjectId();
+
+        mockRobot = {
+            _id: new mongoose.Types.ObjectId(),
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId,
+            save: jest.fn().mockResolvedValue(true)
+        };
+
+        Robot.findById = jest.fn().mockResolvedValue(mockRobot);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('should reduce battery by 10,hardware by 15 if random num is less than 3', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.2);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(90);
+        expect(mockRobot.hardware).toBe(85);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should reduce battery and hardware by 2 when random num above 6', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.7)
+            .mockReturnValueOnce(0.8);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(98);
+        expect(mockRobot.hardware).toBe(98);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should reduce battery and hardware by 5 when random num between 3 and 6', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.3)
+            .mockReturnValueOnce(0.4);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(95);
+        expect(mockRobot.hardware).toBe(95);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should handle errors', async () => {
+        Robot.findById = jest.fn().mockRejectedValue(new Error('Database error'));
+        await changeStatsOnLogin(req, res);
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ message: "Failed to update robot stats" });
     });
 });
