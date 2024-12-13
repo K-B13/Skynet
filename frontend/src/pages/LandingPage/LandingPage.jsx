@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getRobotByUserId, lowerRobotBattery } from "../../services/robot";
+import { getRobotByUserId, lowerRobotBattery, deleteRobot } from "../../services/robot";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
+import { useNavigate } from "react-router-dom";
 import RobotScreen from "../../components/RobotScreen"
 import MemoryButtons from "../../components/MemoryButtons"
 import RepairButton from "../../components/RepairButton"
@@ -14,6 +15,7 @@ const LandingPage = () => {
     const [robotData, setRobotData] = useState({});
     const [didNotLearn, setDidNotLearn] = useState(false)
     const [ robotSpeach, setRobotSpeach ] = useState('')
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchRobot = async() => {
@@ -58,6 +60,17 @@ const LandingPage = () => {
         }, 5000)
     }
 
+    const createNewRobot =  async () => {
+        try {
+            const response = await deleteRobot(robotData._id);
+            if(response.message === "Robot deleted"){
+                navigate("/createrobot");
+            }
+        } catch (err) {
+            console.error("error deleting user robot", err);
+        }
+    }
+
     return (
         <>
         <RobotScreen
@@ -97,6 +110,13 @@ const LandingPage = () => {
         <KillButton
             setRobotData={setRobotData}
             robotId={robotData._id}/>
+
+        {!robotData.isAlive && 
+            <button id='create-new-robot'
+            onClick={createNewRobot}>
+                Create New Robot
+            </button>
+        }
         </>
     )
 }
