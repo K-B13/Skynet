@@ -20,12 +20,12 @@ const KillButton = (props) => {
     }
 
     return (
-        <>
+        <div id='kill-robot-container'>
         <button id='kill-robot'
         onClick={handleKill}>
             Kill Robot.
         </button>
-        </>
+        </div>
     )
 }
 

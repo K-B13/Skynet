@@ -1,8 +1,8 @@
 import './RobotScreen.css'
 const RobotScreen = (props) => {
     return (
-        <>
-            <div id='robot-screen'>
+        <div id='robot-screen'>
+            <div id='robot-screen-main'>
                 <div id='robot-screen-upper'>
                     <div id='currency-container'>
                     <p id='currency'>${props.currency}</p>
@@ -20,12 +20,13 @@ const RobotScreen = (props) => {
                     </div>
 
                 </div>
-                {props.robotSpeach !== '' && <p
-                id='robot-speach'
-                >{props.robotSpeach}</p>}
-
+                <div id='robot-speach-container'>
+                    {props.robotSpeach !== '' && <p
+                    id='robot-speach'
+                    >{props.robotSpeach}</p>}
+                </div>
             </div>
-        </>
+        </div>
     )
 }
 
