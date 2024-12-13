@@ -55,7 +55,6 @@ async function updateRobotCurrency(req, res) {
         
         const singleRobot = await Robot.findById(robotId)
 
-
         newCurrency = singleRobot.currency += newAmount
         
         if(newCurrency <=0){
