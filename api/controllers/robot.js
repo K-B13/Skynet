@@ -84,7 +84,8 @@ async function updateRobotBattery(req, res) {
         
         if(newBattery <=0){
             singleRobot.batteryLife = 0
-            singleRobot.isAlive = false
+            singleRobot.isAlive = false;
+            singleRobot.image = "/deadRobot.png"
             await singleRobot.save();
         }
         else if(newBattery > 100){
@@ -170,7 +171,8 @@ async function updateRobotHardware(req, res) {
         
         if(newHardware <= 0){
             singleRobot.hardware = 0
-            singleRobot.isAlive = false
+            singleRobot.isAlive = false;
+            singleRobot.image = "/deadRobot.png"
             await singleRobot.save();
         }
         else if (newHardware >100){
@@ -229,6 +231,7 @@ async function killRobot(req, res){
         const singleRobot = await Robot.findById(robotId);
 
         singleRobot.isAlive = false;
+        singleRobot.image = "/deadRobot.png"
         await singleRobot.save();
         
         res.status(200).json({robot: singleRobot, message: "killed robot"});
@@ -320,7 +323,6 @@ async function changeStatsOnLogin(req, res) {
 
 const RobotsController = {
     createRobot: createRobot,
-    // getRobot: getRobot,
     updateRobotCurrency: updateRobotCurrency,
     updateRobotBattery: updateRobotBattery,
     updateRobotMemory: updateRobotMemory,
