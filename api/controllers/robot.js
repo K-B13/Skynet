@@ -76,6 +76,7 @@ async function updateRobotCurrency(req, res) {
 };
 
 async function updateRobotBattery(req, res) {
+    
     try{
         const robotId = req.params.id
         const newBatteryLife = req.body.batteryLife
@@ -312,6 +313,31 @@ async function changeStatsOnLogin(req, res) {
     };
 };
 
+async function lowerRobotBattery(req, res) {  
+    try{
+        const robotId = req.params.id
+        const singleRobot = await Robot.findById(robotId)
+        newBattery = singleRobot.batteryLife -= 5
+        
+        if(newBattery <=0){
+            singleRobot.batteryLife = 0
+            singleRobot.isAlive = false
+            await singleRobot.save();
+            return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
+        }
+        else{
+            singleRobot.batteryLife = newBattery
+            await singleRobot.save();     
+            return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
+        }
+        
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to lower robot battery life"});
+    };
+};
+
 const RobotsController = {
     createRobot: createRobot,
     updateRobotCurrency: updateRobotCurrency,
@@ -323,7 +349,8 @@ const RobotsController = {
     killRobot: killRobot,
     deleteRobot: deleteRobot,
     getRobotByUserId: getRobotByUserId,
-    changeStatsOnLogin: changeStatsOnLogin
+    changeStatsOnLogin: changeStatsOnLogin,
+    lowerRobotBattery: lowerRobotBattery
 };
 
 module.exports = RobotsController;

@@ -4,7 +4,7 @@ const app = require("../../app");
 const Robot = require("../../models/robot");
 require("../mongodb_helper");
 const { changeStatsOnLogin } = require('../../controllers/robot'); 
-
+const findByIdOriginal = Robot.findById
 
 describe('POST', () => {
         let mockUserId
@@ -481,6 +481,8 @@ describe('PUT Intelligence', () => {
     });
 
     it('Should not go above memory capacity', async () => {
+        jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
+
         const robot = new Robot({
             name: "kimi",
             currency: 500,
@@ -504,7 +506,7 @@ describe('PUT Intelligence', () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.intelligence).toEqual(100)
         expect(response.body.robot.currency).toEqual(470)
-        
+        jest.restoreAllMocks();
     });
 
     it('Should return 400 if invalid id passed', async () => {
@@ -843,7 +845,7 @@ describe('DELETE Robot', () => {
 
 describe('PUT change Stats On Login', () => {
     let req, res, mockRobot;
-
+    const findByIdOriginal = Robot.findById
     beforeEach(() => {
         req = {
             params: { id: '12345' }
@@ -875,7 +877,8 @@ describe('PUT change Stats On Login', () => {
     });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        Robot.findById = findByIdOriginal
+        jest.restoreAllMocks();
     });
 
     it('should reduce battery by 10,hardware by 15 if random num is less than 3', async () => {
@@ -1020,3 +1023,37 @@ describe('PUT change Stats On Login', () => {
         expect(res.json).toHaveBeenCalledWith({ message: "Failed to update robot stats" });
     });
 });
+
+describe('PUT lower battery', () => {
+    beforeEach(async () => {
+        await Robot.deleteMany();
+        Robot.findById = findByIdOriginal
+    });
+
+    it('Should remove 5 from the battery', async () => {
+        
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/lowerbattery`)
+        .send();
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.batteryLife).toEqual(95)
+    });
+});
+
+
