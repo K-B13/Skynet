@@ -85,7 +85,8 @@ async function updateRobotBattery(req, res) {
         
         if(newBattery <=0){
             singleRobot.batteryLife = 0
-            singleRobot.isAlive = false
+            singleRobot.isAlive = false;
+            singleRobot.image = "/deadRobot.png"
             await singleRobot.save();
         }
         else if(newBattery > 100){
@@ -171,7 +172,8 @@ async function updateRobotHardware(req, res) {
         
         if(newHardware <= 0){
             singleRobot.hardware = 0
-            singleRobot.isAlive = false
+            singleRobot.isAlive = false;
+            singleRobot.image = "/deadRobot.png"
             await singleRobot.save();
         }
         else if (newHardware >100){
@@ -191,24 +193,27 @@ async function updateRobotHardware(req, res) {
     };
 };
 
-async function updateRobotMood(req, res) {
+function updateRobotMood(robot, mood) {
     try{
-        const robotId = req.params.id
-        const singleRobot = await Robot.findById(robotId)
-        if(typeof req.body.mood === 'string'){
-            singleRobot.mood = req.body.mood
+        if(typeof mood === 'string'){
+            robot.mood = mood
 
-        }
-        else{
-        return res.status(400).json({message: "Mood must be a string!!"});
+            if(mood === "Sad"){
+                robot.image = "/sadMood.png"
+            } else if (mood === "Happy"){
+                robot.image = "/happyMood.png"
+            } else if (mood === "Neutral"){
+                robot.image = "/neutralMood.png"
+            }
+        } else {
+            return "Mood must be a string!";
         }
 
-        
-        res.status(200).json({robot: singleRobot});
+        return robot;
 
     } catch (err) {
         console.log(err);
-        res.status(400).json({message: "Failed to update robot mood"});
+        return "Failed to update robot mood";
     };
 };
 
@@ -218,6 +223,7 @@ async function killRobot(req, res){
         const singleRobot = await Robot.findById(robotId);
 
         singleRobot.isAlive = false;
+        singleRobot.image = "/deadRobot.png"
         await singleRobot.save();
         
         res.status(200).json({robot: singleRobot, message: "killed robot"});
@@ -269,13 +275,13 @@ async function changeStatsOnLogin(req, res) {
             singleRobot.batteryLife = singleRobot.batteryLife -= 2
         }
         if(randomHardware <=2){
-            singleRobot.Hardware = singleRobot.hardware -= 15
+            singleRobot.hardware = singleRobot.hardware -= 15
         }
         else if(randomHardware >2 && randomHardware <=6){
-            singleRobot.Hardware = singleRobot.hardware -= 5
+            singleRobot.hardware = singleRobot.hardware -= 5
         }
         else if(randomHardware >6){
-            singleRobot.Hardware = singleRobot.hardware -= 2
+            singleRobot.hardware = singleRobot.hardware -= 2
         }
         singleRobot.currency = singleRobot.currency += 100
 
@@ -283,18 +289,18 @@ async function changeStatsOnLogin(req, res) {
         const hardware = singleRobot.hardware
         
         if(battery <=30 && hardware <50){
-            singleRobot.mood = "Sad"
+            updateRobotMood(singleRobot, "Sad");
             await singleRobot.save()
             return res.status(200).json({robot: singleRobot});
         }
         else if(hardware >=50){
             if(battery >=70){
-                singleRobot.mood = "Happy"
+                updateRobotMood(singleRobot, "Happy");
                 await singleRobot.save()
                 return res.status(200).json({robot: singleRobot});
             }
             else if(battery <70){
-                singleRobot.mood = "Neutral"
+                updateRobotMood(singleRobot, "Neutral");
                 await singleRobot.save()
                 return res.status(200).json({robot: singleRobot});
             }
@@ -334,7 +340,6 @@ async function lowerRobotBattery(req, res) {
 
 const RobotsController = {
     createRobot: createRobot,
-    // getRobot: getRobot,
     updateRobotCurrency: updateRobotCurrency,
     updateRobotBattery: updateRobotBattery,
     updateRobotMemory: updateRobotMemory,

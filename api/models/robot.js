@@ -7,7 +7,7 @@ const RobotSchema = new mongoose.Schema({
     memoryCapacity: { type: Number, default: 16 },
     intelligence: { type: Number, default: 0 },
     hardware: { type: Number, default: 1 },
-    image: { type: String, default: "" },
+    image: { type: String, default: '/neutralMood.png' },
     isAlive: { type: Boolean, default: true },
     mood: { type: String },
     likes: { type: Array },

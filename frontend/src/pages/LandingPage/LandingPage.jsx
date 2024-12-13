@@ -68,10 +68,12 @@ const LandingPage = () => {
             intelligence={robotData.intelligence}
             hardware={robotData.hardware}
             mood={robotData.mood}
-            img={robotData.img}
-            isAlive={robotData.isAlive}
+
+            image={robotData.image}
+            isAlive={robotData.isAlive}/>
             robotSpeach={robotSpeach}
             />
+
         {didNotLearn && (
             <p id="learning-fail">Sorry your robot failed to learn!</p>
 
