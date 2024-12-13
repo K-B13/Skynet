@@ -173,6 +173,10 @@ async function updateRobotHardware(req, res) {
             singleRobot.isAlive = false
             await singleRobot.save();
         }
+        else if (newHardware >100){
+            singleRobot.hardware = 100
+            await singleRobot.save()
+        }
         else{
             singleRobot.hardware = newHardware;
             await singleRobot.save();
@@ -248,6 +252,60 @@ async function deleteRobot(req, res) {
     };
 };
 
+async function changeStatsOnLogin(req, res) {
+    const randomBattery = Math.floor(Math.random() * 10);
+    const randomHardware = Math.floor(Math.random() * 10);
+    try{
+        const robotId = req.params.id
+        const singleRobot = await Robot.findById(robotId)
+        if(randomBattery <=2){
+            singleRobot.batteryLife = singleRobot.batteryLife -= 10
+        }
+        else if(randomBattery >2 && randomBattery <=6){
+            singleRobot.batteryLife = singleRobot.batteryLife -= 5
+        }
+        else if(randomBattery >6){
+            singleRobot.batteryLife = singleRobot.batteryLife -= 2
+        }
+        if(randomHardware <=2){
+            singleRobot.Hardware = singleRobot.hardware -= 15
+        }
+        else if(randomHardware >2 && randomHardware <=6){
+            singleRobot.Hardware = singleRobot.hardware -= 5
+        }
+        else if(randomHardware >6){
+            singleRobot.Hardware = singleRobot.hardware -= 2
+        }
+        singleRobot.currency = singleRobot.currency += 100
+
+        const battery = singleRobot.batteryLife
+        const hardware = singleRobot.hardware
+        
+        if(battery <=30 && hardware <50){
+            singleRobot.mood = "Sad"
+            await singleRobot.save()
+            return res.status(200).json({robot: singleRobot});
+        }
+        else if(hardware >=50){
+            if(battery >=70){
+                singleRobot.mood = "Happy"
+                await singleRobot.save()
+                return res.status(200).json({robot: singleRobot});
+            }
+            else if(battery <70){
+                singleRobot.mood = "Neutral"
+                await singleRobot.save()
+                return res.status(200).json({robot: singleRobot});
+            }
+        }
+
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to update robot stats"});
+    };
+};
+
 const RobotsController = {
     createRobot: createRobot,
     // getRobot: getRobot,
@@ -259,7 +317,8 @@ const RobotsController = {
     updateRobotMood: updateRobotMood,
     killRobot: killRobot,
     deleteRobot: deleteRobot,
-    getRobotByUserId: getRobotByUserId
+    getRobotByUserId: getRobotByUserId,
+    changeStatsOnLogin: changeStatsOnLogin
 };
 
 module.exports = RobotsController;

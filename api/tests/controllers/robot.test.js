@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const app = require("../../app");
 const Robot = require("../../models/robot");
 require("../mongodb_helper");
+const { changeStatsOnLogin } = require('../../controllers/robot'); 
 
 
 describe('POST', () => {
@@ -587,6 +588,31 @@ describe('PUT Hardware', () => {
         expect(response.body.robot.isAlive).toBe(false)
         expect(response.body.robot.currency).toEqual(450)
     });
+    it('Hardware should not go above 100', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 500,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 90,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/hardware`)
+        .send({
+            hardwareChange: 250
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.hardware).toEqual(100)
+        expect(response.body.robot.currency).toEqual(450)
+    });
 
     it('Hardware can be increased', async () => {
         const robot = new Robot({
@@ -595,7 +621,7 @@ describe('PUT Hardware', () => {
             batteryLife: 100,
             memoryCapacity: 128,
             intelligence: 0,
-            hardware: 100,
+            hardware: 50,
             image: "",
             isAlive: true,
             mood: "Neutral",
@@ -610,7 +636,7 @@ describe('PUT Hardware', () => {
             hardwareChange: 50
         });
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.hardware).toEqual(150)
+        expect(response.body.robot.hardware).toEqual(100)
         expect(response.body.robot.currency).toEqual(450)
     });
     it('Should return 400 if invalid id passed', async () => {
@@ -810,5 +836,185 @@ describe('DELETE Robot', () => {
         expect(response.statusCode).toBe(404); 
         expect(response.body.message).toBe('Robot not found or already deleted'); 
         Robot.findByIdAndDelete.mockRestore();
+    });
+});
+
+describe('PUT change Stats On Login', () => {
+    let req, res, mockRobot;
+
+    beforeEach(() => {
+        req = {
+            params: { id: '12345' }
+        };
+        res = {
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
+        };
+        const mockUserId = new mongoose.Types.ObjectId();
+
+        mockRobot = {
+            _id: new mongoose.Types.ObjectId(),
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId,
+            save: jest.fn().mockResolvedValue(true)
+        };
+
+        Robot.findById = jest.fn().mockResolvedValue(mockRobot);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it('should reduce battery by 10,hardware by 15 if random num is less than 3', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.2);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(90);
+        expect(mockRobot.hardware).toBe(85);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should reduce battery and hardware by 2 when random num above 6', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.7)
+            .mockReturnValueOnce(0.8);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(98);
+        expect(mockRobot.hardware).toBe(98);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should reduce battery and hardware by 5 when random num between 3 and 6', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.3)
+            .mockReturnValueOnce(0.4);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(95);
+        expect(mockRobot.hardware).toBe(95);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should change mood to sad if battery <30 && hardware <=50', async () => {
+        const mockUserId = new mongoose.Types.ObjectId();
+
+        mockRobot = {
+            _id: new mongoose.Types.ObjectId(),
+            name: "kimi",
+            currency: 100,
+            batteryLife: 20,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 40,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId,
+            save: jest.fn().mockResolvedValue(true)
+        };
+
+        Robot.findById = jest.fn().mockResolvedValue(mockRobot);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.mood).toBe("Sad");
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should change mood to neutral if battery between 31 & 70 & hardware 50 or more', async () => {
+        const mockUserId = new mongoose.Types.ObjectId();
+
+        mockRobot = {
+            _id: new mongoose.Types.ObjectId(),
+            name: "kimi",
+            currency: 100,
+            batteryLife: 70,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 65,
+            image: "",
+            isAlive: true,
+            mood: "Happy",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId,
+            save: jest.fn().mockResolvedValue(true)
+        };
+
+        Robot.findById = jest.fn().mockResolvedValue(mockRobot);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.mood).toBe("Neutral");
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should change mood to happy if battery is more than 70 & hardware more than 51', async () => {
+        const mockUserId = new mongoose.Types.ObjectId();
+
+        mockRobot = {
+            _id: new mongoose.Types.ObjectId(),
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 80,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            userId: mockUserId,
+            save: jest.fn().mockResolvedValue(true)
+        };
+
+        Robot.findById = jest.fn().mockResolvedValue(mockRobot);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.mood).toBe("Happy");
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should handle errors', async () => {
+        Robot.findById = jest.fn().mockRejectedValue(new Error('Database error'));
+        await changeStatsOnLogin(req, res);
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({ message: "Failed to update robot stats" });
     });
 });

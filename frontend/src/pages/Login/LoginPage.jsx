@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 import { getRobotByUserId } from "../../services/robot";
+import { changeStatsOnLogin } from "../../services/robot";
 
 import { login } from "../../services/authentication";
 
@@ -21,6 +22,7 @@ export function LoginPage() {
             if (robot.robot === null ){
                 navigate("/createRobot");
             } else {
+              await changeStatsOnLogin(robot.robot._id)
                 navigate("/landingpage");
             }
         } catch (err) {

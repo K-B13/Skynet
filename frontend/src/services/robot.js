@@ -147,3 +147,19 @@ export const killRobot = async (robotId) => {
     const data = await response.json()
     return data
 }
+
+export const changeStatsOnLogin = async (robotId) => {
+
+    const requestOptions = {
+        method: 'PUT',
+    }
+
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/changestats`, requestOptions);
+
+    if (!response.ok) {
+        throw new Error('Failed to update robot stats')
+    }
+
+    const data = await response.json()
+    return data
+}
