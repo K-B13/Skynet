@@ -11,7 +11,6 @@ import KillButton from "../../components/KillButton"
 
 
 const LandingPage = () => {
-
     const [robotData, setRobotData] = useState({});
     const [didNotLearn, setDidNotLearn] = useState(false)
     const [ robotSpeach, setRobotSpeach ] = useState('')

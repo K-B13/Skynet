@@ -54,10 +54,17 @@ const EnergyButtons = (props) => {
         }
     }
 
+    // if(props.isAlive === false){
+    //     document.getElementById('charge-by-10').disabled = true;
+    // } else if(props.isAlive === true){
+    //     document.getElementById('charge-by-10').disabled = false;
+    // }
+
     return (
         <>
             <div id='energy-buttons'>
                 <button id='charge-by-10'
+                disabled={props.isAlive === false}
                 onClick={handleChargeByTen}>
                     charge +10
                 </button>
