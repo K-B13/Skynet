@@ -1,12 +1,13 @@
-const BWAMResults = ({ outcome, userChoice, robotChoice, relatedPic }) => {
+const BWAMResults = ({ outcome, selectedChoice, relatedPic, currentChoice }) => {
     return (
         <div>
-            {outcome && <p>Result = {outcome}</p>}
-            <p>{userChoice && `You Chose: ${userChoice}`}</p>
-            <img src={relatedPic[userChoice]} width='60rem' height='60rem'/>
-            
-            <p>{robotChoice && `Robot Chose: ${robotChoice}`}</p>
-            <img src={relatedPic[robotChoice]} width='60rem' height='60rem'/>
+            {outcome && selectedChoice.userChoice && <p>Result = {outcome}</p>}
+            <p>{selectedChoice.userChoice && `You Chose: ${selectedChoice.userChoice}`}</p>
+            {selectedChoice.userChoice && <img src={relatedPic[selectedChoice.userChoice]} width='60rem' height='60rem'/>}
+            <p>{currentChoice && `Currently selecting ${currentChoice}`}</p>
+            {currentChoice && <img src={relatedPic[currentChoice]} width='60rem' height='60rem'/>}
+            <p>{selectedChoice.robotChoice && `Robot Chose: ${selectedChoice.robotChoice}`}</p>
+            {selectedChoice.robotChoice && <img src={relatedPic[selectedChoice.robotChoice]} width='60rem' height='60rem'/>}
         </div>
     )
 }

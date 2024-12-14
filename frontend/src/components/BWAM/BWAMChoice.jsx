@@ -1,14 +1,23 @@
-const BWAMChoice = ({ setUserChoice, relatedPic }) => {
+const BWAMChoice = ({ setCurrentChoice, relatedPic, selectedChoice, setSelectedChoice }) => {
+    const handleNewPick = (choice) => {
+        setCurrentChoice(choice)
+            if (selectedChoice.userChoice !== '' && selectedChoice.robotChoice !== '') {
+                setSelectedChoice({
+                    userChoice: '',
+                    robotChoice: ''
+                })
+        }
+    }
     return (
         <div>
             <button
-            onClick = {() => setUserChoice('Battery')}
+            onClick = {() => handleNewPick('Battery')}
             ><img src={relatedPic['Battery']} width='60rem' height='60rem'/></button>
             <button
-            onClick = {() => setUserChoice('Wires')}
+            onClick = {() => handleNewPick('Wires')}
             ><img src={relatedPic['Wires']} width='60rem' height='60rem'/></button>
             <button
-            onClick = {() => setUserChoice('Motherboard')}
+            onClick = {() => handleNewPick('Motherboard')}
             ><img src={relatedPic['Motherboard']} width='60rem' height='60rem'/></button>
         </div>
     )

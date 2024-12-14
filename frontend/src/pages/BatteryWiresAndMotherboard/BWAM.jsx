@@ -7,9 +7,12 @@ import BWAMRules from "../../components/BWAM/BWAMRules"
 import BWAMResults from "../../components/BWAM/BWAMResults"
 
 const BWAM = () => {
-    const [ userChoice,setUserChoice ] = useState('')
+    const [ selectedChoice, setSelectedChoice ] = useState({
+        userChoice: '',
+        robotChoice: ''
+    })
+    const [ currentChoice, setCurrentChoice ] = useState('')
     const [ outcome, setOutcome ] = useState('')
-    const [ robotChoice, setRobotChoice ] = useState('')
     const options = [
         'Battery',
         'Wires',
@@ -26,11 +29,11 @@ const BWAM = () => {
         const rdm = Math.floor(Math.random() * 3)
         return options[rdm]
     }
-
-    const checkWinner = (userPick) => {
+    
+    const checkWinner = () => {
         const robotPick = robotAi()
-        setRobotChoice(robotPick)
-        switch (userPick) {
+        setSelectedChoice({ robotChoice: robotPick, userChoice: currentChoice })
+        switch (currentChoice) {
             case 'Battery':
                 if (robotPick === 'Battery') {
                     return 'Draw!'
@@ -65,11 +68,18 @@ const BWAM = () => {
     return (
         <div>
             <BWAMRules />
-            <BWAMResults outcome={outcome} userChoice={userChoice} robotChoice={robotChoice} relatedPic={relatedPic}/>
-            <BWAMChoice setUserChoice={setUserChoice} relatedPic={relatedPic}/>
+            <BWAMResults outcome={outcome} selectedChoice={selectedChoice} relatedPic={relatedPic} currentChoice={currentChoice}/>
+            <BWAMChoice 
+            setCurrentChoice={setCurrentChoice} 
+            relatedPic={relatedPic}
+            selectedChoice={selectedChoice}
+            setSelectedChoice={setSelectedChoice}
+            />
             <button
             onClick={() => {
-                const result = checkWinner(userChoice)
+                makePick()
+                const result = checkWinner()
+                setCurrentChoice('')
                 setOutcome(result)
             }}
             >Choose</button>
