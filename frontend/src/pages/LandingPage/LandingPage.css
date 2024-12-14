@@ -8,12 +8,14 @@
     padding: 0;
     height: 100vh;
     width: 100vw;
+    position: relative;
 }
 
 #button-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 1;
 }
 
 #button-contianer-upper {
@@ -30,6 +32,7 @@
     flex-direction: column;
     margin: 0.2rem;
     padding: 0.5rem;
+    z-index: 2;
 }
 
 #memory-buttons button, #energy-buttons button, #repair-button-container button, #kill-robot, #speak-button {
@@ -41,41 +44,27 @@
     color: #111;
     cursor: pointer;
     display: flex;
-    font-family: Inter,sans-serif;
+    font-family: Inter, sans-serif;
     font-size: 0.8rem;
     height: 48px;
     justify-content: center;
     line-height: 24px;
     max-width: 100%;
     padding: 0 25px;
-    position: relative;
+    position: relative; 
     text-align: center;
     text-decoration: none;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
     background-color: #e0722e;
-}
 
-#memory-buttons button:after, #energy-buttons button:after, #repair-button-container button:after, #kill-robot:after, #speak-button:after {
-    background-color: #111;
-    border-radius: 8px;
-    content: "";
-    display: block;
-    height: 48px;
-    left: 0;
-    width: 100%;
-    position: absolute;
-    top: -2px;
-    transform: translate(8px, 8px);
-    transition: transform .2s ease-out;
-    z-index: -1;
+    box-shadow: 8px 8px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
 }
-
-#memory-buttons button:hover:after, #energy-buttons button:hover:after, #repair-button-container button:hover:after, #kill-robot:hover:after, #speak-button:hover:after{
-    transform: translate(0, 0);
-}  
 
 #memory-buttons button:hover, #energy-buttons button:hover, #repair-button-container button:hover, #kill-robot:hover, #speak-button:hover {
+    box-shadow: 0px 0px 0px #111; 
+    transform: translate(8px, 8px);
     outline: 0;
 }

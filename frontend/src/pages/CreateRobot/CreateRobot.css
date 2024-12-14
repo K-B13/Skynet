@@ -5,8 +5,8 @@
     background-position: center;
     background-attachment: fixed;
     margin: 0;
-    padding: 0;
-    height: 100vh;
+    padding: 0.5rem 0 0 0;
+    min-height: 100vh;
     width: 100vw;
 }
 
@@ -17,8 +17,14 @@
     align-items: center;
     background-color: rgb(0, 0, 0, 0.3);
     border-radius: 30%;
-    width: 60vw;
-    margin: 30px auto;
+    min-width: 60vw;
+    max-width: 80vw;
+    margin: 0 auto;
+    padding: 0.5rem;
+}
+
+#create-robot-heading {
+    margin: 0.4rem;
 }
 
 #create-robot-personality-btns, #create-robot-submit-btn-container {
@@ -29,6 +35,7 @@
 }
 
 .personality-btns, .add-like-btn, .create-robot-submit {
+    margin: 0.8rem;
     align-items: center;
     border: 2px solid #111;
     border-radius: 8px;
@@ -36,42 +43,28 @@
     color: #111;
     cursor: pointer;
     display: flex;
-    font-family: Inter,sans-serif;
-    font-size: 16px;
+    font-family: Inter, sans-serif;
+    font-size: 0.8rem;
     height: 48px;
     justify-content: center;
     line-height: 24px;
     max-width: 100%;
     padding: 0 25px;
-    position: relative;
+    position: relative; 
     text-align: center;
     text-decoration: none;
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    margin: 1.2rem 1.2rem 1.5rem 1.2rem;
-}
+    background-color: #e0722e;
 
-.personality-btns:after, .add-like-btn:after, .create-robot-submit:after {
-    background-color: #111;
-    border-radius: 8px;
-    content: "";
-    display: block;
-    height: 48px;
-    left: 0;
-    width: 100%;
-    position: absolute;
-    top: -2px;
-    transform: translate(8px, 8px);
-    transition: transform .2s ease-out;
-    z-index: -1;
-}
-
-.personality-btns:hover:after, .add-like-btn:hover:after, .create-robot-submit:hover:after {
-    transform: translate(0, 0);
+    box-shadow: 8px 8px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
 }
 
 .personality-btns:hover, .add-like-btn:hover, .create-robot-submit:hover {
+    box-shadow: 0px 0px 0px #111; 
+    transform: translate(8px, 8px);
     outline: 0;
 }
 
@@ -107,11 +100,12 @@
 
 .like-container, .name-container {
     position: relative;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.8rem;
+    margin-top: 0.8rem;
 }
 
 .like-input, .name-input {
-    padding: 10px;
+    padding: 0.2rem;
     height: 40px;
     border: 2px solid #0B2447;
     border-top: none;
@@ -135,7 +129,7 @@
     color: #0B2447;
     transition: all 0.5s;
     transform: scale(0);
-    z-index: -1;
+    z-index: 1;
 }
 
 .like-container .like-topline {
