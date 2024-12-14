@@ -8,12 +8,15 @@ import SpeakButton from "../../components/SpeakButton"
 import EnergyButtons from "../../components/EnergyButtons"
 import KillButton from "../../components/KillButton"
 import './LandingPage.css'
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
 
     const [robotData, setRobotData] = useState({});
     const [didNotLearn, setDidNotLearn] = useState(false)
     const [ robotSpeach, setRobotSpeach ] = useState('')
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchRobot = async() => {
@@ -102,6 +105,13 @@ const LandingPage = () => {
                     setRobotData={setRobotData}
                     robotId={robotData._id}/>
             </div>
+            <button
+            onClick={() => {navigate('/bwam', {
+                state: {
+                    robotId: robotData._id
+                }
+            })}}
+            >BWAM</button>
         </div>
         </div>
     )
