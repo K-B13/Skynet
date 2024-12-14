@@ -46,13 +46,11 @@ const MemoryButtons = (props) => {
     }
 
     return (
-        <>
-            <div id='memory-buttons'>
-                <button id='teach-button' onClick={handleTeach}>teach</button>
-                <button id='upgrade-button' onClick={handleUpgrade}>upgrade memory</button>
-                <button id='add-cash' onClick={handleCashGrab}>ADD CASH</button>
-            </div>
-        </>
+        <div id='memory-buttons'>
+            <button id='teach-button' onClick={handleTeach}>teach</button>
+            <button id='upgrade-button' onClick={handleUpgrade}>upgrade memory</button>
+            <button id='add-cash' onClick={handleCashGrab}>ADD CASH</button>
+        </div>
     )
 }
 

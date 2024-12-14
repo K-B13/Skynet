@@ -1,17 +1,19 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 import { getRobotByUserId } from "../../services/robot";
 import { changeStatsOnLogin } from "../../services/robot";
 
 import { login } from "../../services/authentication";
-
+import "./LoginPage.css"
 export function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [ errorMessage, setErrorMessage ] = useState('')
   const navigate = useNavigate();
-
+  const location = useLocation()
+  const { message } = location.state || '';
 
 
     const fetchRobot = async() => {
@@ -34,11 +36,14 @@ export function LoginPage() {
     event.preventDefault();
     try {
         const token = await login(email, password);
-        localStorage.setItem("token", token);
-        fetchRobot();
+        if (token.message) {
+          setErrorMessage('Email or Password is incorrect')
+        } else {
+          localStorage.setItem("token", token);
+          fetchRobot();
+        }
     } catch (err) {
-      console.error(err);
-      navigate("/login");
+      console.err(err)
     }
   }
 
@@ -55,8 +60,10 @@ export function LoginPage() {
   }
 
   return (
-    <div>
+    <div id="login-page">
       <h2>Login</h2>
+      {message && <p>{message}</p>}
+      {errorMessage && <p>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <label htmlFor="email"></label>
         <input

@@ -18,11 +18,11 @@ const SpeakButton = ({ constructSpeach }) => {
     }
 
     return (
-        <>
+        <div id='speak-button-container'>
             <button id='speak-button'
             onClick={() => constructSpeach(dealWithOpinions)}
             >Speak</button>
-        </>
+        </div>
     )
 }
 

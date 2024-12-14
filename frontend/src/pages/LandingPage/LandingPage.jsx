@@ -7,7 +7,7 @@ import RepairButton from "../../components/RepairButton"
 import SpeakButton from "../../components/SpeakButton"
 import EnergyButtons from "../../components/EnergyButtons"
 import KillButton from "../../components/KillButton"
-
+import './LandingPage.css'
 
 const LandingPage = () => {
 
@@ -59,7 +59,7 @@ const LandingPage = () => {
     }
 
     return (
-        <>
+        <div className="landing-page">
         <RobotScreen
             name={robotData.name}
             currency={robotData.currency}
@@ -68,35 +68,42 @@ const LandingPage = () => {
             intelligence={robotData.intelligence}
             hardware={robotData.hardware}
             mood={robotData.mood}
-            img={robotData.img}
+            image={robotData.image}
             isAlive={robotData.isAlive}
             robotSpeach={robotSpeach}
             />
+
         {didNotLearn && (
             <p id="learning-fail">Sorry your robot failed to learn!</p>
 
         )}
 
-        <EnergyButtons
-            setRobotData={setRobotData}
-            robotId={robotData._id}
-            batteryLife={robotData.batteryLife}/>
-        <MemoryButtons
-            setRobotData={setRobotData}
-            robotId={robotData._id}
-            memoryCapacity={robotData.memoryCapacity}
-            setDidNotLearn={setDidNotLearn}
-        />
-        <RepairButton
-            setRobotData={setRobotData}
-            robotId={robotData._id}/>
-        <SpeakButton 
-            constructSpeach={constructSpeach} 
-            />
-        <KillButton
-            setRobotData={setRobotData}
-            robotId={robotData._id}/>
-        </>
+        <div id='button-container'>
+            <div id='button-contianer-upper'>
+                <EnergyButtons
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}
+                    batteryLife={robotData.batteryLife}/>
+                <MemoryButtons
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}
+                    memoryCapacity={robotData.memoryCapacity}
+                    setDidNotLearn={setDidNotLearn}
+                />
+                <RepairButton
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}/>
+            </div>
+            <div id='button-contianer-lower'>
+                <SpeakButton 
+                    constructSpeach={constructSpeach} 
+                    />
+                <KillButton
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}/>
+            </div>
+        </div>
+        </div>
     )
 }
 

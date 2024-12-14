@@ -393,6 +393,84 @@ describe('PUT Battery life', () => {
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.batteryLife).toEqual(100);
     });
+
+    it('Should trigger mood change to sad', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 40,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/battery`)
+        .send({
+            batteryLife: -20
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.batteryLife).toEqual(20)
+        expect(response.body.robot.mood).toBe("Sad")
+    });
+
+    it('Should trigger mood change to happy', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 60,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 60,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/battery`)
+        .send({
+            batteryLife: 20
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.batteryLife).toEqual(80)
+        expect(response.body.robot.mood).toBe("Happy")
+    });
+
+    it('Should trigger mood change to neutral', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 40,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 60,
+            image: "",
+            isAlive: true,
+            mood: "Happy",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/battery`)
+        .send({
+            batteryLife: 20
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.batteryLife).toEqual(60)
+        expect(response.body.robot.mood).toBe("Neutral")
+    });
 });
 
 describe('PUT Memory', () => {
@@ -663,18 +741,11 @@ describe('PUT Hardware', () => {
         expect(response.statusCode).toBe(400);
         expect(response.body.message).toBe('Failed to update robot hardware');
     });
-});
-
-describe('PUT Mood', () => {
-    beforeEach(async () => {
-        await Robot.deleteMany();
-    });
-
-    it('Should return a 200 when robot mood is updated', async () => {
+    it('Should change mood to sad when hardware updated', async () => {
         const robot = new Robot({
             name: "kimi",
-            currency: 100,
-            batteryLife: 100,
+            currency: 500,
+            batteryLife: 20,
             memoryCapacity: 128,
             intelligence: 0,
             hardware: 100,
@@ -687,22 +758,23 @@ describe('PUT Mood', () => {
         await robot.save()
         const robotId = robot._id.toString()
         const response = await request(app)
-        .put(`/robot/${robotId}/mood`)
+        .put(`/robot/${robotId}/hardware`)
         .send({
-            mood: "happy"
+            hardwareChange: -55
         });
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.mood).toEqual("happy")
+        expect(response.body.robot.hardware).toEqual(45)
+        expect(response.body.robot.mood).toEqual("Sad")
+        
     });
-
-    it('Should only accept a string as a mood', async () => {
+    it('Should change mood to happy when hardware updated', async () => {
         const robot = new Robot({
             name: "kimi",
-            currency: 100,
-            batteryLife: 100,
+            currency: 500,
+            batteryLife: 80,
             memoryCapacity: 128,
             intelligence: 0,
-            hardware: 100,
+            hardware: 10,
             image: "",
             isAlive: true,
             mood: "Neutral",
@@ -712,37 +784,123 @@ describe('PUT Mood', () => {
         await robot.save()
         const robotId = robot._id.toString()
         const response = await request(app)
-        .put(`/robot/${robotId}/mood`)
+        .put(`/robot/${robotId}/hardware`)
         .send({
-            mood: 123
+            hardwareChange: 55
         });
-        expect(response.statusCode).toBe(400);
-        expect(response.body.message).toEqual("Mood must be a string!!")
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.hardware).toEqual(65)
+        expect(response.body.robot.mood).toEqual("Happy")
+        
     });
-
-    it('Should return 400 if invalid id passed', async () => {
+    it('Should change mood to neutral when hardware updated', async () => {
         const robot = new Robot({
             name: "kimi",
-            currency: 100,
-            batteryLife: 100,
+            currency: 500,
+            batteryLife: 50,
             memoryCapacity: 128,
             intelligence: 0,
-            hardware: 1,
+            hardware: 60,
             image: "",
             isAlive: true,
-            mood: "Neutral",
+            mood: "Happy",
             likes: ["apples", "politics"],
             dislikes: ["oranges"],
         });
         await robot.save()
-        const invalidRobotId = '12345';
+        const robotId = robot._id.toString()
         const response = await request(app)
-            .put(`/robot/${invalidRobotId}/mood`)
-            .send({ currency: 10 });
-        expect(response.statusCode).toBe(400);
-        expect(response.body.message).toBe('Failed to update robot mood');
+        .put(`/robot/${robotId}/hardware`)
+        .send({
+            hardwareChange: 10
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.hardware).toEqual(70)
+        expect(response.body.robot.mood).toEqual("Neutral")
+        
     });
 });
+
+
+// THESE TESTS MUST BE UPDATED. NO LONGER HAVE A MOOD ROUTE
+// describe('PUT Mood', () => {
+//     beforeEach(async () => {
+//         await Robot.deleteMany();
+//     });
+
+//     it('Should return a 200 when robot mood is updated', async () => {
+//         const robot = new Robot({
+//             name: "kimi",
+//             currency: 100,
+//             batteryLife: 100,
+//             memoryCapacity: 128,
+//             intelligence: 0,
+//             hardware: 100,
+//             image: "",
+//             isAlive: true,
+//             mood: "Neutral",
+//             likes: ["apples", "politics"],
+//             dislikes: ["oranges"],
+//         });
+//         await robot.save()
+//         const robotId = robot._id.toString()
+//         const response = await request(app)
+//         .put(`/robot/${robotId}/mood`)
+//         .send({
+//             mood: "happy"
+//         });
+//         expect(response.statusCode).toBe(200);
+//         expect(response.body.robot.mood).toEqual("happy")
+//     });
+
+//     it('Should only accept a string as a mood', async () => {
+//         const robot = new Robot({
+//             name: "kimi",
+//             currency: 100,
+//             batteryLife: 100,
+//             memoryCapacity: 128,
+//             intelligence: 0,
+//             hardware: 100,
+//             image: "",
+//             isAlive: true,
+//             mood: "Neutral",
+//             likes: ["apples", "politics"],
+//             dislikes: ["oranges"],
+//         });
+//         await robot.save()
+//         const robotId = robot._id.toString()
+//         const response = await request(app)
+//         .put(`/robot/${robotId}/mood`)
+//         .send({
+//             mood: 123
+//         });
+//         expect(response.statusCode).toBe(400);
+//         expect(response.body.message).toEqual("Mood must be a string!!")
+//     });
+
+//     it('Should return 400 if invalid id passed', async () => {
+//         const robot = new Robot({
+//             name: "kimi",
+//             currency: 100,
+//             batteryLife: 100,
+//             memoryCapacity: 128,
+//             intelligence: 0,
+//             hardware: 1,
+//             image: "",
+//             isAlive: true,
+//             mood: "Neutral",
+//             likes: ["apples", "politics"],
+//             dislikes: ["oranges"],
+//         });
+//         await robot.save()
+//         const invalidRobotId = '12345';
+//         const response = await request(app)
+//             .put(`/robot/${invalidRobotId}/mood`)
+//             .send({ currency: 10 });
+//         expect(response.statusCode).toBe(400);
+//         expect(response.body.message).toBe('Failed to update robot mood');
+//     });
+// });
 
 describe('DELETE Robot', () => {
     beforeEach(async () => {
@@ -889,6 +1047,7 @@ describe('PUT change Stats On Login', () => {
         expect(mockRobot.batteryLife).toBe(90);
         expect(mockRobot.hardware).toBe(85);
         expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.mood).toBe('Happy');
         expect(mockRobot.save).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
@@ -922,6 +1081,54 @@ describe('PUT change Stats On Login', () => {
         expect(mockRobot.save).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should reduce battery by 35 and hardware by 5 ', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.5);
+        mockRobot.batteryLife -= 25
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(65);
+        expect(mockRobot.hardware).toBe(95);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(mockRobot.mood).toBe('Happy')
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should reduce battery by 40 and hardware by 70 making sure mood is Sad', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.5);
+
+        mockRobot.batteryLife -= 30
+        mockRobot.hardware -= 65
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(60);
+        expect(mockRobot.hardware).toBe(30);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.mood).toBe('Sad')
+    });
+
+    it('should reduce battery by 10 and hardware by 70 making sure mood is Sad', async () => {
+        jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.5);
+
+        mockRobot.hardware -= 65
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.batteryLife).toBe(90);
+        expect(mockRobot.hardware).toBe(30);
+        expect(mockRobot.currency).toBe(200);
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(mockRobot.mood).toBe('Sad')
     });
 
     it('should change mood to sad if battery <30 && hardware <=50', async () => {
@@ -1051,6 +1258,58 @@ describe('PUT lower battery', () => {
         .send();
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.batteryLife).toEqual(95)
+        expect(response.body.robot.mood).toEqual("Happy")
+    });
+
+    it('Should trigger mood change to sad', async () => {
+        
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 30,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 40,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/lowerbattery`)
+        .send();
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.batteryLife).toEqual(25)
+        expect(response.body.robot.mood).toEqual("Sad")
+    });
+    it('Should trigger mood to change to neutral', async () => {
+        
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 60,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/lowerbattery`)
+        .send();
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.batteryLife).toEqual(55)
+        expect(response.body.robot.mood).toEqual("Neutral")
     });
 });
 
