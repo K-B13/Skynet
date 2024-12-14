@@ -8,7 +8,7 @@ const RobotScreen = (props) => {
                     <p id='currency'>${props.currency}</p>
                     </div>
                     <div id='robot-image-container'>
-                        <img id='robot-image' src={props.image} style={{width:100, height:100}}/> 
+                        <img id='robot-image' src={props.image}/> 
                     </div>
                     <div id='robot-stats'>
                         <p id='name'>Name: {props.name} </p>

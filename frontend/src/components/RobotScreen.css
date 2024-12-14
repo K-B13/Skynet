@@ -67,3 +67,8 @@
 #robot-speach {
     font-size: 0.7rem;
 }
+
+#robot-image{
+    width:200px;
+    height: 200px;
+}

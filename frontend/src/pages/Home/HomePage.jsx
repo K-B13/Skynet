@@ -4,10 +4,12 @@ import "./HomePage.css";
 
 export function HomePage() {
   return (
-    <div className="home">
+    <div id="home">
+      <div id="sign-in-box">
       <h1>Welcome to Skynet!</h1>
-      <Link to="/signup">Sign Up</Link>
-      <Link to="/login">Log In</Link>
+      <Link to="/signup"><button id="sign-up-button">Sign Up</button></Link>
+      <Link to="/login"><button id="login-button">Log in</button></Link>
+      </div>
     </div>
   );
 }

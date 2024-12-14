@@ -59,7 +59,7 @@ const LandingPage = () => {
     }
 
     return (
-        <>
+        <div className="landing-page">
         <RobotScreen
             name={robotData.name}
             currency={robotData.currency}
@@ -103,7 +103,7 @@ const LandingPage = () => {
                     robotId={robotData._id}/>
             </div>
         </div>
-        </>
+        </div>
     )
 }
 

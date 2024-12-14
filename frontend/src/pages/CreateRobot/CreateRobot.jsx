@@ -54,6 +54,7 @@ const CreateRobot = () => {
     }
 
     return (
+        <div id="create-robot-background">
         <div id='create-robot-page'>
             <h2 id='create-robot-heading'>Create Robot</h2>
             <form id='create-robot-form'
@@ -107,6 +108,7 @@ const CreateRobot = () => {
                     >Submit</button>
                 </div>
             </form>
+        </div>
         </div>
     )
 }
