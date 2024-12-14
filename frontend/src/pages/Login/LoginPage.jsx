@@ -5,7 +5,7 @@ import { getRobotByUserId } from "../../services/robot";
 import { changeStatsOnLogin } from "../../services/robot";
 
 import { login } from "../../services/authentication";
-
+import "./LoginPage.css"
 export function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -60,7 +60,7 @@ export function LoginPage() {
   }
 
   return (
-    <div>
+    <div id="login-page">
       <h2>Login</h2>
       {message && <p>{message}</p>}
       {errorMessage && <p>{errorMessage}</p>}

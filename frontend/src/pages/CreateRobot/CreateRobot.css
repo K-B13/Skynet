@@ -1,4 +1,4 @@
-body {
+#create-robot-background{
     background-image: url('./Createbot.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -6,6 +6,8 @@ body {
     background-attachment: fixed;
     margin: 0;
     padding: 0;
+    height: 100vh;
+    width: 100vw;
 }
 
 #create-robot-page {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { signup } from "../../services/authentication";
+import "./SignupPage.css"
 
 export function SignupPage() {
   const [email, setEmail] = useState("");
@@ -39,7 +40,7 @@ export function SignupPage() {
   }
 
   return (
-    <div>
+    <div id="signup">
       <h2>Sign Up</h2>
       {
         showErrors.message &&
