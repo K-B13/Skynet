@@ -9,16 +9,42 @@ const BWAMChoice = ({ setCurrentChoice, relatedPic, selectedChoice, setSelectedC
         }
     }
     return (
-        <div>
+        <div id='BWAM-choices-container'>
             <button
-            onClick = {() => handleNewPick('Battery')}
-            ><img src={relatedPic['Battery']} width='60rem' height='60rem'/></button>
+                id='BWAM-choice-battery'
+                onClick = {() => handleNewPick('Battery')}
+            >
+                <img 
+                    src={relatedPic['Battery']} 
+                    id='BWAM-choice-battery-pic'
+                    width='100rem' 
+                    height='100rem'
+                />
+            </button>
+
             <button
-            onClick = {() => handleNewPick('Wires')}
-            ><img src={relatedPic['Wires']} width='60rem' height='60rem'/></button>
+                id='BWAM-choice-wires'
+                onClick = {() => handleNewPick('Wires')}
+            >
+                <img 
+                    src={relatedPic['Wires']} 
+                    id='BWAM-choice-wires-pic'
+                    width='100rem' 
+                    height='100rem'
+                />
+            </button>
+            
             <button
-            onClick = {() => handleNewPick('Motherboard')}
-            ><img src={relatedPic['Motherboard']} width='60rem' height='60rem'/></button>
+                id='BWAM-choice-motherboard'
+                onClick = {() => handleNewPick('Motherboard')}
+            >
+                <img 
+                    src={relatedPic['Motherboard']} 
+                    id='BWAM-choice-motherboard-pic'
+                    width='100rem' 
+                    height='100rem'
+                />
+            </button>
         </div>
     )
 }
