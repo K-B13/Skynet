@@ -1,13 +1,26 @@
 import { useState } from "react"
+import battery from '/BWAM/battery.jpg'
+import wires from '/BWAM/wires.jpg'
+import motherboard from '/BWAM/motherboard.jpg'
+import BWAMChoice from "../../components/BWAM/BWAMChoice"
+import BWAMRules from "../../components/BWAM/BWAMRules"
+import BWAMResults from "../../components/BWAM/BWAMResults"
 
 const BWAM = () => {
     const [ userChoice,setUserChoice ] = useState('')
     const [ outcome, setOutcome ] = useState('')
+    const [ robotChoice, setRobotChoice ] = useState('')
     const options = [
         'Battery',
         'Wires',
         'Motherboard'
     ]
+
+    const relatedPic = {
+        Battery: battery,
+        Wires: wires,
+        Motherboard: motherboard
+    }
 
     const robotAi = () => {
         const rdm = Math.floor(Math.random() * 3)
@@ -16,7 +29,7 @@ const BWAM = () => {
 
     const checkWinner = (userPick) => {
         const robotPick = robotAi()
-        console.log(robotPick)
+        setRobotChoice(robotPick)
         switch (userPick) {
             case 'Battery':
                 if (robotPick === 'Battery') {
@@ -51,25 +64,9 @@ const BWAM = () => {
     }
     return (
         <div>
-            <div>
-                <p>Rules: </p>
-                <p>Battery beats Wires</p>
-                <p>Wires beats Motherboard</p>
-                <p>Motherboard beats Battery</p>
-            </div>
-            {outcome && <p>Result = {outcome}</p>}
-            <p>{userChoice}</p>
-            <div>
-                <button
-                onClick = {() => setUserChoice('Battery')}
-                >Battery</button>
-                <button
-                onClick = {() => setUserChoice('Wires')}
-                >Wires</button>
-                <button
-                onClick = {() => setUserChoice('Motherboard')}
-                >Motherboard</button>
-            </div>
+            <BWAMRules />
+            <BWAMResults outcome={outcome} userChoice={userChoice} robotChoice={robotChoice} relatedPic={relatedPic}/>
+            <BWAMChoice setUserChoice={setUserChoice} relatedPic={relatedPic}/>
             <button
             onClick={() => {
                 const result = checkWinner(userChoice)
