@@ -55,20 +55,18 @@ const EnergyButtons = (props) => {
     }
 
     return (
-        <>
-            <div id='energy-buttons'>
-                <button id='charge-by-10'
-                onClick={handleChargeByTen}>
-                    charge +10
-                </button>
-                <button id='charge-to-full'
-                onClick={handleChargeToFull}>
-                    charge full
-                </button>
-                <button
-                onClick={decreaseBattery}>decreaseBattery [TESTING]</button>
-            </div>
-        </>
+        <div id='energy-buttons'>
+            <button id='charge-by-10'
+            onClick={handleChargeByTen}>
+                charge +10
+            </button>
+            <button id='charge-to-full'
+            onClick={handleChargeToFull}>
+                charge full
+            </button>
+            <button
+            onClick={decreaseBattery}>decreaseBattery [TESTING]</button>
+        </div>
     )
 }
 

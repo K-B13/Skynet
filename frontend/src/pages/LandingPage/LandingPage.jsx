@@ -7,7 +7,7 @@ import RepairButton from "../../components/RepairButton"
 import SpeakButton from "../../components/SpeakButton"
 import EnergyButtons from "../../components/EnergyButtons"
 import KillButton from "../../components/KillButton"
-
+import './LandingPage.css'
 
 const LandingPage = () => {
 
@@ -78,25 +78,31 @@ const LandingPage = () => {
 
         )}
 
-        <EnergyButtons
-            setRobotData={setRobotData}
-            robotId={robotData._id}
-            batteryLife={robotData.batteryLife}/>
-        <MemoryButtons
-            setRobotData={setRobotData}
-            robotId={robotData._id}
-            memoryCapacity={robotData.memoryCapacity}
-            setDidNotLearn={setDidNotLearn}
-        />
-        <RepairButton
-            setRobotData={setRobotData}
-            robotId={robotData._id}/>
-        <SpeakButton 
-            constructSpeach={constructSpeach} 
-            />
-        <KillButton
-            setRobotData={setRobotData}
-            robotId={robotData._id}/>
+        <div id='button-container'>
+            <div id='button-contianer-upper'>
+                <EnergyButtons
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}
+                    batteryLife={robotData.batteryLife}/>
+                <MemoryButtons
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}
+                    memoryCapacity={robotData.memoryCapacity}
+                    setDidNotLearn={setDidNotLearn}
+                />
+                <RepairButton
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}/>
+            </div>
+            <div id='button-contianer-lower'>
+                <SpeakButton 
+                    constructSpeach={constructSpeach} 
+                    />
+                <KillButton
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}/>
+            </div>
+        </div>
         </>
     )
 }

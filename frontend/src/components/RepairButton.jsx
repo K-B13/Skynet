@@ -14,11 +14,11 @@ const RepairButton = (props) => {
     }
 
     return (
-        <>
+        <div id='repair-button-container'>
             <button id='repair-button'
             onClick={handleRepair}
             >Repair Hardware</button>
-        </>
+        </div>
     )
 }
 
