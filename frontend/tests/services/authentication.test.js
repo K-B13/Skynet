@@ -66,7 +66,7 @@ describe("authentication service", () => {
     describe("signup", () => {
         test("calls the backend url for a token", async () => {
             const testEmail = "test@testEmail.com";
-            const testPassword = "12345678";
+            const testPassword = "Something1!";
 
             fetch.mockResponseOnce("", {
                 status: 201,

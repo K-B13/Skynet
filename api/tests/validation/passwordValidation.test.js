@@ -25,7 +25,7 @@ describe("Password Validation", () => {
         it("password of length 7 should fail", () => {
             const password = passwordMinLength("finally");
             expect(password.passes).toEqual(false);
-            expect(password.message).toEqual("password is too short");
+            expect(password.message).toEqual("Password is too short");
         });
     });
 
@@ -43,7 +43,7 @@ describe("Password Validation", () => {
         it("password of length 21 should fail", () => {
             const password = passwordMaxLength("K3@d9Zv!6Y2Q#xTp$1nMl");
             expect(password.passes).toEqual(false);
-            expect(password.message).toEqual("password is too long");
+            expect(password.message).toEqual("Password is too long");
         });
     });
 
@@ -56,7 +56,7 @@ describe("Password Validation", () => {
         it("password does not have special character", () => {
             const password = passwordSpecialCharacter("finally");
             expect(password.passes).toEqual(false);
-            expect(password.message).toEqual("password does not have special character");
+            expect(password.message).toEqual("Password does not have special character");
         });
     });
 
@@ -69,7 +69,7 @@ describe("Password Validation", () => {
         it("password does not have an integer", () => {
             const password = passwordHasAnInteger("finally");
             expect(password.passes).toEqual(false);
-            expect(password.message).toEqual("password does not have an integer");
+            expect(password.message).toEqual("Password does not have an integer");
         });
     });
 
@@ -82,7 +82,7 @@ describe("Password Validation", () => {
         it("password does not have an uppercase letter", () => {
             const password = passwordIncludesUpperCase("finally");
             expect(password.passes).toEqual(false);
-            expect(password.message).toEqual("password does not have an upper case letter");
+            expect(password.message).toEqual("Password does not have an upper case letter");
         });
     });
 
@@ -95,7 +95,7 @@ describe("Password Validation", () => {
         it("password does not have a lowercase letter", () => {
             const password = passwordIncludesLowerCase("FINALLY");
             expect(password.passes).toEqual(false);
-            expect(password.message).toEqual("password does not have a lower case letter");
+            expect(password.message).toEqual("Password does not have a lower case letter");
         });
     });
 
@@ -108,7 +108,7 @@ describe("Password Validation", () => {
         it("password is not a string", () => {
             const password = passwordIsString(24);
             expect(password.passes).toEqual(false);
-            expect(password.message).toEqual("password must be a string");
+            expect(password.message).toEqual("Password must be a string");
         });
     });
 
@@ -121,19 +121,19 @@ describe("Password Validation", () => {
         it("password has a trailing space", () => {
             const password = passwordNoTrailingSpaces("Something1? ");
             expect(password.passes).toEqual(false);
-            expect(password.message).toEqual("password must not have spaces on either end of the password");
+            expect(password.message).toEqual("Password must not have spaces on either end of the password");
         });
 
         it("password has a leading space", () => {
             const password = passwordNoTrailingSpaces(" Something1?");
             expect(password.passes).toEqual(false);
-            expect(password.message).toEqual("password must not have spaces on either end of the password");
+            expect(password.message).toEqual("Password must not have spaces on either end of the password");
         });
 
         it("password has a trailing and leading space", () => {
             const password = passwordNoTrailingSpaces(" Something1? ");
             expect(password.passes).toEqual(false);
-            expect(password.message).toEqual("password must not have spaces on either end of the password");
+            expect(password.message).toEqual("Password must not have spaces on either end of the password");
         });
     });
 
@@ -146,19 +146,19 @@ describe("Password Validation", () => {
         it("password something1? which should have 1 error", () => {
             const passwordErrors = allPasswordChecks("something1?");
             expect(passwordErrors.length).toEqual(1);
-            expect(passwordErrors[0]).toEqual("password does not have an upper case letter");
+            expect(passwordErrors[0]).toEqual("Password does not have an upper case letter");
         });
 
         it("password Something? which should have 1 error", () => {
             const passwordErrors = allPasswordChecks("Something?");
             expect(passwordErrors.length).toEqual(1);
-            expect(passwordErrors[0]).toEqual("password does not have an integer");
+            expect(passwordErrors[0]).toEqual("Password does not have an integer");
         });
 
         it("password S0mething which should have 1 error", () => {
             const passwordErrors = allPasswordChecks("S0mething");
             expect(passwordErrors.length).toEqual(1);
-            expect(passwordErrors[0]).toEqual("password does not have special character");
+            expect(passwordErrors[0]).toEqual("Password does not have special character");
         });
 
         it("empty password, which should have 1 error", () => {
@@ -182,32 +182,32 @@ describe("Password Validation", () => {
         it("password with multiple errors: short, no uppercase, no special char, no integer, trailing space", () => {
             const passwordErrors = allPasswordChecks("some ");
             expect(passwordErrors.length).toEqual(5);
-            expect(passwordErrors[0]).toEqual("password is too short");
-            expect(passwordErrors[1]).toEqual("password does not have an upper case letter");
-            expect(passwordErrors[2]).toEqual("password does not have special character");
-            expect(passwordErrors[3]).toEqual("password does not have an integer");
-            expect(passwordErrors[4]).toEqual("password must not have spaces on either end of the password");
+            expect(passwordErrors[0]).toEqual("Password is too short");
+            expect(passwordErrors[1]).toEqual("Password does not have an upper case letter");
+            expect(passwordErrors[2]).toEqual("Password does not have special character");
+            expect(passwordErrors[3]).toEqual("Password does not have an integer");
+            expect(passwordErrors[4]).toEqual("Password must not have spaces on either end of the password");
         });
 
         it("password with multiple errors: too long, no lowercase", () => {
             const passwordErrors = allPasswordChecks("ABCDEFGHIJKLMNOPQRSTUVWXYZ1!");
             expect(passwordErrors.length).toEqual(2);
-            expect(passwordErrors[0]).toEqual("password is too long");
-            expect(passwordErrors[1]).toEqual("password does not have a lower case letter");
+            expect(passwordErrors[0]).toEqual("Password is too long");
+            expect(passwordErrors[1]).toEqual("Password does not have a lower case letter");
         });
 
         it("password with multiple errors: no special char, no integer", () => {
             const passwordErrors = allPasswordChecks("Something");
             expect(passwordErrors.length).toEqual(2);
-            expect(passwordErrors[0]).toEqual("password does not have special character");
-            expect(passwordErrors[1]).toEqual("password does not have an integer");
+            expect(passwordErrors[0]).toEqual("Password does not have special character");
+            expect(passwordErrors[1]).toEqual("Password does not have an integer");
         });
 
         it("password with multiple errors: no special char, no uppercase", () => {
             const passwordErrors = allPasswordChecks("something1");
             expect(passwordErrors.length).toEqual(2);
-            expect(passwordErrors[0]).toEqual("password does not have an upper case letter");
-            expect(passwordErrors[1]).toEqual("password does not have special character");
+            expect(passwordErrors[0]).toEqual("Password does not have an upper case letter");
+            expect(passwordErrors[1]).toEqual("Password does not have special character");
         });
     });
 });

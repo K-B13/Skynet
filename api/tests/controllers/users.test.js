@@ -85,7 +85,7 @@ describe("/users", () => {
       const response = await request(app)
         .post("/users")
         .send({ email: "testemail9@@test.com", password: "Something1?" });
-        expect(response.statusCode).toBe(400)
+        expect(response.statusCode).toBe(406)
         expect(response.body.emailErrors).toEqual(['Email must be in the correct format'])
     })
 
@@ -93,8 +93,8 @@ describe("/users", () => {
       const response = await request(app)
         .post("/users")
         .send({ email: "testemail9@test.com", password: "n0capitals!" });
-        expect(response.statusCode).toBe(400)
-        expect(response.body.passwordErrors).toEqual(['password does not have an upper case letter'])
+        expect(response.statusCode).toBe(406)
+        expect(response.body.passwordErrors).toEqual(['Password does not have an upper case letter'])
     })
   })
 
@@ -196,7 +196,7 @@ describe("/users", () => {
       .set("Authorization", `Bearer ${token}`)
       .send({ password: "Something" });
       expect(response.status).toEqual(400)
-      expect(response.body.passwordErrors).toEqual(['password does not have special character', 'password does not have an integer'])
+      expect(response.body.passwordErrors).toEqual(['Password does not have special character', 'Password does not have an integer'])
       const foundUser = await User.findById(user._id)
       expect(foundUser.email).toEqual("someone@example.com");
       expect(foundUser.password).toEqual("Something1?");
