@@ -16,6 +16,8 @@ const LandingPage = () => {
     const [robotData, setRobotData] = useState({});
     const [didNotLearn, setDidNotLearn] = useState(false)
     const [ robotSpeach, setRobotSpeach ] = useState('')
+    const [showSergei, setShowSergei] = useState(false);
+    const [renderImage, setRenderImage] = useState(false);
 
     const navigate = useNavigate()
 
@@ -48,6 +50,19 @@ const LandingPage = () => {
         return () => clearInterval(intervalId);
     }, [robotData._id]);
 
+    useEffect(() => {
+        if (robotData.currency < 50) {
+            setRenderImage(true); 
+            setTimeout(() => setShowSergei(true), 10);
+            const timer = setTimeout(() => {
+                setShowSergei(false); 
+                setTimeout(() => setRenderImage(false), 1000);
+            }, 15000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [robotData.currency]);
+
     const constructSpeach = (dealWithOpinions) => {
         const initialGreetings = `Hello, I am ${robotData.name}. `
         const likes = dealWithOpinions(robotData.likes, 'like')
@@ -63,6 +78,7 @@ const LandingPage = () => {
     }
 
     return (
+        <>
         <div className="landing-page">
         <RobotScreen
             name={robotData.name}
@@ -116,7 +132,11 @@ const LandingPage = () => {
         </div>
         <Link to="/boltgame"><button id="bolt-game-button">Play bolt game</button></Link>
         <Link to="/virussweeper"><button id="bolt-game-button">Play virus sweeper</button></Link>
+        {renderImage && (
+            <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
+        )}
         </div>
+        </>
     )
 }
 
