@@ -8,6 +8,8 @@ import SpeakButton from "../../components/SpeakButton"
 import EnergyButtons from "../../components/EnergyButtons"
 import KillButton from "../../components/KillButton"
 import './LandingPage.css'
+import {Link} from 'react-router-dom'
+
 
 const LandingPage = () => {
 
@@ -103,6 +105,8 @@ const LandingPage = () => {
                     robotId={robotData._id}/>
             </div>
         </div>
+        <p> Temporary link!</p>
+        <Link to="/boltgame"><button id="bolt-game-button">Play bolt game</button></Link>
         </div>
     )
 }

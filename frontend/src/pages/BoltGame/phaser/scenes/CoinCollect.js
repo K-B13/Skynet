@@ -1,19 +1,9 @@
-
-// You can write more code here
-
-/* START OF COMPILED CODE */
-
-/* START-USER-IMPORTS */
-/* END-USER-IMPORTS */
-
 export default class CoinCollect extends Phaser.Scene {
 
-	constructor() {
+	constructor(onGameOver) {
 		super("CoinCollect");
-
-		/* START-USER-CTR-CODE */
-		// Write your code here.
-		/* END-USER-CTR-CODE */
+		this.onGameOver = onGameOver;
+		this.gameOver = false;
 	}
 
 	/** @returns {void} */
@@ -149,6 +139,20 @@ export default class CoinCollect extends Phaser.Scene {
 
 	create() {
 		this.editorCreate();
+		console.log('CoinCollect scene created');
+		
+		console.log("onGameOver callback retrieved:", this.onGameOver);
+
+		this.events.on('game-over', (finalScore) => {
+			console.log('Game-over event received with score:', finalScore);
+			
+			if (typeof this.onGameOver === 'function') {
+				console.log('Calling onGameOver callback with score:', finalScore); // Add this log
+				this.onGameOver(finalScore); // Call the provided callback with the final score
+			} else {
+				console.log('onGameOver callback not found'); // Add a log for the missing callback
+			}
+		});
 
 		this.bolt.body.setVelocityY(this.boltSpeed);
 
@@ -211,13 +215,15 @@ export default class CoinCollect extends Phaser.Scene {
 
 update() {
     // Check if the bolt goes out of bounds
-    if (this.bolt.y > this.scale.height) { // Assume the game height matches scale.height
+    if (this.bolt.y > this.scale.height && !this.gameOver) { // Assume the game height matches scale.height
         this.triggerGameOver();
     }
 }
 
 // Game Over logic
 triggerGameOver() {
+	if(this.gameOver) return;
+	this.gameOver = true;
     // Display "Game Over"
     this.gameOverText.setVisible(true);
 
@@ -228,7 +234,13 @@ triggerGameOver() {
     this.left_key.enabled = false;
     this.right_key.enabled = false;
 
+	const finalScore = Number(this.score.text);
+	localStorage.setItem('finalScore', finalScore);
+	console.log('Emitting game-over event with score:', finalScore); 
+	this.events.emit('game-over', finalScore);
 	}
+
+	
 collide = (a, b) => {
         this.score.text = Number(this.score.text) + 1
 		const maxSpeed = 1000; // Set a maximum speed
@@ -239,9 +251,4 @@ collide = (a, b) => {
         b.y = 0
 		b.body.setVelocityY(this.boltSpeed);
     }
-	/* END-USER-CODE */
 }
-
-/* END OF COMPILED CODE */
-
-// You can write more code here

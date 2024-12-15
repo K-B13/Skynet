@@ -8,3 +8,8 @@
     padding: 0; /* Remove any default padding */
     overflow: hidden; /* Ensure no scrollbars appear */
 }
+
+#robot-game-rules-page{
+    width: 60vw;
+    height: 60vh;
+}

@@ -1,19 +1,30 @@
-// src/components/PhaserGame.js
 import { useEffect } from 'react';
 import { createGame } from './phaser/boltmain'; 
+import {useNavigate} from 'react-router-dom'
+import {updateRobotCurrency} from '../../services/robot'
 
-const PhaserGame = () => {
+const RobotBoltGame = ({robotId}) => {
+    const navigate = useNavigate();
+
     useEffect(() => {
-    const game = createGame('game-container');
+        const handleGameOver = async (finalScore) => {
+            const response = await updateRobotCurrency(robotId, finalScore);
+            if(response.message === "robot currency updated"){
+                navigate('/landingpage')
+            }
+        };
+
+        const createdGame = createGame('game-container', handleGameOver);
 
     return () => {
-        game.destroy(true);
+        createdGame.destroy(true);
     };
     }, []);
 
     return (
-    <div id="game-container"></div>
+        <div id="game-container"></div>
+        
     );
     };
 
-export default PhaserGame;
+export default RobotBoltGame;
