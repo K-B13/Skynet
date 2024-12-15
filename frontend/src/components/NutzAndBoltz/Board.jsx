@@ -1,22 +1,20 @@
-import Tile from "./Tile"
-import { useState, useEffect } from "react"
-import washer from '/NAB/washer.png'
-import screw from '/NAB/screw.png'
-const Board = ({ winner, setWinner}) => {
-    const [ currentIcon, setCurrentIcon ] = useState(screw)
-    const [ disableUserClick, setDisableUserClick ] = useState(false)
-    const [ boardState, setBoardState ] = useState(Array(9).fill(null))
-    const [ userInfo, setUserInfo ] = useState({
+import Tile from "./Tile";
+import { useState, useEffect } from "react";
+import washer from "/NAB/washer.png";
+import screw from "/NAB/screw.png";
+
+const Board = ({ winner, setWinner }) => {
+    const [currentIcon, setCurrentIcon] = useState(screw);
+    const [disableUserClick, setDisableUserClick] = useState(false);
+    const [boardState, setBoardState] = useState(Array(9).fill(null));
+    const [userInfo, setUserInfo] = useState({
         userMoves: [],
-        userIcon: screw
-    })
-    const [ robotInfo, setRobotInfo ] = useState({
+        userIcon: screw,
+    });
+    const [robotInfo, setRobotInfo] = useState({
         robotMoves: [],
-        robotIcon: washer
-    })
-    
-    const [ allMoves, setAllMoves ] = useState([])
-    let end = false
+        robotIcon: washer,
+    });
 
     const winArray = [
         ["0", "1", "2"],
@@ -27,133 +25,116 @@ const Board = ({ winner, setWinner}) => {
         ["2", "4", "6"],
         ["3", "4", "5"],
         ["6", "7", "8"],
-    ]
+    ];
 
     const getAvailableTiles = () => {
-        const allTiles = ['0', '1', '2', '3', '4', '5', '6', '7', '8']
-        return allTiles.filter((tile) => !allMoves.includes(tile))
-    }
-        
+        return boardState
+            .map((value, index) => (value === null ? index.toString() : null))
+            .filter((tile) => tile !== null);
+    };
 
-     // Robot's AI to make a move
+    const calculateWinner = (moves) => {
+        return winArray.some((combo) => combo.every((tile) => moves.includes(tile)));
+    };
+
+    const handleTileClick = (e) => {
+        const tile = e.target.value;
+
+        if (winner || boardState[tile] !== null) return;
+
+        // Update board state
+        const updatedBoardState = [...boardState];
+        updatedBoardState[parseInt(tile)] = currentIcon;
+        setBoardState(updatedBoardState);
+
+        // Update user moves
+        const updatedUserMoves = [...userInfo.userMoves, tile];
+        setUserInfo((prev) => ({
+            ...prev,
+            userMoves: updatedUserMoves,
+        }));
+
+        // Check for a win or draw
+        if (calculateWinner(updatedUserMoves)) {
+            setWinner("User");
+            return;
+        }
+
+        if (updatedUserMoves.length + robotInfo.robotMoves.length === 9) {
+            setWinner("Draw");
+            return;
+        }
+
+        // Pass the turn to the robot
+        setCurrentIcon(robotInfo.robotIcon);
+        setDisableUserClick(true);
+        };
+
     const robotMakeMove = () => {
         if (winner) return;
 
-        const availableTiles = getAvailableTiles()
+        const availableTiles = getAvailableTiles();
 
-         // Check if the robot can win
+        // Try to win
         for (let tile of availableTiles) {
             const testMoves = [...robotInfo.robotMoves, tile];
-            if (calculateWinner(testMoves, 'Robot')) {
-                handleUpdateMoves(tile, setRobotInfo, 'robotMoves')
-                setAllMoves(prev => [...prev, tile])
-                setBoardState(((prevState) => {
-                    const newState = [...prevState]
-                    newState[parseInt(tile)] = currentIcon
-                    return newState
-                }))
-                setCurrentIcon(userInfo.userIcon)
-                setDisableUserClick(false)
-                return
+            if (calculateWinner(testMoves)) {
+                makeRobotMove(tile);
+                setWinner("Robot");
+                return;
             }
         }
 
-         // Lets check if the User can win and block it
+        // Try to block user from winning
         for (let tile of availableTiles) {
-            const testMoves = [...userInfo.userMoves, tile]
-            if (calculateWinner(testMoves, 'User')){
-                handleUpdateMoves(tile, setRobotInfo, 'robotMoves')
-                setAllMoves(prev => [...prev, tile])
-                setBoardState(((prevState) => {
-                    const newState = [...prevState]
-                    newState[parseInt(tile)] = currentIcon
-                    return newState
-                }))
-                setCurrentIcon(userInfo.userIcon)
-                setDisableUserClick(false)
-                return
+            const testMoves = [...userInfo.userMoves, tile];
+            if (calculateWinner(testMoves)) {
+                makeRobotMove(tile);
+                return;
             }
         }
 
-         // If neither the above possible make random move
-        const randomTile = availableTiles[Math.floor(Math.random() * availableTiles.length)]
-        handleUpdateMoves(randomTile, setRobotInfo, 'robotMoves')
-        setAllMoves(prev => [...prev, randomTile])
-        setBoardState(((prevState) => {
-            const newState = [...prevState]
-            newState[parseInt(randomTile)] = currentIcon
-            return newState
-        }))
-        setCurrentIcon(userInfo.userIcon)
-        setDisableUserClick(false)
-    }
+    // Make a random move
+    const randomTile = availableTiles[Math.floor(Math.random() * availableTiles.length)];
+    makeRobotMove(randomTile);
+    };
 
-    const handleTileClick = (e) => {
-        handleTurnChange(e.target.value)
-        setAllMoves([...allMoves, e.target.value])
-        setBoardState((prevState) => {
-            const newState = [...prevState]
-            newState[parseInt(e.target.value)] = currentIcon
-            return newState
-        })
-        setDisableUserClick(true)
-    }
+    const makeRobotMove = (tile) => {
+        const updatedBoardState = [...boardState];
+        updatedBoardState[parseInt(tile)] = robotInfo.robotIcon;
+        setBoardState(updatedBoardState);
 
-    const handleTurnChange = (tileNum) => {
-        if(currentIcon === userInfo.userIcon) {
-            handleUpdateMoves(tileNum, setUserInfo, 'userMoves')
-            setCurrentIcon(robotInfo.robotIcon)
+        const updatedRobotMoves = [...robotInfo.robotMoves, tile];
+        setRobotInfo((prev) => ({
+            ...prev,
+            robotMoves: updatedRobotMoves,
+        }));
+
+        if (calculateWinner(updatedRobotMoves)) {
+            setWinner("Robot");
+            return;
         }
-        else {
-            handleUpdateMoves(tileNum, setRobotInfo, 'robotMoves') 
-            setCurrentIcon(userInfo.userIcon)
-        }
-    }
 
-    const handleUpdateMoves = (tileNum, arrayToUpdate, whoseMove) => {
-        arrayToUpdate(prevData => {
-            return { ...prevData, [whoseMove]: [...prevData[whoseMove], tileNum]}
-        })
-    }
-
-    const calculateWinner = (moveArray) => {
-        if(moveArray.length > 2) {
-            for(let i = 0; i < winArray.length; i++){
-                const winCombo = winArray[i]
-                const hasWon = winCombo.every(el => moveArray.includes(el))
-                if(hasWon) {
-                    return true
-                }
-            }
+        if (updatedRobotMoves.length + userInfo.userMoves.length === 9) {
+            setWinner("Draw");
+            return;
         }
-        return false
-    }
+
+        // Pass the turn back to the user
+        setCurrentIcon(userInfo.userIcon);
+        setDisableUserClick(false);
+        };
 
     useEffect(() => {
-        if (calculateWinner(userInfo.userMoves, 'User')) {
-            setWinner('User')
-            console.log('User has won')
-        } 
-    }, [userInfo.userMoves])
-
-    useEffect(() => {
-        if (calculateWinner(robotInfo.robotMoves, 'Robot')) {
-            setWinner('Robot')
-            console.log('Robot has won')
-        } else if (
-            userInfo.userMoves.length === 5 &&
-            robotInfo.robotMoves.length === 4
-        ) {
-            console.log('Its a Draw!')
-            setWinner('Draw')
-        } else if (currentIcon === robotInfo.robotIcon) {
-            setTimeout(robotMakeMove, 500)
+        if (currentIcon === robotInfo.robotIcon && !winner) {
+            const timeout = setTimeout(robotMakeMove, 500);
+            return () => clearTimeout(timeout);
         }
-    }, [robotInfo.robotMoves, currentIcon, winner])
+        }, [currentIcon, winner]);
 
     return (
         <div>
-            {currentIcon === userInfo.userIcon ? <h4>Your Move!</h4>: <h4>{"Robot's Move"}</h4>}
+            {!winner && (currentIcon === userInfo.userIcon ? <h4>Your Move!</h4>: <h4>{"Robot's Move"}</h4>)}
             <div>
                 <Tile num='0' icon={boardState[0]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
                 <Tile num='1' icon={boardState[1]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
