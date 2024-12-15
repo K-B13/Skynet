@@ -133,24 +133,15 @@ export default class CoinCollect extends Phaser.Scene {
 	/** @type {Phaser.Physics.Arcade.Collider} */
 	collider;
 
-	/* START-USER-CODE */
-
-	// Write your code here
-
 	create() {
 		this.editorCreate();
-		console.log('CoinCollect scene created');
-		
-		console.log("onGameOver callback retrieved:", this.onGameOver);
 
 		this.events.on('game-over', (finalScore) => {
-			console.log('Game-over event received with score:', finalScore);
 			
 			if (typeof this.onGameOver === 'function') {
-				console.log('Calling onGameOver callback with score:', finalScore); // Add this log
-				this.onGameOver(finalScore); // Call the provided callback with the final score
+				this.onGameOver(finalScore); 
 			} else {
-				console.log('onGameOver callback not found'); // Add a log for the missing callback
+				console.log('onGameOver callback not found'); 
 			}
 		});
 
@@ -173,7 +164,7 @@ export default class CoinCollect extends Phaser.Scene {
 		this.bolt.x = first_position.x
         this.bolt.y = 0,0
 
-		this.boltSpeed = 100; // Initial speed (pixels per second)
+		this.boltSpeed = 100; 
 		this.speedIncrement = 10;
 
 
@@ -209,13 +200,12 @@ export default class CoinCollect extends Phaser.Scene {
         color: "#ff0000",
         fontStyle: "bold",
         align: "center"
-    }).setOrigin(0.5); // Center the text
-    this.gameOverText.setVisible(false); // Hide initially
+    }).setOrigin(0.5); 
+    this.gameOverText.setVisible(false); 
 }
 
 update() {
-    // Check if the bolt goes out of bounds
-    if (this.bolt.y > this.scale.height && !this.gameOver) { // Assume the game height matches scale.height
+    if (this.bolt.y > this.scale.height && !this.gameOver) { 
         this.triggerGameOver();
     }
 }
@@ -224,13 +214,11 @@ update() {
 triggerGameOver() {
 	if(this.gameOver) return;
 	this.gameOver = true;
-    // Display "Game Over"
+    
     this.gameOverText.setVisible(true);
 
     // Stop the game mechanics
-    this.physics.pause(); // Stop all physics-based movement
-
-    // Disable player controls
+    this.physics.pause(); 
     this.left_key.enabled = false;
     this.right_key.enabled = false;
 
@@ -243,7 +231,7 @@ triggerGameOver() {
 	
 collide = (a, b) => {
         this.score.text = Number(this.score.text) + 1
-		const maxSpeed = 1000; // Set a maximum speed
+		const maxSpeed = 1000; 
 		this.boltSpeed = Math.min(this.boltSpeed + this.speedIncrement, maxSpeed);	
         const random_index = Phaser.Math.Between(0, 3)
         const random_position = this.positions[random_index]
