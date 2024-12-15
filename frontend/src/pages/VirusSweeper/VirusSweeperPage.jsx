@@ -1,6 +1,6 @@
 import VirusSweeperBoard from './VirusSweeperBoard.jsx'; 
 import './VirusSweeperPage.css';  
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getRobotByUserId} from "../../services/robot";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 
@@ -8,6 +8,7 @@ const VirusSweeperPage = () => {
 const mineImage = '/assets/virus.png'; 
 const [robotData, setRobotData] = useState({});
 const [gameStarted, setGameStarted] = useState(false);
+const audioRef = useRef(null);
 
 useEffect(() => {
     const fetchRobot = async() => {
@@ -15,7 +16,6 @@ useEffect(() => {
         const user = getPayloadFromToken(token);
         try {
             const robot = await getRobotByUserId(user.userId);
-            console.log(robot.robot);
             
             setRobotData(robot.robot);
         } catch (err) {
@@ -23,10 +23,17 @@ useEffect(() => {
         }
     }
     fetchRobot();
+    
 }, []);
 
 const handleStartGame = () => {
     setGameStarted(true);
+    if (audioRef.current) {
+        audioRef.current.play();
+    }
+
+    
+
 };
 
     return (
@@ -59,7 +66,12 @@ const handleStartGame = () => {
                 </div>
             ) : (
                 <VirusSweeperBoard robotId={robotData._id}rows={10} cols={10} mineCount={20} mineImage={mineImage} />
+
             )}
+                <audio ref={audioRef} loop>
+                <source src="/virussweepermusic.mp3" type="audio/mp3" />
+                Your browser does not support the audio element.
+                </audio>
     </div>
     );
 };
