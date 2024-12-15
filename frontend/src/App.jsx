@@ -6,6 +6,7 @@ import { LoginPage } from "./pages/Login/LoginPage";
 import { SignupPage } from "./pages/Signup/SignupPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import CreateRobot from "./pages/CreateRobot/CreateRobot";
+import RobotBoltGameRules from "./pages/BoltGame/RobotBoltGameRules";
 import BWAM from "./pages/BatteryWiresAndMotherboard/BWAM";
 
 // docs: https://reactrouter.com/en/main/start/overview
@@ -31,8 +32,13 @@ const router = createBrowserRouter([
     element: <CreateRobot />
   },
   {
+    path: "/boltgame",
+    element: <RobotBoltGameRules />
+  },
+  {
     path: "/bwam",
     element: <BWAM />
+
   }
 ]);
 

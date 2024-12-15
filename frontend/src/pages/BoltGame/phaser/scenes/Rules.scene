@@ -1,0 +1,124 @@
+{
+    "id": "fdcb3d79-c892-4e3c-a1c7-9a52efa318ab",
+    "sceneType": "SCENE",
+    "settings": {
+        "exportClass": true,
+        "autoImport": true,
+        "importFileExtension": true,
+        "preloadPackFiles": [],
+        "createMethodName": "editorCreate",
+        "sceneKey": "Rules",
+        "borderWidth": 1280,
+        "borderHeight": 720
+    },
+    "displayList": [
+        {
+            "type": "Rectangle",
+            "id": "af985d21-27b9-4105-adb4-c0f798a5b5c8",
+            "label": "rectangle_1",
+            "x": 631,
+            "y": 385,
+            "scaleX": 10.843245119073705,
+            "scaleY": 6.590886094560823,
+            "isFilled": true,
+            "fillColor": "#128393",
+            "width": 128,
+            "height": 128
+        },
+        {
+            "type": "Text",
+            "id": "ad9712ab-8598-43d5-8e94-e261d2da799f",
+            "label": "text_1",
+            "x": 484,
+            "y": 102,
+            "text": "Rules",
+            "align": "center",
+            "fontSize": "100px"
+        },
+        {
+            "type": "Text",
+            "id": "b4890ebc-26aa-4989-b883-a353d29be5d6",
+            "label": "text_2",
+            "x": 150,
+            "y": 240,
+            "scaleX": 0.8102511475886586,
+            "text": "For every bolt you catch you will gain 1 coin to spend on your robot.",
+            "fontSize": "30px"
+        },
+        {
+            "type": "Text",
+            "id": "a2d9e995-4c68-488f-bafe-359cdec46b5c",
+            "label": "text",
+            "x": 149,
+            "y": 327,
+            "scaleX": 0.8102511475886586,
+            "text": "Use the left and right arrow keys on your keyboard to move.",
+            "fontSize": "30px"
+        },
+        {
+            "type": "Text",
+            "id": "363441fb-ac36-4e66-8c91-1c6ce6608a6f",
+            "label": "text_3",
+            "x": 148,
+            "y": 409,
+            "scaleX": 0.8102511475886586,
+            "text": "The more bolts you catch the faster they will fall. Good Luck!",
+            "fontSize": "30px"
+        },
+        {
+            "type": "Rectangle",
+            "id": "12ce0e93-7a62-4a2a-8dce-65094f7b038e",
+            "label": "rectangle_2",
+            "x": 605,
+            "y": 556,
+            "scaleX": 2.1407254926075714,
+            "scaleY": 0.6608656221758529,
+            "isFilled": true,
+            "fillColor": "#26ce34",
+            "width": 128,
+            "height": 128
+        },
+        {
+            "type": "Text",
+            "id": "60fbdcf5-3edd-4f32-bdb1-1a49ceea1b44",
+            "label": "text_4",
+            "x": 525,
+            "y": 531,
+            "text": "Start",
+            "align": "center",
+            "fontSize": "50px",
+            "color": "#000"
+        },
+        {
+            "type": "Image",
+            "id": "3b4106a4-09d5-42b2-a879-b3a53e8503eb",
+            "label": "happyMood",
+            "texture": {
+                "key": "happyMood"
+            },
+            "x": 845,
+            "y": 149,
+            "scaleX": 0.2,
+            "scaleY": 0.2
+        },
+        {
+            "type": "Image",
+            "id": "180d41b3-dc6d-4c81-9a99-e11f620f90cd",
+            "label": "happyMood_1",
+            "texture": {
+                "key": "happyMood"
+            },
+            "x": 406,
+            "y": 153,
+            "scaleX": 0.2,
+            "scaleY": 0.2
+        }
+    ],
+    "plainObjects": [],
+    "meta": {
+        "app": "Phaser Editor - Scene Editor",
+        "url": "https://phaser.io/editor",
+        "contentType": "phasereditor2d.core.scene.SceneContentType",
+        "version": 5
+    }
+}

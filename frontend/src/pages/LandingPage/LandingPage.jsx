@@ -8,6 +8,7 @@ import SpeakButton from "../../components/SpeakButton"
 import EnergyButtons from "../../components/EnergyButtons"
 import KillButton from "../../components/KillButton"
 import './LandingPage.css'
+import {Link} from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
@@ -113,6 +114,7 @@ const LandingPage = () => {
             })}}
             >BWAM</button>
         </div>
+        <Link to="/boltgame"><button id="bolt-game-button">Play bolt game</button></Link>
         </div>
     )
 }
