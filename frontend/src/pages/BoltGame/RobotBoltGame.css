@@ -1,0 +1,10 @@
+#game-container {
+    position: absolute; /* Ensure it takes up the entire screen */
+    top: 0;
+    left: 0;
+    width: 100vw; /* Full width of the viewport */
+    height: 100vh; /* Full height of the viewport */
+    margin: 0; /* Remove any default margin */
+    padding: 0; /* Remove any default padding */
+    overflow: hidden; /* Ensure no scrollbars appear */
+}
