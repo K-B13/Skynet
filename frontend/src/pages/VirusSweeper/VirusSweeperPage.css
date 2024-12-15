@@ -1,0 +1,11 @@
+
+#minesweeper-page {
+    text-align: center;
+    margin: 20px;
+}
+
+#minesweeper-page h1 {
+    font-size: 36px;
+    color: #333;
+}
+
