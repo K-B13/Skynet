@@ -133,22 +133,24 @@ const Board = ({ winner, setWinner }) => {
         }, [currentIcon, winner]);
 
     return (
-        <div>
-            {!winner && (currentIcon === userInfo.userIcon ? <h4>Your Move!</h4>: <h4>{"Robot's Move"}</h4>)}
-            <div>
-                <Tile num='0' icon={boardState[0]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
-                <Tile num='1' icon={boardState[1]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
-                <Tile num='2' icon={boardState[2]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
-            </div>
-            <div>
-                <Tile num='3' icon={boardState[3]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
-                <Tile num='4' icon={boardState[4]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
-                <Tile num='5' icon={boardState[5]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
-            </div>
-            <div>
-                <Tile num='6' icon={boardState[6]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
-                <Tile num='7' icon={boardState[7]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
-                <Tile num='8' icon={boardState[8]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
+        <div id='NAB-board-container'>
+            {!winner && (currentIcon === userInfo.userIcon ? <h4 id='NAB-users-turn'>Your Move!</h4>: <h4 id='NAB-robots-turn'>{"Robot's Move"}</h4>)}
+            <div id='NAB-board'>
+                <div id='NAB-board-top-row'>
+                    <Tile num='0' icon={boardState[0]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
+                    <Tile num='1' icon={boardState[1]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
+                    <Tile num='2' icon={boardState[2]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
+                </div>
+                <div id='NAB-board-middle-row'>
+                    <Tile num='3' icon={boardState[3]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
+                    <Tile num='4' icon={boardState[4]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
+                    <Tile num='5' icon={boardState[5]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
+                </div>
+                <div id='NAB-board-bottom-row'>
+                    <Tile num='6' icon={boardState[6]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
+                    <Tile num='7' icon={boardState[7]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
+                    <Tile num='8' icon={boardState[8]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
+                </div>
             </div>
         </div>
     )

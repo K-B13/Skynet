@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import Board from "../../components/NutzAndBoltz/Board"
 import { updateRobotCurrency } from "../../services/robot"
+import './NutzAndBoltz.css'
+
 const NutzAndBoltz = () => {
     const [ winner, setWinner ] = useState('')
     const navigate = useNavigate()
@@ -19,17 +21,23 @@ const NutzAndBoltz = () => {
         await updateRobotCurrency(robotId, additionalCurrency)
     }
     return (
-        <>
-        <h2>Nutz and Boltz</h2>
-        {winner && <h3>{winner === 'Draw' ? 'Its a Draw!': `${winner} Wins!`}</h3>}
-        <Board winner={winner} setWinner={setWinner}/>
-        {
-            winner && 
-            <button
-                onClick={() => navigate('/landingpage')}
-            >Back to Robot</button>
-        }
-        </>
+        <div id='NAB-game'>
+            <h2 id='NAB-title'>Nutz and Boltz</h2>
+            {winner && 
+            <h3 id='NAB-results'>
+                {winner === 'Draw' ? 'Its a Draw!': `${winner} Wins!`}
+            </h3>}
+            <Board winner={winner} setWinner={setWinner}/>
+            <div id='NAB-return-container'>
+                {
+                    winner && 
+                    <button
+                        id='NAB-return'
+                        onClick={() => navigate('/landingpage')}
+                    >Back to Robot</button>
+                }
+            </div>
+        </div>
     )
 }
 
