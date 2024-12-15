@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import Cell from './VirusSweeperCell';
 import './VirusSweeperBoard.css';
 import {useNavigate} from 'react-router-dom'
+import { updateRobotCurrency } from '../../services/robot';
 
 
-const VirusSweeperBoard = ({ rows, cols, mineCount, mineImage }) => {
+const VirusSweeperBoard = ({ robotId, rows, cols, mineCount, mineImage }) => {
     const [board, setBoard] = useState([]);
     const [revealedCells, setRevealedCells] = useState(new Set());
     const [gameOver, setGameOver] = useState(false);
@@ -50,7 +51,7 @@ const VirusSweeperBoard = ({ rows, cols, mineCount, mineImage }) => {
         setBoard(newBoard);
     };
 
-    const handleClick = (row, col) => {
+    const handleClick = async (row, col) => {
         if (gameOver || revealedCells.has(`${row},${col}`)) return;
 
         const newBoard = [...board];
@@ -68,9 +69,12 @@ const VirusSweeperBoard = ({ rows, cols, mineCount, mineImage }) => {
             setTimeout(() => {
                 setGameOver(true);
             }, 300); 
-            setTimeout(() => {
-                navigate('/landingpage')
-            }, 3000);
+            const response = await updateRobotCurrency(robotId, score);
+            if(response.message === "robot currency updated"){
+                setTimeout(() => {
+                    navigate('/landingpage');
+                }, 3000); 
+            }
             return;
         }
 
