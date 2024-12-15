@@ -1,22 +1,41 @@
+#virus-sweeper-page {
+    background-image: url('./virusBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
 #virus-sweeper-rules{
-    background-color: rgb(55, 196, 232);
+    background-color: rgb(117, 52, 128, 0.8);
     height: 60vh;
+    width: 60vw;
     border:1px solid black;
     border-radius: 8px;
     margin: 20px auto;
     padding: 20px;
+    color: #fff;
+}
+
+#virus-sweeper-page h1{
+    color: #fff;
 }
 
 #virus-sweeper-start-button{
     margin: auto;
     border: 2px solid #111;
     border-radius: 8px;
-    color: #111;
+    color: #fff;
     cursor: pointer;
     line-height: 24px;
     padding: 5px 25px; 
     text-align: center;
-    background-color: #e0722e;
+    background-color: #2e81e0;
 
     box-shadow: 8px 8px 0px #111;
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;

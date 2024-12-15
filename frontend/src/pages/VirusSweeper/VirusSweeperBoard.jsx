@@ -119,7 +119,7 @@ const VirusSweeperBoard = ({ robotId, rows, cols, mineCount, mineImage }) => {
     return (
         <>
         <div className="score">
-            <h2>Score: {score}</h2>
+            <h2 id="virus-sweeper-score">Score: {score}</h2>
         </div>
         <div className="board">
             {board.map((row, rowIndex) => {
