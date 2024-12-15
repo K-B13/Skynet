@@ -105,6 +105,7 @@ const LandingPage = () => {
                     setRobotData={setRobotData}
                     robotId={robotData._id}/>
             </div>
+            <div>
             <button
             onClick={() => {navigate('/bwam', {
                 state: {
@@ -112,6 +113,14 @@ const LandingPage = () => {
                 }
             })}}
             >BWAM</button>
+            <button
+            onClick={() => {navigate('/nab', {
+                state: {
+                    robotId: robotData._id
+                }
+            })}}
+            >NAB</button>
+            </div>
         </div>
         </div>
     )

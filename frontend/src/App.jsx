@@ -7,6 +7,7 @@ import { SignupPage } from "./pages/Signup/SignupPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import CreateRobot from "./pages/CreateRobot/CreateRobot";
 import BWAM from "./pages/BatteryWiresAndMotherboard/BWAM";
+import NutzAndBoltz from "./pages/NutzAndBoltz/NutzAndBoltz";
 
 // docs: https://reactrouter.com/en/main/start/overview
 const router = createBrowserRouter([
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/bwam",
     element: <BWAM />
+  },
+  {
+    path: "/nab",
+    element: <NutzAndBoltz />
   }
 ]);
 
