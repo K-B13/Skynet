@@ -5,17 +5,13 @@ import CoinCollect from './scenes/CoinCollect.js';
 
 export const createGame = (containerId, onGameOver) => {
 	const game = new Phaser.Game({
-	// width: 1280,
-	// height: 720,
+	width: 1280,
+	height: 720,
 	type: Phaser.AUTO,
 	backgroundColor: '#242424',
 	scale: {
-		mode: Phaser.Scale.RESIZE,
-    autoCenter: Phaser.Scale.CENTER_BOTH,
-    width: window.innerWidth,
-    height: window.innerHeight,
-		// mode: Phaser.Scale.FIT,
-		// autoCenter: Phaser.Scale.CENTER_BOTH,
+		mode: Phaser.Scale.FIT,
+		autoCenter: Phaser.Scale.CENTER_BOTH,
 	},
 	physics: {
 		default: 'arcade',
