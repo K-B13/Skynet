@@ -9,6 +9,7 @@ import CreateRobot from "./pages/CreateRobot/CreateRobot";
 import RobotBoltGameRules from "./pages/BoltGame/RobotBoltGameRules";
 import VirusSweeperPage from "./pages/VirusSweeper/VirusSweeperPage"
 import BWAM from "./pages/BatteryWiresAndMotherboard/BWAM";
+import NutzAndBoltz from "./pages/NutzAndBoltz/NutzAndBoltz";
 
 
 // docs: https://reactrouter.com/en/main/start/overview
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: "/bwam",
     element: <BWAM />
+  },
+  {
+    path: "/nab",
+    element: <NutzAndBoltz />
   }
 ]);
 

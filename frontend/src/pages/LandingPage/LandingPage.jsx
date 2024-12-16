@@ -122,6 +122,7 @@ const LandingPage = () => {
                     setRobotData={setRobotData}
                     robotId={robotData._id}/>
             </div>
+            <div>
             <button
             onClick={() => {navigate('/bwam', {
                 state: {
@@ -129,6 +130,14 @@ const LandingPage = () => {
                 }
             })}}
             >BWAM</button>
+            <button
+            onClick={() => {navigate('/nab', {
+                state: {
+                    robotId: robotData._id
+                }
+            })}}
+            >NAB</button>
+            </div>
         </div>
         <Link to="/boltgame"><button id="bolt-game-button">Play bolt game</button></Link>
         <Link to="/virussweeper"><button id="bolt-game-button">Play virus sweeper</button></Link>
