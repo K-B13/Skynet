@@ -35,7 +35,7 @@
     z-index: 2;
 }
 
-#memory-buttons button, #energy-buttons button, #repair-button-container button, #kill-robot, #speak-button {
+#memory-buttons button, #energy-buttons button, #repair-button-container button, #kill-robot, #speak-button, #create-new-robot {
     margin: 0.4rem;
     align-items: center;
     border: 2px solid #111;
@@ -63,7 +63,7 @@
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
 }
 
-#memory-buttons button:hover, #energy-buttons button:hover, #repair-button-container button:hover, #kill-robot:hover, #speak-button:hover {
+#memory-buttons button:hover, #energy-buttons button:hover, #repair-button-container button:hover, #kill-robot:hover, #speak-button:hover, #create-new-robot:hover {
     box-shadow: 0px 0px 0px #111; 
     transform: translate(8px, 8px);
     outline: 0;

@@ -10,7 +10,7 @@ import EnergyButtons from "../../components/EnergyButtons"
 import KillButton from "../../components/KillButton"
 import './LandingPage.css'
 import {Link} from 'react-router-dom'
-import { useNavigate } from "react-router-dom";
+
 
 const LandingPage = () => {
     const [robotData, setRobotData] = useState({});
@@ -137,11 +137,10 @@ const LandingPage = () => {
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     isAlive={robotData.isAlive}/>
-                      
-                   {!robotData.isAlive && 
+                   {robotData.isAlive && 
                    <button id='create-new-robot'
                     onClick={createNewRobot}>
-                      Create New Robot
+                    Create New Robot
                     </button>
                     }
             </div>
