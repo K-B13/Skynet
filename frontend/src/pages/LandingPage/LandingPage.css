@@ -59,13 +59,13 @@
     touch-action: manipulation;
     background-color: #e0722e;
 
-    box-shadow: 8px 8px 0px #111;
+    box-shadow: 5px 5px 0px #111;
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
 }
 
 #memory-buttons button:hover, #energy-buttons button:hover, #repair-button-container button:hover, #kill-robot:hover, #speak-button:hover {
     box-shadow: 0px 0px 0px #111; 
-    transform: translate(8px, 8px);
+    transform: translate(5px, 5px);
     outline: 0;
 }
 
