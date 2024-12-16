@@ -1,0 +1,37 @@
+#game-selection-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-image: url('/gameSelectionBackground.png');
+}
+
+#games-to-select{
+    background-color: rgb(255, 255, 255, 0.6);
+    border-radius: 10px;
+    width: 80vw;
+    margin:auto;
+}
+
+#games-to-select img{
+    width: 300px;
+    height: 200px;
+    cursor: pointer;
+    border: 2px solid black;
+    border-radius: 8px;
+    margin: 10px;
+    box-shadow: 5px 5px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+
+}
+
+#games-to-select img:hover{
+    border: 2px solid #e0722e;
+    box-shadow: 0px 0px 0px #111; 
+    transform: translate(5px, 5px);
+    outline: 0;
+}

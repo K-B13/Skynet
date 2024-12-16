@@ -11,6 +11,7 @@ const audioRef = useRef(null);
 const location = useLocation()
 const { robotId } = location.state || '';
 
+
 const handleStartGame = () => {
     setGameStarted(true);
     if (audioRef.current) {
