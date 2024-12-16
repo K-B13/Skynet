@@ -158,7 +158,7 @@ export default class CoinCollect extends Phaser.Scene {
         this.happyMood.x = first_position.x
         this.happyMood.y = first_position.y
 
-		const random_index = Phaser.Math.Between(0, 3)
+		const random_index = Phaser.Math.Between(0, 6)
         const random_position = positions[random_index]
 
 		this.bolt.x = first_position.x
@@ -233,7 +233,7 @@ collide = (a, b) => {
         this.score.text = Number(this.score.text) + 1
 		const maxSpeed = 1000; 
 		this.boltSpeed = Math.min(this.boltSpeed + this.speedIncrement, maxSpeed);	
-        const random_index = Phaser.Math.Between(0, 3)
+        const random_index = Phaser.Math.Between(0, 6)
         const random_position = this.positions[random_index]
         b.x = random_position.x
         b.y = 0
