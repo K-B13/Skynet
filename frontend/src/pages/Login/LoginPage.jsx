@@ -62,6 +62,7 @@ export function LoginPage() {
   return (
     <div id="login-page">
       <h2>Login</h2>
+      <img id="dancing-robot" alt="Dancing Robot" src="/dancingRobot.gif"/>
       {message && <p>{message}</p>}
       {errorMessage && <p>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
@@ -91,7 +92,7 @@ export function LoginPage() {
           <button type="submit">Submit</button>
         </form>
         <p>
-        <a href="/signup">
+        <a href="/signup" id="no-account">
           Dont Have an Account
         </a>
         </p>
