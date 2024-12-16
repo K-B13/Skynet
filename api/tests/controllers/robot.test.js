@@ -1309,7 +1309,7 @@ describe('PUT lower battery', () => {
         .send();
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.batteryLife).toEqual(55)
-        expect(response.body.robot.mood).toEqual("Neutral")
+        expect(response.body.robot.mood).toEqual("Happy")
     });
 });
 
