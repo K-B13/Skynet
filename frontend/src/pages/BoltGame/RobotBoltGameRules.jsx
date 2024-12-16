@@ -1,35 +1,20 @@
-import { useEffect, useState } from "react";
-import { getRobotByUserId} from "../../services/robot";
-import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
+import {useState } from "react";
 import RobotBoltGame from '../BoltGame/RobotBoltGame'
 import "./RobotBoltGameRules.css"
+import { useLocation } from "react-router-dom";
 
 const RobotBoltGameRules = () => {
 
-    const [robotData, setRobotData] = useState({});
     const [gameStarted, setGameStarted] = useState(false);
-
-    useEffect(() => {
-        const fetchRobot = async() => {
-            const token = localStorage.getItem("token");
-            const user = getPayloadFromToken(token);
-            try {
-                const robot = await getRobotByUserId(user.userId);
-                console.log(robot.robot);
-                
-                setRobotData(robot.robot);
-            } catch (err) {
-                console.error("error fetching user robot", err);
-            }
-        }
-        fetchRobot();
-    }, []);
+    const location = useLocation()
+    const { robotId } = location.state || '';
 
     const handleStartGame = () => {
         setGameStarted(true);
     };
 
     return (
+        <div id ="robot-bolt-game-page">
             <div id="robot-bolt-game-rules-container">
             <h1 id="bolt-game-title">Rules</h1>
             <p>When the game begins bolts will fall down, your job is to catch them which will earn you money!
@@ -50,9 +35,10 @@ const RobotBoltGameRules = () => {
                     Start Game
                 </button>
             ) : (
-                <RobotBoltGame robotId={robotData._id} />
+                <RobotBoltGame robotId={robotId} />
             )}
-        </div>
+            </div>
+            </div>
     )
 }
 

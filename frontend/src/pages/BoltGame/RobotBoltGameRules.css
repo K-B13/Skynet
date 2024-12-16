@@ -10,13 +10,22 @@
     background-image: url('./boltGameBackground.png');
 }
 
-body{
-    background-image: url('./boltGameBackground.png');
+#robot-bolt-game-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-image: url('/boltGameBackground.png');
 }
 
 #robot-bolt-game-rules-container{
     background-color: rgb(118, 25, 137);
     height: 60vh;
+    width: 90vh;
     border:1px solid black;
     border-radius: 8px;
     margin: 20px auto;

@@ -1,6 +1,26 @@
 import { updateRobotHardware } from "../services/robot"
+import { useState, useEffect } from "react";
 
 const RepairButton = (props) => {
+
+    const [disableButton, setdisableButton] = useState(false);
+
+    useEffect(() => {
+        const checkAlive = async() => {
+            try {
+                
+                if(props.isAlive === false){
+                    setdisableButton(true);
+                } else if(props.isAlive === true){
+                    setdisableButton(false);
+                }
+
+            } catch (err) {
+                console.error("error fetching user robot", err);
+            }
+        }
+        checkAlive();
+    }, [props.isAlive]);
 
     const handleRepair = async () => {
         try {
@@ -18,6 +38,7 @@ const RepairButton = (props) => {
     return (
         <div id='repair-button-container'>
             <button id='repair-button'
+            disabled={disableButton}
             onClick={handleRepair}
             >Repair Hardware</button>
         </div>

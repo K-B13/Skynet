@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getRobotByUserId, lowerRobotBattery } from "../../services/robot";
+import { getRobotByUserId, lowerRobotBattery, deleteRobot } from "../../services/robot";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
+import { useNavigate } from "react-router-dom";
 import RobotScreen from "../../components/RobotScreen"
 import MemoryButtons from "../../components/MemoryButtons"
 import RepairButton from "../../components/RepairButton"
@@ -8,11 +9,9 @@ import SpeakButton from "../../components/SpeakButton"
 import EnergyButtons from "../../components/EnergyButtons"
 import KillButton from "../../components/KillButton"
 import './LandingPage.css'
-import {Link} from 'react-router-dom'
-import { useNavigate } from "react-router-dom";
+
 
 const LandingPage = () => {
-
     const [robotData, setRobotData] = useState({});
     const [didNotLearn, setDidNotLearn] = useState(false)
     const [ robotSpeach, setRobotSpeach ] = useState('')
@@ -35,6 +34,8 @@ const LandingPage = () => {
         fetchRobot();
     }, []);
 
+    console.log("MY ROBOT IS ALIVE: ", robotData.isAlive);
+    
     useEffect(() => {
         // const ONE_MINUTE = 60 * 1000; //Left this in incase anyone wants to test it out instead of waiting 30 mins
         const THIRTY_MINUTES = 30 * 60 * 1000;
@@ -57,7 +58,7 @@ const LandingPage = () => {
             const timer = setTimeout(() => {
                 setShowSergei(false); 
                 setTimeout(() => setRenderImage(false), 1000);
-            }, 15000);
+            }, 5000);
 
             return () => clearTimeout(timer);
         }
@@ -75,6 +76,17 @@ const LandingPage = () => {
         setTimeout(() => {
             setRobotSpeach('')
         }, 5000)
+    }
+
+    const createNewRobot =  async () => {
+        try {
+            const response = await deleteRobot(robotData._id);
+            if(response.message === "Robot deleted"){
+                navigate("/createrobot");
+            }
+        } catch (err) {
+            console.error("error deleting user robot", err);
+        }
     }
 
     return (
@@ -103,44 +115,45 @@ const LandingPage = () => {
                 <EnergyButtons
                     setRobotData={setRobotData}
                     robotId={robotData._id}
-                    batteryLife={robotData.batteryLife}/>
+                    batteryLife={robotData.batteryLife}
+                    isAlive={robotData.isAlive}/>
                 <MemoryButtons
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     memoryCapacity={robotData.memoryCapacity}
                     setDidNotLearn={setDidNotLearn}
+                    isAlive={robotData.isAlive}
                 />
                 <RepairButton
                     setRobotData={setRobotData}
-                    robotId={robotData._id}/>
+                    robotId={robotData._id}
+                    isAlive={robotData.isAlive}/>
             </div>
             <div id='button-contianer-lower'>
                 <SpeakButton 
                     constructSpeach={constructSpeach} 
+                    isAlive={robotData.isAlive}
                     />
                 <KillButton
                     setRobotData={setRobotData}
-                    robotId={robotData._id}/>
-            </div>
-            <div>
-            <button
-            onClick={() => {navigate('/bwam', {
+                    robotId={robotData._id}
+                    isAlive={robotData.isAlive}/>
+                    {!robotData.isAlive && 
+                    <button id='create-new-robot'
+                    onClick={createNewRobot}>
+                    Create New Robot
+                    </button>
+                    }
+            <button id="play-games-button"
+            onClick={() => {navigate('/gameselection', {
                 state: {
                     robotId: robotData._id
                 }
             })}}
-            >BWAM</button>
-            <button
-            onClick={() => {navigate('/nab', {
-                state: {
-                    robotId: robotData._id
-                }
-            })}}
-            >NAB</button>
+            >Play games</button>
             </div>
         </div>
-        <Link to="/boltgame"><button id="bolt-game-button">Play bolt game</button></Link>
-        <Link to="/virussweeper"><button id="bolt-game-button">Play virus sweeper</button></Link>
+        
         {renderImage && (
             <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
         )}
