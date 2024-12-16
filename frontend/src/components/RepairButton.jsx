@@ -35,12 +35,12 @@ const RepairButton = (props) => {
     }
 
     return (
-        <>
+        <div id='repair-button-container'>
             <button id='repair-button'
             disabled={disableButton}
             onClick={handleRepair}
             >Repair Hardware</button>
-        </>
+        </div>
     )
 }
 

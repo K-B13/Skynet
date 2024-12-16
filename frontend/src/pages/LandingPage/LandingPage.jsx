@@ -8,13 +8,18 @@ import RepairButton from "../../components/RepairButton"
 import SpeakButton from "../../components/SpeakButton"
 import EnergyButtons from "../../components/EnergyButtons"
 import KillButton from "../../components/KillButton"
-
+import './LandingPage.css'
+import {Link} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
     const [robotData, setRobotData] = useState({});
     const [didNotLearn, setDidNotLearn] = useState(false)
     const [ robotSpeach, setRobotSpeach ] = useState('')
-    const navigate = useNavigate();
+    const [showSergei, setShowSergei] = useState(false);
+    const [renderImage, setRenderImage] = useState(false);
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchRobot = async() => {
@@ -45,6 +50,19 @@ const LandingPage = () => {
         return () => clearInterval(intervalId);
     }, [robotData._id]);
 
+    useEffect(() => {
+        if (robotData.currency < 50) {
+            setRenderImage(true); 
+            setTimeout(() => setShowSergei(true), 10);
+            const timer = setTimeout(() => {
+                setShowSergei(false); 
+                setTimeout(() => setRenderImage(false), 1000);
+            }, 15000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [robotData.currency]);
+
     const constructSpeach = (dealWithOpinions) => {
         const initialGreetings = `Hello, I am ${robotData.name}. `
         const likes = dealWithOpinions(robotData.likes, 'like')
@@ -72,6 +90,7 @@ const LandingPage = () => {
 
     return (
         <>
+        <div className="landing-page">
         <RobotScreen
             name={robotData.name}
             currency={robotData.currency}
@@ -90,38 +109,65 @@ const LandingPage = () => {
 
         )}
 
-        <EnergyButtons
-            setRobotData={setRobotData}
-            isAlive={robotData.isAlive}
-            robotId={robotData._id}
-            batteryLife={robotData.batteryLife}/>
-        <MemoryButtons
-            robot={robotData}
-            setRobotData={setRobotData}
-            isAlive={robotData.isAlive}
-            robotId={robotData._id}
-            memoryCapacity={robotData.memoryCapacity}
-            setDidNotLearn={setDidNotLearn}
-        />
-        <RepairButton
-            setRobotData={setRobotData}
-            isAlive={robotData.isAlive}
-            robotId={robotData._id}/>
-        <SpeakButton 
-            constructSpeach={constructSpeach}
-            isAlive={robotData.isAlive} 
-            />
-        <KillButton
-            setRobotData={setRobotData}
-            isAlive={robotData.isAlive}
-            robotId={robotData._id}/>
-
-        {!robotData.isAlive && 
-            <button id='create-new-robot'
-            onClick={createNewRobot}>
-                Create New Robot
-            </button>
-        }
+        <div id='button-container'>
+            <div id='button-contianer-upper'>
+                <EnergyButtons
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}
+                    batteryLife={robotData.batteryLife}
+                    isAlive={robotData.isAlive}/>
+                <MemoryButtons
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}
+                    memoryCapacity={robotData.memoryCapacity}
+                    setDidNotLearn={setDidNotLearn}
+                    isAlive={robotData.isAlive}
+                />
+                <RepairButton
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}
+                    isAlive={robotData.isAlive}/>
+            </div>
+            <div id='button-contianer-lower'>
+                <SpeakButton 
+                    constructSpeach={constructSpeach} 
+                    isAlive={robotData.isAlive}
+                    />
+                <KillButton
+                    setRobotData={setRobotData}
+                    robotId={robotData._id}
+                    isAlive={robotData.isAlive}/>
+                      
+                   {!robotData.isAlive && 
+                   <button id='create-new-robot'
+                    onClick={createNewRobot}>
+                      Create New Robot
+                    </button>
+                    }
+            </div>
+            <div>
+            <button
+            onClick={() => {navigate('/bwam', {
+                state: {
+                    robotId: robotData._id
+                }
+            })}}
+            >BWAM</button>
+            <button
+            onClick={() => {navigate('/nab', {
+                state: {
+                    robotId: robotData._id
+                }
+            })}}
+            >NAB</button>
+            </div>
+        </div>
+        <Link to="/boltgame"><button id="bolt-game-button">Play bolt game</button></Link>
+        <Link to="/virussweeper"><button id="bolt-game-button">Play virus sweeper</button></Link>
+        {renderImage && (
+            <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
+        )}
+        </div>
         </>
     )
 }

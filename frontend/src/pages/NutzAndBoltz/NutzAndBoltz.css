@@ -1,0 +1,91 @@
+#NAB-game {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    align-items: center;
+}
+
+#NAB-board-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#NAB-board {
+    background-color: #e0722e;
+    padding: 0.2rem;
+}
+
+#NAB-board-top-row{
+    display: flex;
+}
+
+#NAB-board-middle-row {
+    display: flex;
+}
+
+#NAB-board-bottom-row {
+    display: flex;
+}
+
+.NAB-buttons {
+    width: 8rem; 
+    height: 8rem;
+    padding: 0; 
+    background-color: black; 
+    border: 1px solid #e0722e;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+
+.NAB-buttons img {
+    width: 100%; 
+    height: 100%;
+    object-fit: contain; 
+}
+
+#NAB-return-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0.2rem;
+    padding: 0.5rem;
+    z-index: 2;
+}
+
+#NAB-return {
+    margin: 0.4rem;
+    align-items: center;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter, sans-serif;
+    font-size: 0.8rem;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative; 
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-color: #e0722e;
+
+    box-shadow: 3px 3px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+#NAB-return:hover {
+    box-shadow: 0px 0px 0px #111; 
+    transform: translate(3px, 3px);
+    outline: 0;
+    
+}

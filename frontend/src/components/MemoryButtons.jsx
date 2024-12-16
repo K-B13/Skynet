@@ -74,6 +74,7 @@ const MemoryButtons = (props) => {
                 <button id='add-cash' disabled={disableButton} onClick={handleCashGrab}>ADD CASH</button>
             </div>
         </>
+
     )
 }
 

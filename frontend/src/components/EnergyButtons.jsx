@@ -77,6 +77,7 @@ const EnergyButtons = (props) => {
     // if props.isAlive is false, setdisabledbutton = true
     // and then disabled = disabledButton
     return (
+
         <>
             <div id='energy-buttons'>
                 <p>{disableButton}</p>
@@ -94,6 +95,7 @@ const EnergyButtons = (props) => {
                 onClick={decreaseBattery}>decreaseBattery [TESTING]</button>
             </div>
         </>
+
     )
 }
 

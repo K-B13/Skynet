@@ -1,0 +1,74 @@
+#robot-screen {
+    display: flex;
+    justify-content: center;
+    min-height: 50vh;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#robot-screen-main {
+    background-color: #e0722e;
+    border: solid black 1px;
+    border-radius: 2rem;
+    padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 40vh;
+    justify-content: center;
+}
+
+#robot-screen-upper {
+    margin: 0.5rem 0;
+    display: flex;
+    min-width: 65vw;
+    justify-content: space-between;
+    flex-grow: 1;
+    
+}
+
+#robot-image-container {
+    display: flex;
+    align-items: flex-end;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+#currency-container {
+    width: 8rem;
+    display: flex;
+    padding: 0 0 0 0.5rem;
+}
+
+#currency {
+    font-size: 0.8rem;
+}
+
+#robot-stats {
+    width: 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.3rem;
+}
+
+#robot-stats p {
+    margin: 0.2rem;
+    font-size: 0.8rem;
+}
+
+#robot-speach-container {
+    max-width: 50vw;
+    display: flex;
+    min-height: 4rem;
+}
+
+#robot-speach {
+    font-size: 0.7rem;
+}
+
+#robot-image{
+    width:200px;
+    height: 200px;
+}
