@@ -1,6 +1,5 @@
 import './RobotScreen.css'
 const RobotScreen = (props) => {
-    console.log(props);
     return (
         <div id='robot-screen'>
             <div id='robot-screen-main'>

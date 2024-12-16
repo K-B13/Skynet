@@ -1,30 +1,15 @@
 import VirusSweeperBoard from './VirusSweeperBoard.jsx'; 
 import './VirusSweeperPage.css';  
-import { useState, useEffect, useRef } from 'react';
-import { getRobotByUserId} from "../../services/robot";
-import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
+import { useState,useRef } from 'react';
+import { useLocation } from "react-router-dom";
+
 
 const VirusSweeperPage = () => {
 const mineImage = '/assets/virus.png'; 
-const [robotData, setRobotData] = useState({});
 const [gameStarted, setGameStarted] = useState(false);
 const audioRef = useRef(null);
-
-useEffect(() => {
-    const fetchRobot = async() => {
-        const token = localStorage.getItem("token");
-        const user = getPayloadFromToken(token);
-        try {
-            const robot = await getRobotByUserId(user.userId);
-            
-            setRobotData(robot.robot);
-        } catch (err) {
-            console.error("error fetching user robot", err);
-        }
-    }
-    fetchRobot();
-    
-}, []);
+const location = useLocation()
+const { robotId } = location.state || '';
 
 const handleStartGame = () => {
     setGameStarted(true);
@@ -65,7 +50,7 @@ const handleStartGame = () => {
                 </button>
                 </div>
             ) : (
-                <VirusSweeperBoard robotId={robotData._id}rows={10} cols={10} mineCount={20} mineImage={mineImage} />
+                <VirusSweeperBoard robotId={robotId}rows={10} cols={10} mineCount={20} mineImage={mineImage} />
 
             )}
                 <audio ref={audioRef} loop>

@@ -7,7 +7,6 @@ const MemoryButtons = (props) => {
     useEffect(() => {
         const checkAlive = async() => {
             try {
-                console.log("energy props", props.isAlive);
                 
                 if(props.isAlive === false){
                     setdisableButton(true);
