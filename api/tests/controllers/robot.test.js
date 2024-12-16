@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const app = require("../../app");
 const Robot = require("../../models/robot");
 require("../mongodb_helper");
-const { changeStatsOnLogin } = require('../../controllers/robot'); 
+const { changeStatsOnLogin, updateRobotMood } = require('../../controllers/robot'); 
 const findByIdOriginal = Robot.findById
 
 describe('POST', () => {
@@ -57,82 +57,6 @@ describe('POST', () => {
             expect(robots.length).toBe(0);
         });
     });
-
-
-// describe('GET', () => {
-//     const mockUserId = new mongoose.Types.ObjectId();
-//     beforeEach(async () => {
-//         await Robot.deleteMany({});
-//     });
-
-//     it('responds with 200', async () => {
-//         const robot = new Robot({
-//             name: "kimi",
-//             currency: 100,
-//             batteryLife: 100,
-//             memoryCapacity: 128,
-//             intelligence: 0,
-//             hardware: 100,
-//             image: "",
-//             isAlive: true,
-//             mood: "Neutral",
-//             likes: ["apples", "politics"],
-//             dislikes: ["oranges"],
-//             userId: mockUserId
-//         });
-//         await robot.save()
-//         const robotId = robot._id.toString()
-//         const response = await request(app)
-//             .get(`/robot/${robotId}`)
-//             expect(response.statusCode).toBe(200);
-//         });
-        
-//     it('returns the robot', async () => {
-//         const robot = new Robot({
-//             name: "kimi",
-//             currency: 100,
-//             batteryLife: 100,
-//             memoryCapacity: 128,
-//             intelligence: 0,
-//             hardware: 100,
-//             image: "",
-//             isAlive: true,
-//             mood: "Neutral",
-//             likes: ["apples", "politics"],
-//             dislikes: ["oranges"],
-//             userId: mockUserId
-//         });
-//         await robot.save()
-//         const robotId = robot._id.toString()
-//         const response = await request(app)
-//         .get(`/robot/${robotId}`)
-//         expect(response.statusCode).toBe(200);
-//         expect(response.body.robot.name).toEqual("kimi")
-    
-//     });
-
-//     it('returns error if robot does not exist', async () => {
-//         const robot = new Robot({
-//             name: "kimi",
-//             currency: 100,
-//             batteryLife: 100,
-//             memoryCapacity: 128,
-//             intelligence: 0,
-//             hardware: 100,
-//             image: "",
-//             isAlive: true,
-//             mood: "Neutral",
-//             likes: ["apples", "politics"],
-//             dislikes: ["oranges"],
-//             userId: mockUserId
-//         });
-//         const response = await request(app)
-//             .get("/robot/123")
-//             expect(response.statusCode).toBe(404)
-//             expect(response.body.message).toEqual("Failed to get robot")
-        
-//     });
-// });
 
 describe('GET by user id', () => {
     const mockUserId = new mongoose.Types.ObjectId();
@@ -642,6 +566,7 @@ describe('PUT Hardware', () => {
         expect(response.body.robot.currency).toEqual(450)
         
     });
+
     it('Hardware should not drop below 0', async () => {
         const robot = new Robot({
             name: "kimi",
@@ -901,6 +826,63 @@ describe('PUT Hardware', () => {
 //         expect(response.body.message).toBe('Failed to update robot mood');
 //     });
 // });
+
+describe('Update Robot Mood', () => {
+    it('If a non string is passed in', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        const result = updateRobotMood(robot, 21)
+        expect(result).toBe('Mood must be a string!')
+    })
+
+    it('fail the try', async () => {
+        const result = updateRobotMood(null, 'sad')
+        expect(result).toBe('Failed to update robot mood')
+    })
+})
+
+describe('Kill Robot', () => {
+    it('Kills the robot with a valid id', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const response = await request(app)
+        .put(`/robot/${robot._id}/killrobot`)
+        expect(response.statusCode).toBe(200)
+        expect(response.body.message).toBe('killed robot')
+        expect(response.body.robot.isAlive).toBe(false)
+        expect(response.body.robot.image).toBe('/deadRobot.png')
+    })
+
+    it('Fails the try as no valid robotId is passed', async () => {
+        const response = await request(app)
+        .put(`/robot/${'something'}/killrobot`)
+        expect(response.statusCode).toBe(400)
+        expect(response.body.message).toBe('Failed to kill robot')
+    })
+})
 
 describe('DELETE Robot', () => {
     beforeEach(async () => {
@@ -1294,7 +1276,7 @@ describe('PUT lower battery', () => {
             batteryLife: 60,
             memoryCapacity: 128,
             intelligence: 0,
-            hardware: 100,
+            hardware: 50,
             image: "",
             isAlive: true,
             mood: "Neutral",
@@ -1311,6 +1293,32 @@ describe('PUT lower battery', () => {
         expect(response.body.robot.batteryLife).toEqual(55)
         expect(response.body.robot.mood).toEqual("Neutral")
     });
+
+    it('Should kill the robot if energy drops below 0', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 2,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 50,
+            image: "",
+            isAlive: true,
+            mood: "Sad",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+
+        const response = await request(app)
+        .put(`/robot/${robot._id}/lowerbattery`)
+        .send();
+
+        expect(response.status).toBe(200)
+        expect(response.body.message).toBe('robot battery lowered')
+        expect(response.body.robot.isAlive).toBe(false)
+        expect(response.body.robot.batteryLife).toBe(0)
+    })
 });
 
 
