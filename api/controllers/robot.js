@@ -56,17 +56,18 @@ async function updateRobotCurrency(req, res) {
         const singleRobot = await Robot.findById(robotId)
 
         newCurrency = singleRobot.currency += newAmount
-        
-        if(newCurrency <=0){
-            singleRobot.currency = 0
-            await singleRobot.save();
+        if(singleRobot.batteryLife === 100) {
+            return res.status(200).json({ message: "Robot already fully charged" });
+        }
+        if(newCurrency < 0){
+            res.status(200).json({ message:"Insufficient funds" });
         }
         else{
             singleRobot.currency = newCurrency
             await singleRobot.save();
+            res.status(200).json({robot: singleRobot, message:"robot currency updated"});
         }
         
-        res.status(200).json({robot: singleRobot, message:"robot currency updated"});
 
     } catch (err) {
         console.log(err);
@@ -111,6 +112,14 @@ async function updateRobotMemory(req, res) {
     try{
         const robotId = req.params.id
         const singleRobot = await Robot.findById(robotId)
+        
+        if (singleRobot.currency - 200 < 0) {
+            return res.status(200).json({ message:"Insufficient funds" });
+        }
+        if (singleRobot.memoryCapacity * 2 > 4096) {
+            return res.status(200).json({ message: "Memory at max" });
+        }
+
         singleRobot.memoryCapacity = singleRobot.memoryCapacity * 2
         await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
         singleRobot.currency = singleRobot.currency -= 200
@@ -130,13 +139,16 @@ async function updateRobotIntelligence(req, res) {
         const robotId = req.params.id
         const brain = req.body.intelligence
         
-        
         const singleRobot = await Robot.findById(robotId)
-        singleRobot.currency = singleRobot.currency -=30
-        newIntelligence = singleRobot.intelligence += brain
+
+        if (singleRobot.currency - 30 < 0) {
+            return res.status(200).json({ message:"Insufficient funds" });
+        }
         const randomNumber = Math.floor(Math.random() * 10);
+        singleRobot.currency = singleRobot.currency -=30
         
         if(randomNumber <=8){
+            newIntelligence = singleRobot.intelligence += brain
             
             if(newIntelligence > singleRobot.memoryCapacity){
                 
@@ -170,6 +182,11 @@ async function updateRobotHardware(req, res) {
         const newHardwareAmount = req.body.hardwareChange
         
         const singleRobot = await Robot.findById(robotId)
+        if (singleRobot.currency - 50 < 0) {
+            return res.status(200).json({ message:"Insufficient funds" });
+        } else if (singleRobot.hardware === 100) {
+            return res.status(200).json({ message:"Already fully repaired" });
+        }
         singleRobot.currency = singleRobot.currency -=50
         newHardware = singleRobot.hardware += newHardwareAmount
         

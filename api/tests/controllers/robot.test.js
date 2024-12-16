@@ -219,7 +219,7 @@ describe('PUT Currency', () => {
         const robot = new Robot({
             name: "kimi",
             currency: 100,
-            batteryLife: 100,
+            batteryLife: 90,
             memoryCapacity: 128,
             intelligence: 0,
             hardware: 1,
@@ -245,7 +245,7 @@ describe('PUT Currency', () => {
         const robot = new Robot({
             name: "kimi",
             currency: 100,
-            batteryLife: 100,
+            batteryLife: 90,
             memoryCapacity: 128,
             intelligence: 0,
             hardware: 1,
@@ -263,8 +263,33 @@ describe('PUT Currency', () => {
             currency: -200
         });
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.currency).toEqual(0)
+        expect(response.body.message).toEqual('Insufficient funds')
     });
+
+    it('This could change but update robot currency should not work if max battery - this is only used on battery', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const response = await request(app)
+        .put(`/robot/${robotId}/currency`)
+        .send({
+            currency: -20
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).toEqual('Robot already fully charged')
+    })
 
     it('Should return 400 if invalid id passed', async () => {
         const robot = new Robot({
@@ -300,7 +325,7 @@ describe('PUT Battery life', () => {
         const robot = new Robot({
             name: "kimi",
             currency: 100,
-            batteryLife: 100,
+            batteryLife: 90,
             memoryCapacity: 128,
             intelligence: 0,
             hardware: 1,
@@ -318,14 +343,40 @@ describe('PUT Battery life', () => {
             batteryLife: -20
         });
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.batteryLife).toEqual(80)
+        expect(response.body.robot.batteryLife).toEqual(70)
         
     });
+
+    // it('Battery should not charge if fully charged', async () => {
+    //     const robot = new Robot({
+    //         name: "kimi",
+    //         currency: 100,
+    //         batteryLife: 100,
+    //         memoryCapacity: 128,
+    //         intelligence: 0,
+    //         hardware: 1,
+    //         image: "",
+    //         isAlive: true,
+    //         mood: "Neutral",
+    //         likes: ["apples", "politics"],
+    //         dislikes: ["oranges"],
+    //     });
+    //     await robot.save()
+    //     const robotId = robot._id
+    //     const response = await request(app)
+    //     .put(`/robot/${robotId}/battery`)
+    //     .send({
+    //         batteryLife: 20
+    //     });
+    //     expect(response.status).toBe(200)
+    //     expect(response.body.message).toBe('Robot already fully charged')
+    // })
+
     it('Battery Life should not drop below 0', async () => {
         const robot = new Robot({
             name: "kimi",
             currency: 100,
-            batteryLife: 100,
+            batteryLife: 80,
             memoryCapacity: 128,
             intelligence: 0,
             hardware: 1,
@@ -481,11 +532,8 @@ describe('PUT Memory', () => {
     it('Should return a 200 when robot memory capacity is updated', async () => {
         const robot = new Robot({
             name: "kimi",
-            currency: 500,
             batteryLife: 100,
-            memoryCapacity: 100,
             intelligence: 0,
-            hardware: 1,
             image: "",
             isAlive: true,
             mood: "Neutral",
@@ -496,11 +544,54 @@ describe('PUT Memory', () => {
         const robotId = robot._id.toString()
         const response = await request(app)
         .put(`/robot/${robotId}/memory`)
+        console.log(response.body)
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.memoryCapacity).toEqual(200)
+        expect(response.body.robot.memoryCapacity).toEqual(32)
         expect(response.body.robot.currency).toEqual(300)
         
     });
+
+    it('Should return a 200 and message if not sufficient funds', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            batteryLife: 100,
+            intelligence: 0,
+            image: "",
+            currency: 100,
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id
+        const response = await request(app)
+        .put(`/robot/${robotId}/memory`)
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body.message).toBe('Insufficient funds')
+    })
+
+    it('Should return a 200 and message if not sufficient funds', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            batteryLife: 100,
+            intelligence: 0,
+            image: "",
+            memoryCapacity: 4096,
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id
+        const response = await request(app)
+        .put(`/robot/${robotId}/memory`)
+
+        expect(response.statusCode).toBe(200)
+        expect(response.body.message).toBe('Memory at max')
+    })
 
     it('Should return 400 if invalid id passed', async () => {
         const robot = new Robot({
@@ -558,6 +649,31 @@ describe('PUT Intelligence', () => {
         
     });
 
+    it('Should not increase if insufficient funds and should return a message', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 10,
+            batteryLife: 100,
+            memoryCapacity: 100,
+            intelligence: 0,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id
+        const response = await request(app)
+        .put(`/robot/${robotId}/intelligence`)
+        .send({
+            intelligence: 10
+        });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).toBe('Insufficient funds')
+    })
+
     it('Should not go above memory capacity', async () => {
         jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
 
@@ -586,6 +702,34 @@ describe('PUT Intelligence', () => {
         expect(response.body.robot.currency).toEqual(470)
         jest.restoreAllMocks();
     });
+
+    it('Should fail if random number is above 8', async () => {
+        jest.spyOn(global.Math, 'random').mockReturnValue(0.9);
+
+        const robot = new Robot({
+            name: "kimi",
+            currency: 500,
+            batteryLife: 100,
+            intelligence: 0,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id
+        const response = await request(app)
+        .put(`/robot/${robotId}/intelligence`)
+        .send({
+            intelligence: 5
+        });
+        console.log(response.body)
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.intelligence).toEqual(0)
+        expect(response.body.robot.currency).toEqual(470)
+        expect(response.body.message).toEqual('Robot intelligence did not increase')
+    })
 
     it('Should return 400 if invalid id passed', async () => {
         const robot = new Robot({
@@ -623,7 +767,7 @@ describe('PUT Hardware', () => {
             batteryLife: 100,
             memoryCapacity: 128,
             intelligence: 0,
-            hardware: 100,
+            hardware: 70,
             image: "",
             isAlive: true,
             mood: "Neutral",
@@ -638,10 +782,11 @@ describe('PUT Hardware', () => {
             hardwareChange: -50
         });
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.hardware).toEqual(50)
+        expect(response.body.robot.hardware).toEqual(20)
         expect(response.body.robot.currency).toEqual(450)
         
     });
+
     it('Hardware should not drop below 0', async () => {
         const robot = new Robot({
             name: "kimi",
@@ -649,7 +794,7 @@ describe('PUT Hardware', () => {
             batteryLife: 100,
             memoryCapacity: 128,
             intelligence: 0,
-            hardware: 100,
+            hardware: 90,
             image: "",
             isAlive: true,
             mood: "Neutral",
@@ -668,6 +813,7 @@ describe('PUT Hardware', () => {
         expect(response.body.robot.isAlive).toBe(false)
         expect(response.body.robot.currency).toEqual(450)
     });
+
     it('Hardware should not go above 100', async () => {
         const robot = new Robot({
             name: "kimi",
@@ -694,6 +840,58 @@ describe('PUT Hardware', () => {
         expect(response.body.robot.currency).toEqual(450)
     });
 
+    it('Should not increase if funds are insufficient', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 20,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 90,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id
+        const response = await request(app)
+        .put(`/robot/${robotId}/hardware`)
+        .send({
+            hardwareChange: 50
+        });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).toBe('Insufficient funds')
+    })
+
+    it('If Hardware is already fixed should not update and instead return a message', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 500,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 100,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id
+        const response = await request(app)
+        .put(`/robot/${robotId}/hardware`)
+        .send({
+            hardwareChange: 50
+        });
+
+        expect(response.status).toBe(200)
+        expect(response.body.message).toBe('Already fully repaired')
+    })
+
     it('Hardware can be increased', async () => {
         const robot = new Robot({
             name: "kimi",
@@ -719,6 +917,7 @@ describe('PUT Hardware', () => {
         expect(response.body.robot.hardware).toEqual(100)
         expect(response.body.robot.currency).toEqual(450)
     });
+
     it('Should return 400 if invalid id passed', async () => {
         const robot = new Robot({
             name: "kimi",
@@ -741,6 +940,7 @@ describe('PUT Hardware', () => {
         expect(response.statusCode).toBe(400);
         expect(response.body.message).toBe('Failed to update robot hardware');
     });
+
     it('Should change mood to sad when hardware updated', async () => {
         const robot = new Robot({
             name: "kimi",
@@ -748,7 +948,7 @@ describe('PUT Hardware', () => {
             batteryLife: 20,
             memoryCapacity: 128,
             intelligence: 0,
-            hardware: 100,
+            hardware: 90,
             image: "",
             isAlive: true,
             mood: "Neutral",
@@ -763,7 +963,7 @@ describe('PUT Hardware', () => {
             hardwareChange: -55
         });
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.hardware).toEqual(45)
+        expect(response.body.robot.hardware).toEqual(35)
         expect(response.body.robot.mood).toEqual("Sad")
         
     });
