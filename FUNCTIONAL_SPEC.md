@@ -52,7 +52,7 @@
 - RA011 - Hardware will randomly deplete by either 2, 5 or 15 upon logging in
 - RA012 - Battery will randomly deplete by either 2, 5 or - 10 upon logging in
 - RA013 - Currency starts at 500 for a newly-created robot. There is no maximum amount of currency
-- RA013 - The user will gain 100 currency for the first login of every calendar day
+- RA014 - The user will gain 100 currency for the first login of every calendar day
 
 ### Upgrades and Actions
 - UP001 - Users can charge their robot, either by 10% or up to full charge. Each 1% of battery charged costs 1 currency
@@ -63,7 +63,12 @@
 - UP006 - Users can kill their robot
 - UP007 - If a robot dies, there is visual feedback. Dead robots cannot be interacted with
 - UP008 - Users can create a new robot of their robot dies
+- UP009 - Users cannot charge, teach, upgrade hardware or increase memory if they do not have the required currency
 
 ### Minigames
 - MG001 - Users can play mini games in order to earn currency
 - MG002 - Each mini game will have a description that teaches the user how to play the game
+
+## Security Measures
+- SE001 - A user cannot manipulate another user's robot
+- SE002 - A user cannot manipulate another user's account details
