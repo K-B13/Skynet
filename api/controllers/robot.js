@@ -325,7 +325,7 @@ async function lowerRobotBattery(req, res) {
             await singleRobot.save();
             return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
         }
-        else{
+        else {
             if(newBattery <=30 && singleRobot.hardware <50){
                 singleRobot.batteryLife = newBattery
                 changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
