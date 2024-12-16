@@ -17,6 +17,7 @@ const LandingPage = () => {
     const [ robotSpeach, setRobotSpeach ] = useState('')
     const [showSergei, setShowSergei] = useState(false);
     const [renderImage, setRenderImage] = useState(false);
+    const [ displayMessage, setDisplayMessage ] = useState('')
 
     const navigate = useNavigate()
 
@@ -33,6 +34,10 @@ const LandingPage = () => {
         }
         fetchRobot();
     }, []);
+
+    useEffect(() => {
+        displayMessageClearance()
+    }, [displayMessage])
 
     console.log("MY ROBOT IS ALIVE: ", robotData.isAlive);
     
@@ -89,6 +94,16 @@ const LandingPage = () => {
         }
     }
 
+    const showMessage = (message) => {
+        setDisplayMessage(message)
+    }
+
+    const displayMessageClearance = () => {
+        setTimeout(() => {
+            setDisplayMessage('')
+        }, 6000)
+    }
+
     return (
         <>
         <div className="landing-page">
@@ -103,6 +118,7 @@ const LandingPage = () => {
             image={robotData.image}
             isAlive={robotData.isAlive}
             robotSpeach={robotSpeach}
+            displayMessage={displayMessage}
             />
 
         {didNotLearn && (
@@ -113,11 +129,13 @@ const LandingPage = () => {
         <div id='button-container'>
             <div id='button-contianer-upper'>
                 <EnergyButtons
+                    showMessage={showMessage}
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     batteryLife={robotData.batteryLife}
                     isAlive={robotData.isAlive}/>
                 <MemoryButtons
+                    showMessage={showMessage}
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     memoryCapacity={robotData.memoryCapacity}
@@ -125,6 +143,7 @@ const LandingPage = () => {
                     isAlive={robotData.isAlive}
                 />
                 <RepairButton
+                    showMessage={showMessage}
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     isAlive={robotData.isAlive}/>
@@ -135,6 +154,7 @@ const LandingPage = () => {
                     isAlive={robotData.isAlive}
                     />
                 <KillButton
+                    showMessage={showMessage}
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     isAlive={robotData.isAlive}/>
