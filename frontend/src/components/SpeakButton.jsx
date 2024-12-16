@@ -7,7 +7,6 @@ const SpeakButton = ({ constructSpeach, isAlive }) => {
         useEffect(() => {
             const checkAlive = async() => {
                 try {
-                    console.log("energy props", isAlive);
                     
                     if(isAlive === false){
                         setdisableButton(true);

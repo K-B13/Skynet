@@ -9,7 +9,6 @@ import SpeakButton from "../../components/SpeakButton"
 import EnergyButtons from "../../components/EnergyButtons"
 import KillButton from "../../components/KillButton"
 import './LandingPage.css'
-import {Link} from 'react-router-dom'
 
 
 const LandingPage = () => {
@@ -35,6 +34,8 @@ const LandingPage = () => {
         fetchRobot();
     }, []);
 
+    console.log("MY ROBOT IS ALIVE: ", robotData.isAlive);
+    
     useEffect(() => {
         // const ONE_MINUTE = 60 * 1000; //Left this in incase anyone wants to test it out instead of waiting 30 mins
         const THIRTY_MINUTES = 30 * 60 * 1000;
@@ -57,7 +58,7 @@ const LandingPage = () => {
             const timer = setTimeout(() => {
                 setShowSergei(false); 
                 setTimeout(() => setRenderImage(false), 1000);
-            }, 15000);
+            }, 5000);
 
             return () => clearTimeout(timer);
         }
@@ -137,32 +138,22 @@ const LandingPage = () => {
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     isAlive={robotData.isAlive}/>
-                   {robotData.isAlive && 
-                   <button id='create-new-robot'
+                    {!robotData.isAlive && 
+                    <button id='create-new-robot'
                     onClick={createNewRobot}>
                     Create New Robot
                     </button>
                     }
             </div>
-            <div>
             <button
-            onClick={() => {navigate('/bwam', {
+            onClick={() => {navigate('/gameselection', {
                 state: {
                     robotId: robotData._id
                 }
             })}}
-            >BWAM</button>
-            <button
-            onClick={() => {navigate('/nab', {
-                state: {
-                    robotId: robotData._id
-                }
-            })}}
-            >NAB</button>
-            </div>
+            >Play games</button>
         </div>
-        <Link to="/boltgame"><button id="bolt-game-button">Play bolt game</button></Link>
-        <Link to="/virussweeper"><button id="bolt-game-button">Play virus sweeper</button></Link>
+        
         {renderImage && (
             <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
         )}
