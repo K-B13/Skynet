@@ -144,14 +144,14 @@ const LandingPage = () => {
                     Create New Robot
                     </button>
                     }
-            </div>
-            <button
+            <button id="play-games-button"
             onClick={() => {navigate('/gameselection', {
                 state: {
                     robotId: robotData._id
                 }
             })}}
             >Play games</button>
+            </div>
         </div>
         
         {renderImage && (
