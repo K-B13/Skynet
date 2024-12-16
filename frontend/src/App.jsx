@@ -10,6 +10,7 @@ import RobotBoltGameRules from "./pages/BoltGame/RobotBoltGameRules";
 import VirusSweeperPage from "./pages/VirusSweeper/VirusSweeperPage"
 import BWAM from "./pages/BatteryWiresAndMotherboard/BWAM";
 import NutzAndBoltz from "./pages/NutzAndBoltz/NutzAndBoltz";
+import {GameSelection} from "./pages/GameSelection/GameSelectionPage"
 
 
 // docs: https://reactrouter.com/en/main/start/overview
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: "/nab",
     element: <NutzAndBoltz />
+  },
+  {
+    path: "/gameselection",
+    element: <GameSelection />
   }
 ]);
 

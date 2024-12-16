@@ -1,13 +1,27 @@
 import { killRobot } from "../services/robot"
-
-// add popup window?
-// should redirect to delete and create new robot
-
-// tests of updateMood in controller
-
+import { useState, useEffect } from "react";
 
 const KillButton = (props) => {
     
+    const [disableButton, setdisableButton] = useState(false);
+
+    useEffect(() => {
+        const checkAlive = async() => {
+            try {
+                
+                if(props.isAlive === false){
+                    setdisableButton(true);
+                } else if(props.isAlive === true){
+                    setdisableButton(false);
+                }
+
+            } catch (err) {
+                console.error("error fetching user robot", err);
+            }
+        }
+        checkAlive();
+    }, [props.isAlive]);
+
     const handleKill = async () => {
         try {
             const response = await killRobot(props.robotId);
@@ -22,7 +36,8 @@ const KillButton = (props) => {
     return (
         <div id='kill-robot-container'>
         <button id='kill-robot'
-        onClick={handleKill}>
+        onClick={handleKill}
+        disabled={disableButton}>
             Kill Robot.
         </button>
         </div>
