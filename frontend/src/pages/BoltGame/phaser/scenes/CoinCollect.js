@@ -174,7 +174,7 @@ export default class CoinCollect extends Phaser.Scene {
         this.right_key.on('down', () => {
             current_position_index = current_position_index + 1
             if(current_position_index > positions.length - 1){
-                current_position_index = 0
+                current_position_index = positions.length -1
             }
 
             const new_happyMood_position = positions[current_position_index]

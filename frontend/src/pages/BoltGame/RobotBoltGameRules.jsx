@@ -52,7 +52,7 @@ const RobotBoltGameRules = () => {
             ) : (
                 <RobotBoltGame robotId={robotData._id} />
             )}
-        </div>
+            </div>
     )
 }
 
