@@ -46,9 +46,9 @@
 - RA008 - Robot dies if hardware reaches 0%
 - RA009 - Robot mood starts at ‘Happy’ but can also be ‘Neutral’ or ‘Sad’
 - RA010 - Robot mood changes based on battery and hardware attributes:
-	- The robot's mood is set to 'Sad' if either battery or hardware is 30 or 					lower.
-	- The robot's mood is 'Neutral' if both battery and hardware are between 	31 and 			69.
-	- The robot's mood is 'Happy' if: both hardware and battery are above 70, or if one 			attribute (either battery or hardware) is at least 70, and the other attribute is at least 31.
+	- The robot's mood is set to 'Sad' if either battery or hardware is 30 or lower.
+	- The robot's mood is 'Neutral' if both battery and hardware are between 31 and 69.
+	- The robot's mood is 'Happy' if: both hardware and battery are above 70, or if one attribute (either battery or hardware) is at least 70, and the other attribute is at least 31.
 - RA011 - Hardware will randomly deplete by either 2, 5 or 15 upon logging in
 - RA012 - Battery will randomly deplete by either 2, 5 or - 10 upon logging in
 - RA013 - Currency starts at 500 for a newly-created robot. There is no maximum amount of currency
