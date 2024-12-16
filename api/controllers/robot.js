@@ -143,7 +143,10 @@ async function updateRobotIntelligence(req, res) {
 
         if (singleRobot.currency - 30 < 0) {
             return res.status(200).json({ message:"Insufficient funds" });
+        } else if (singleRobot.intelligence === singleRobot.memoryCapacity) {
+            return res.status(200).json({ message: "Insufficient memory storage" });
         }
+
         const randomNumber = Math.floor(Math.random() * 10);
         singleRobot.currency = singleRobot.currency -=30
         
