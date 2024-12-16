@@ -674,6 +674,30 @@ describe('PUT Intelligence', () => {
         expect(response.body.message).toBe('Insufficient funds')
     })
 
+    it('Should not do anything if intelligence is already at cap', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 50,
+            batteryLife: 100,
+            intelligence: 16,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id
+        const response = await request(app)
+        .put(`/robot/${robotId}/intelligence`)
+        .send({
+            intelligence: 10
+        });
+
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).toBe('Insufficient memory storage')
+    })
+
     it('Should not go above memory capacity', async () => {
         jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
 
