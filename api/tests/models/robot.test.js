@@ -10,7 +10,6 @@ describe("Robots model", () => {
 
     const robot = new Robot({
         name: "kimi",
-        currency: 100,
         batteryLife: 100,
         memoryCapacity: 128,
         intelligence: 0,
@@ -28,7 +27,7 @@ describe("Robots model", () => {
     });
 
     it('has currency', () => {
-        expect(robot.currency).toEqual(100);
+        expect(robot.currency).toEqual(500);
     });
 
     it('has batteryLife', () => {
@@ -81,7 +80,6 @@ describe("Robots model", () => {
     it('has all attributes', () => {
         const robot1 = new Robot({
             name: "ella",
-            currency: 100,
             batteryLife: 50,
             memoryCapacity: 32,
             intelligence: 0,
@@ -95,7 +93,7 @@ describe("Robots model", () => {
         });
 
         expect(robot1.name).toEqual("ella");
-        expect(robot1.currency).toEqual(100);
+        expect(robot1.currency).toEqual(500);
         expect(robot1.batteryLife).toEqual(50);
         expect(robot1.memoryCapacity).toEqual(32);
         expect(robot1.intelligence).toEqual(0);

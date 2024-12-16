@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const RobotSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    currency: { type: Number, default: 100 },
+    currency: { type: Number, default: 500 },
     batteryLife: { type: Number, default: 100 },
     memoryCapacity: { type: Number, default: 16 },
     intelligence: { type: Number, default: 0 },
