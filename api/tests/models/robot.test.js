@@ -13,7 +13,6 @@ describe("Robots model", () => {
         batteryLife: 100,
         memoryCapacity: 128,
         intelligence: 0,
-        hardware: 1,
         image: "",
         isAlive: true,
         mood: "Neutral",
@@ -43,7 +42,7 @@ describe("Robots model", () => {
     });
 
     it('has hardware', () => {
-        expect(robot.hardware).toEqual(1);
+        expect(robot.hardware).toEqual(100);
     });
 
     it('has image', () => {
@@ -83,7 +82,6 @@ describe("Robots model", () => {
             batteryLife: 50,
             memoryCapacity: 32,
             intelligence: 0,
-            hardware: 2,
             image: "",
             isAlive: true,
             mood: "Happy",
@@ -97,7 +95,7 @@ describe("Robots model", () => {
         expect(robot1.batteryLife).toEqual(50);
         expect(robot1.memoryCapacity).toEqual(32);
         expect(robot1.intelligence).toEqual(0);
-        expect(robot1.hardware).toEqual(2);
+        expect(robot1.hardware).toEqual(100);
         expect(robot1.image).toEqual("");
         expect(robot1.isAlive).toEqual(true);
         expect(robot1.mood).toEqual("Happy");
