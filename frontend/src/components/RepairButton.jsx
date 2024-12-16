@@ -7,6 +7,8 @@ const RepairButton = (props) => {
             const response = await updateRobotHardware(props.robotId, 50);
             if(response.message === "robot hardware updated"){
                 props.setRobotData(response.robot);
+            } else if (response.message === 'Insufficient funds') {
+                return
             }
         } catch (err) {
             console.error("error updating robot hardware", err);

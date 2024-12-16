@@ -4,20 +4,22 @@ const EnergyButtons = (props) => {
 
     const handleChargeByTen = async () => {
         try {
+            const response = await updateRobotCurrency(props.robotId, -10);
+            if(response.message === "robot currency updated"){
+                props.setRobotData(response.robot);
+            } else if (response.robot) {
+                return
+            }
+        } catch (err) {
+            console.error("error updating robot currency", err);
+        }
+        try {
             const response = await updateRobotBattery(props.robotId, 10);
             if(response.message === "robot battery updated"){
                 props.setRobotData(response.robot);
             }
         } catch (err) {
             console.error("error updating robot batteryLife", err);
-        }
-        try {
-            const response = await updateRobotCurrency(props.robotId, -10);
-            if(response.message === "robot currency updated"){
-                props.setRobotData(response.robot);
-            }
-        } catch (err) {
-            console.error("error updating robot currency", err);
         }
     }
 
@@ -26,20 +28,22 @@ const EnergyButtons = (props) => {
         const chargeCost = amountToCharge * (-1);
 
         try {
+            const response = await updateRobotCurrency(props.robotId, chargeCost);
+            if(response.message === "robot currency updated"){
+                props.setRobotData(response.robot);
+            } else if (response.message === 'Insufficient funds') {
+                return
+            }
+        } catch (err) {
+            console.error("error updating robot currency", err);
+        }
+        try {
             const response = await updateRobotBattery(props.robotId, amountToCharge);
             if(response.message === "robot battery updated"){
                 props.setRobotData(response.robot);
             }
         } catch (err) {
             console.error("error updating robot batterLife", err);
-        }
-        try {
-            const response = await updateRobotCurrency(props.robotId, chargeCost);
-            if(response.message === "robot currency updated"){
-                props.setRobotData(response.robot);
-            }
-        } catch (err) {
-            console.error("error updating robot currency", err);
         }
     }
     
