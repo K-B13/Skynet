@@ -1,6 +1,26 @@
 import { updateRobotBattery, updateRobotCurrency } from "../services/robot"
+import { useState, useEffect } from "react";
 
 const EnergyButtons = (props) => {
+    const [disableButton, setdisableButton] = useState(false);
+
+    useEffect(() => {
+        const checkAlive = async() => {
+            try {
+                console.log("energy props", props.isAlive);
+                
+                if(props.isAlive === false){
+                    setdisableButton(true);
+                } else if(props.isAlive === true){
+                    setdisableButton(false);
+                }
+
+            } catch (err) {
+                console.error("error fetching user robot", err);
+            }
+        }
+        checkAlive();
+    }, [props.isAlive]);
 
     const handleChargeByTen = async () => {
         try {
@@ -54,21 +74,19 @@ const EnergyButtons = (props) => {
         }
     }
 
-    // if(props.isAlive === false){
-    //     document.getElementById('charge-by-10').disabled = true;
-    // } else if(props.isAlive === true){
-    //     document.getElementById('charge-by-10').disabled = false;
-    // }
-
+    // if props.isAlive is false, setdisabledbutton = true
+    // and then disabled = disabledButton
     return (
         <>
             <div id='energy-buttons'>
+                <p>{disableButton}</p>
                 <button id='charge-by-10'
-                disabled={props.isAlive === false}
+                disabled={disableButton}
                 onClick={handleChargeByTen}>
                     charge +10
                 </button>
                 <button id='charge-to-full'
+                disabled={disableButton}
                 onClick={handleChargeToFull}>
                     charge full
                 </button>
@@ -80,11 +98,3 @@ const EnergyButtons = (props) => {
 }
 
 export default EnergyButtons
-
-// robotId and batteryLife passed down to calculate how to full
-
-// add services
-// pass down props through LandingPage
-// button functionality on this page:
-//  - make a handle function for each change
-//  - 

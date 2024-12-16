@@ -92,22 +92,28 @@ const LandingPage = () => {
 
         <EnergyButtons
             setRobotData={setRobotData}
+            isAlive={robotData.isAlive}
             robotId={robotData._id}
             batteryLife={robotData.batteryLife}/>
         <MemoryButtons
+            robot={robotData}
             setRobotData={setRobotData}
+            isAlive={robotData.isAlive}
             robotId={robotData._id}
             memoryCapacity={robotData.memoryCapacity}
             setDidNotLearn={setDidNotLearn}
         />
         <RepairButton
             setRobotData={setRobotData}
+            isAlive={robotData.isAlive}
             robotId={robotData._id}/>
         <SpeakButton 
-            constructSpeach={constructSpeach} 
+            constructSpeach={constructSpeach}
+            isAlive={robotData.isAlive} 
             />
         <KillButton
             setRobotData={setRobotData}
+            isAlive={robotData.isAlive}
             robotId={robotData._id}/>
 
         {!robotData.isAlive && 
