@@ -196,3 +196,19 @@ export const lowerRobotBattery = async (robotId) => {
     return data;
 }
 
+export const getRobotSpeach = async (robotId) => {
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/speach`);
+
+    const requestOptions = {
+        method: 'GET'
+    }
+
+    if(!response.ok) {
+        throw new Error('Failed to get robot message', requestOptions)
+    }
+
+    const data = await response.json()
+
+    return data
+}
+
