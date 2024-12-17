@@ -4,8 +4,8 @@
 - Testing the current application against its specification
 - ✅ = pass ❌ = fail
 - Will update periodically as the application progresses
-- Last updated 5pm Monday 16th Dec
-- Current results = 57 ✅ 13 ❌
+- Last updated 2pm Tuesday 17th Dec
+- Current results = 63 ✅ 7 ❌
 
 ### Accounts and authentication
 - AA001 - Users can sign up with username and password. There is visual feedback for doing so. ✅
@@ -28,9 +28,9 @@
 
 ### Robot Creation and Display
 - RB001 - Users cannot create a robot without being signed up and logged in. ✅ (still testing API)
-- RB002 - Users must name their robot in the robot creation screen. ✅ There is a maximum robot name length ❌
+- RB002 - Users must name their robot in the robot creation screen. ✅ There is a maximum robot name length ✅ (but not on API)
 - RB003 - Users must choose one personality for their robot. The default is ‘helpful’, but they can also choose ‘playful’, ‘wise’ or ‘fiery’ ✅
-- RB004 - Users can add to a list of up to 5 ‘likes’ and ‘dislikes’ for their robot. ✅ These impact the robot’s personality. ✅ Likes/dislikes are written by the user themself ✅ and they have a maximum length ❌
+- RB004 - Users can add to a list of up to 5 ‘likes’ and ‘dislikes’ for their robot. ✅ These impact the robot’s personality. ✅ Likes/dislikes are written by the user themself ✅ and they have a maximum length ✅ (but not on API)
 - RB005 - After creating a robot, users can see their robot and its attributes on the home screen ✅
 - RB006 - If a user logs in and they have not created a robot yet, they will be prompted to create one. ✅ Otherwise, they will be guided to the home screen, where they can see their robot and its attributes ✅
 - RB007- The following attributes are visible on the home screen:
@@ -43,12 +43,12 @@
 	- Currency ✅
 
 ### Robot Attributes
-- RA001 - Battery starts at 100% ❌ (will be done in the future) and can only be 0-100% ✅
+- RA001 - Battery starts at 100% ✅ and can only be 0-100% ✅
 - RA002 - Battery depletes by 5% for every 30 minutes of in-game usage ✅
 - RA003 - Robot dies if battery reaches 0% ✅
 - RA004 - Memory starts at 16GB ✅ and can only be
-16-4096GB ❌
-- RA005 - Intelligence starts at 0 ✅ and can only be 0-4096 ❌ (will be fixed when memory cap is implemented) 
+16-4096GB ✅
+- RA005 - Intelligence starts at 0 ✅ and can only be 0-4096 ✅
 - RA006 - Intelligence can never be higher than memory ✅
 - RA007 - Hardware starts at 100% ✅ and can only be 0-100% ✅
 - RA008 - Robot dies if hardware reaches 0% (pending testing)
@@ -71,7 +71,7 @@
 - UP006 - Users can kill their robot ✅
 - UP007 - If a robot dies, there is visual feedback. Dead robots cannot be interacted with ✅ (although currently there is not enough visual feedback)
 - UP008 - Users can create a new robot of their robot dies ✅
-- UP009 - Users cannot charge, teach, upgrade hardware or increase memory if they do not have the required currency ❌
+- UP009 - Users cannot charge, teach, upgrade hardware or increase memory if they do not have the required currency ✅
 
 ### Minigames
 - MG001 - Users can play mini games in order to earn currency ✅
@@ -84,4 +84,4 @@
 
 ## Results
 
-57 ✅ 13 ❌
+63 ✅ 7 ❌
