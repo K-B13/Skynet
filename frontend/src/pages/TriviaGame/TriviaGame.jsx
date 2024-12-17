@@ -48,11 +48,12 @@ export function TriviaGame() {
 
     useEffect(() => {
         if (gameOver) {
-            calculateCash(level, score);
+            const cash = calculateCash(level, score);
+            setMoneyEarned(cash)
+            
             const updateCurrency = async () => {
                 try {
-                    const response = await updateRobotCurrency(robotId, moneyEarned);
-                    console.log("MONEY EARNED TRIVIA: ",moneyEarned);
+                    const response = await updateRobotCurrency(robotId, cash);
                     
                     if(response.message === 'robot currency updated'){
                         navigate('/landingpage')
@@ -78,11 +79,11 @@ export function TriviaGame() {
 
     const calculateCash = (level, score) => {
         if (level === "easy") {
-            setMoneyEarned(score * 5);
+            return score * 5
         } else if (level === "medium") {
-            setMoneyEarned(score * 10);
+            return score * 10
         } else {
-            setMoneyEarned(score * 15);
+            return score * 15
         }
     };
 
