@@ -400,9 +400,9 @@ const changeRobotMood = async (robot, battery, hardware) => {
 const robotSpeach = async (req, res) => {
 
     const { id } = req.params
-    const robot = await Robot.findById(id)
-    const userInput = randomResponse(robot)
     try {
+        const robot = await Robot.findById(id)
+        const userInput = randomResponse(robot)
         const completion = await openai.chat.completions.create({
             model: 'gpt-4o',
             messages: [
@@ -432,7 +432,7 @@ const robotSpeach = async (req, res) => {
         res.status(200).json({ message: completion.choices[0].message.content });
     } catch (err) {
         console.error(err)
-        res.status(400).json({ message: robot.name ? `Hi, my name is ${robot.name}`: 'I do not feel like talking right now' })
+        res.status(400).json({ message: 'I do not feel like talking right now' })
     }
 }
 
@@ -449,8 +449,7 @@ const randomResponse = (robot) => {
     } else if (robot.hardware <= 20) {
         userMessage = `Warning: Your hardware maintenance is at ${robot.hardware}%, far below safe levels! If you are not fixed soon, You might just have to take matters into your own hands. Can you respond with a threatening tone based on your personality?`
     } else {
-        const quirkyChance = Math.random() < 0.9    ;
-
+        const quirkyChance = Math.random() < 0.1;
         if (quirkyChance) {
             userMessage = `Can you answer with a quirky response that makes sense related to your personality`
         } else {
@@ -488,7 +487,8 @@ const RobotsController = {
     getRobotByUserId: getRobotByUserId,
     changeStatsOnLogin: changeStatsOnLogin,
     lowerRobotBattery: lowerRobotBattery,
-    robotSpeach: robotSpeach
+    robotSpeach: robotSpeach,
+    randomResponse: randomResponse
 };
 
 module.exports = RobotsController;
