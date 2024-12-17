@@ -1,4 +1,10 @@
 const Robot = require("../models/robot");
+const OpenAI = require("openai");
+const orgId =  process.env.ORG_ID
+const key = process.env.OPENAI_KEY
+const openai = new OpenAI({
+    apiKey: key
+});
 
 async function createRobot(req, res) {
     
@@ -11,7 +17,7 @@ async function createRobot(req, res) {
         const robot = new Robot({
             name, likes, dislikes, userId
         });
-
+        changeRobotMood(robot, robot.batteryLife, robot.hardware)
         await robot.save()
         res.status(201).json({message: "Robot created"});
 
@@ -400,6 +406,39 @@ const changeRobotMood = async (robot, battery, hardware) => {
     }
 }
 
+const robotSpeach = async (req, res) => {
+    const { id } = req.params
+    console.log(id)
+    const robot = await Robot.findById(id)
+    console.log(robot)
+    const completion = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+            {
+                'role': 'system',
+                'content': [
+                    {
+                        'type': 'text',
+                        'text':
+                        `You are a virtual robot. You are speaking to your owner.Your name is ${robot.name} Your personality is ${robot.personality} and you are currently ${robot.mood}`
+                    }
+                ]
+            },
+            {
+                'role': 'user',
+                'content': [
+                    {
+                        'type': 'text',
+                        'text': 'How are you doing?'
+                    }
+                ]
+            }
+        ]
+    })
+
+    res.status(400).json({ message: completion.choices[0].message });
+}
+
 const RobotsController = {
     createRobot: createRobot,
     updateRobotCurrency: updateRobotCurrency,
@@ -412,7 +451,8 @@ const RobotsController = {
     deleteRobot: deleteRobot,
     getRobotByUserId: getRobotByUserId,
     changeStatsOnLogin: changeStatsOnLogin,
-    lowerRobotBattery: lowerRobotBattery
+    lowerRobotBattery: lowerRobotBattery,
+    robotSpeach: robotSpeach
 };
 
 module.exports = RobotsController;
