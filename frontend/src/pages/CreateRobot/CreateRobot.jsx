@@ -80,6 +80,7 @@ const CreateRobot = () => {
                             id='create-robot-name'
                             name='name'
                             className='name-input'
+                            maxLength='40'
                             value={formDetails.name}
                             onChange={handleChanges}
                             required

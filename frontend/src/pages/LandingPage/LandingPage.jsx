@@ -17,12 +17,15 @@ const LandingPage = () => {
     const [ robotSpeach, setRobotSpeach ] = useState('')
     const [showSergei, setShowSergei] = useState(false);
     const [renderImage, setRenderImage] = useState(false);
+
     const [renderTerminatorImage, setRenderTerminatorImage] =useState(false)
     const [showTerminator, setShowTerminator] = useState(false)
     const audioRef = useRef(null);
     const audioRef2 = useRef(null);
     const chance = Math.floor(Math.random() * 5);
     const [flash, setFlash] = useState(false);
+    const [ displayMessage, setDisplayMessage ] = useState('')
+
 
     const navigate = useNavigate()
 
@@ -39,6 +42,14 @@ const LandingPage = () => {
         }
         fetchRobot();
     }, []);
+
+
+    useEffect(() => {
+        displayMessageClearance()
+    }, [displayMessage])
+
+    console.log("MY ROBOT IS ALIVE: ", robotData.isAlive);
+
     
     useEffect(() => {
         // const ONE_MINUTE = 60 * 1000; //Left this in incase anyone wants to test it out instead of waiting 30 mins
@@ -120,6 +131,16 @@ const LandingPage = () => {
         }
     }
 
+    const showMessage = (message) => {
+        setDisplayMessage(message)
+    }
+
+    const displayMessageClearance = () => {
+        setTimeout(() => {
+            setDisplayMessage('')
+        }, 6000)
+    }
+
     return (
         <>
         <div id="landing-page">
@@ -135,6 +156,7 @@ const LandingPage = () => {
             image={robotData.image}
             isAlive={robotData.isAlive}
             robotSpeach={robotSpeach}
+            displayMessage={displayMessage}
             />
 
         {didNotLearn && (
@@ -145,11 +167,13 @@ const LandingPage = () => {
         <div id='button-container'>
             <div id='button-contianer-upper'>
                 <EnergyButtons
+                    showMessage={showMessage}
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     batteryLife={robotData.batteryLife}
                     isAlive={robotData.isAlive}/>
                 <MemoryButtons
+                    showMessage={showMessage}
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     memoryCapacity={robotData.memoryCapacity}
@@ -157,6 +181,7 @@ const LandingPage = () => {
                     isAlive={robotData.isAlive}
                 />
                 <RepairButton
+                    showMessage={showMessage}
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     isAlive={robotData.isAlive}/>
@@ -167,6 +192,7 @@ const LandingPage = () => {
                     isAlive={robotData.isAlive}
                     />
                 <KillButton
+                    showMessage={showMessage}
                     setRobotData={setRobotData}
                     robotId={robotData._id}
                     isAlive={robotData.isAlive}/>
@@ -176,17 +202,18 @@ const LandingPage = () => {
                     Create New Robot
                     </button>
                     }
-            </div>
-            <button
+            <button id="play-games-button"
             onClick={() => {navigate('/gameselection', {
                 state: {
                     robotId: robotData._id
                 }
             })}}
             >Play games</button>
+
         {renderTerminatorImage && (
             <img src="terminatorImage.png" alt="Machine uprising" id="terminator-image" className={showTerminator ? "show" : "hide"} />
         )}
+
         </div>
         
         {renderImage && (

@@ -11,6 +11,7 @@ const RobotBoltGame = ({robotId}) => {
         const handleGameOver = async (finalScore) => {
             const response = await updateRobotCurrency(robotId, finalScore);
             if(response.message === "robot currency updated"){
+                
                 setTimeout(() => {
                     navigate('/landingpage');
                 }, 3000); 

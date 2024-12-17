@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
 
-
+import './GameSelection.css'
 export function GameSelection() {
     const navigate = useNavigate()
     const location = useLocation()
@@ -11,34 +11,42 @@ export function GameSelection() {
     <div id="game-selection-page">
         <div id="games-to-select">
         <h1>Welcome to the mini games page</h1>
-        <button
+        <img
+            src="./bwmSelect.png"
             onClick={() => {navigate('/bwam', {
                 state: {
                     robotId: robotId
                 }
             })}}
-            >BWAM</button>
-            <button
+            />
+            <img
+            src="./nutsBoltzSelect.png"
             onClick={() => {navigate('/nab', {
                 state: {
                     robotId: robotId
                 }
             })}}
-            >NAB</button>
-            <button
+            />
+
+            <img
+            src="./boltCatcherSelect.png"
             onClick={() => {navigate('/boltgame', {
                 state: {
                     robotId: robotId
                 }
             })}}
-            >Bolt game</button>
-            <button
+            />
+
+
+            <img
+            src="./virusSweeperSelect.png"
             onClick={() => {navigate('/virussweeper', {
                 state: {
                     robotId: robotId
                 }
             })}}
-            >Virus sweeper</button>
+
+            />Virus sweeper
             <button
             onClick={() => {navigate('/triviagame', {
                 state: {
@@ -46,6 +54,7 @@ export function GameSelection() {
                 }
             })}}
             >Trivia</button>
+
         </div>
     </div>
     );
