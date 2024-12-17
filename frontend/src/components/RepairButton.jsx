@@ -8,7 +8,6 @@ const RepairButton = (props) => {
     useEffect(() => {
         const checkAlive = async() => {
             try {
-                
                 if(props.isAlive === false){
                     setdisableButton(true);
                 } else if(props.isAlive === true){
@@ -25,9 +24,11 @@ const RepairButton = (props) => {
     const handleRepair = async () => {
         try {
             const response = await updateRobotHardware(props.robotId, 50);
+            console.log(response)
             if(response.message === "robot hardware updated"){
                 props.setRobotData(response.robot);
-            } else if (response.message === 'Insufficient funds') {
+            } else if (!response.robot) {
+                props.showMessage(response.message)
                 return
             }
         } catch (err) {
