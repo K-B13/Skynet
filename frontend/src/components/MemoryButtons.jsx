@@ -30,6 +30,10 @@ const MemoryButtons = (props) => {
             if(response.message === "Robot intelligence did not increase"){
                 props.setDidNotLearn(true)
             }
+            if(response.robot) {
+                return
+            }
+
         } catch (err) {
             console.error("error updating robot intelligence", err);
         }
@@ -43,6 +47,8 @@ const MemoryButtons = (props) => {
             const response = await updateRobotMemory(props.robotId);
             if(response.message === "Robot memory upgraded"){
                 props.setRobotData(response.robot);
+            } else if (response.robot) {
+                return
             }
     
         } catch (err) {
