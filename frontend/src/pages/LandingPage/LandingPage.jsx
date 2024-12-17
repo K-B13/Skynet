@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getRobotByUserId, lowerRobotBattery, deleteRobot, getRobotSpeach } from "../../services/robot";
 
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
@@ -96,6 +96,8 @@ const LandingPage = () => {
             }
             setRobotSpeach(response.message)
         }
+        speachClearance()
+    }
 
     useEffect(() => {
         if (robotData.isAlive === false) {
@@ -123,10 +125,6 @@ const LandingPage = () => {
         audioRef2.current.pause();
         audioRef2.current.currentTime = 0;
     };
-
-
-        speachClearance()
-    }
 
     const speachClearance = () => {
         setTimeout(() => {
