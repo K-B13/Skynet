@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
-
-
 import './GameSelection.css'
+import NavBar from "../NavBar/NavBar";
+
 export function GameSelection() {
     const navigate = useNavigate()
     const location = useLocation()
@@ -9,6 +9,7 @@ export function GameSelection() {
     
     return (
     <div id="game-selection-page">
+        <NavBar robotId={robotId}/>
         <div id="games-to-select">
         <h1>Welcome to the mini games page</h1>
         <img

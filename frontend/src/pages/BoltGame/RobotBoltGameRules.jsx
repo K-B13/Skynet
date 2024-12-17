@@ -2,6 +2,7 @@ import {useState } from "react";
 import RobotBoltGame from '../BoltGame/RobotBoltGame'
 import "./RobotBoltGameRules.css"
 import { useLocation } from "react-router-dom";
+import NavBar from "../NavBar/NavBar";
 
 const RobotBoltGameRules = () => {
 
@@ -15,6 +16,7 @@ const RobotBoltGameRules = () => {
 
     return (
         <div id ="robot-bolt-game-page">
+            <NavBar robotId={robotId}/>
             <div id="robot-bolt-game-rules-container">
             <h1 id="bolt-game-title">Rules</h1>
             <p>When the game begins bolts will fall down, your job is to catch them which will earn you money!

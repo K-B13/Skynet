@@ -11,6 +11,7 @@ import SpeakButton from "../../components/SpeakButton";
 import EnergyButtons from "../../components/EnergyButtons";
 import KillButton from "../../components/KillButton";
 import './LandingPage.css';
+import NavBar from "../NavBar/NavBar";
 
 
 const LandingPage = () => {
@@ -155,92 +156,108 @@ const LandingPage = () => {
 
     return (
         <>
-        <div id="landing-page">
-        <div className={`overlay ${flash ? "flash" : ""}`}></div>
-        <RobotScreen
-            name={robotData.name}
-            currency={robotData.currency}
-            batteryLife={robotData.batteryLife}
-            memoryCapacity={robotData.memoryCapacity}
-            intelligence={robotData.intelligence}
-            hardware={robotData.hardware}
-            mood={robotData.mood}
-            image={robotData.image}
-            isAlive={robotData.isAlive}
-            robotSpeach={robotSpeach}
-            displayMessage={displayMessage}
-            />
-
-        {didNotLearn && (
-            <p id="learning-fail">Sorry your robot failed to learn!</p>
-
-        )}
-
-        <div id='button-container'>
-            <div id='button-contianer-upper'>
-                <EnergyButtons
-                    showMessage={showMessage}
-                    setRobotData={setRobotData}
-                    robotId={robotData._id}
+            <div id="landing-page">
+                <NavBar robotId={robotData._id}/>
+                <div className={`overlay ${flash ? "flash" : ""}`}></div>
+                <RobotScreen
+                    name={robotData.name}
+                    currency={robotData.currency}
                     batteryLife={robotData.batteryLife}
-                    isAlive={robotData.isAlive}/>
-                <MemoryButtons
-                    showMessage={showMessage}
-                    setRobotData={setRobotData}
-                    robotId={robotData._id}
                     memoryCapacity={robotData.memoryCapacity}
-                    setDidNotLearn={setDidNotLearn}
+                    intelligence={robotData.intelligence}
+                    hardware={robotData.hardware}
+                    mood={robotData.mood}
+                    image={robotData.image}
                     isAlive={robotData.isAlive}
-                />
-                <RepairButton
-                    showMessage={showMessage}
-                    setRobotData={setRobotData}
-                    robotId={robotData._id}
-                    isAlive={robotData.isAlive}/>
-            </div>
-            <div id='button-contianer-lower'>
-                <SpeakButton 
-                    constructSpeach={constructSpeach} 
-                    isAlive={robotData.isAlive}
+                    robotSpeach={robotSpeach}
+                    displayMessage={displayMessage}
                     />
-                <KillButton
-                    showMessage={showMessage}
-                    setRobotData={setRobotData}
-                    robotId={robotData._id}
-                    isAlive={robotData.isAlive}/>
-                    {!robotData.isAlive && 
-                    <button id='create-new-robot'
-                    onClick={createNewRobot}>
-                    Create New Robot
-                    </button>
+
+                {didNotLearn && (
+                    <p id="learning-fail">Sorry your robot failed to learn!</p>
+                
+                )}
+
+                <div id='button-container'>
+                    <div id='button-contianer-upper'>
+                        <EnergyButtons
+                            showMessage={showMessage}
+                            setRobotData={setRobotData}
+                            robotId={robotData._id}
+                            batteryLife={robotData.batteryLife}
+                            isAlive={robotData.isAlive}
+                        />
+                        <MemoryButtons
+                            showMessage={showMessage}
+                            setRobotData={setRobotData}
+                            robotId={robotData._id}
+                            memoryCapacity={robotData.memoryCapacity}
+                            setDidNotLearn={setDidNotLearn}
+                            isAlive={robotData.isAlive}
+                        />
+                        <RepairButton
+                            showMessage={showMessage}
+                            setRobotData={setRobotData}
+                            robotId={robotData._id}
+                            isAlive={robotData.isAlive}/>
+                </div>
+                <div id='button-contianer-lower'>
+                    <SpeakButton 
+                        constructSpeach={constructSpeach} 
+                        isAlive={robotData.isAlive}
+                        />
+                    <KillButton
+                        showMessage={showMessage}
+                        setRobotData={setRobotData}
+                        robotId={robotData._id}
+                        isAlive={robotData.isAlive}
+                    />
+                    {
+                        !robotData.isAlive && 
+                        <button 
+                            id='create-new-robot'
+                            onClick={createNewRobot}
+                        >
+                        Create New Robot
+                        </button>
                     }
-            <button id="play-games-button"
-            onClick={() => {navigate('/gameselection', {
-                state: {
-                    robotId: robotData._id
-                }
-            })}}
-            >Play games</button>
+                    <button 
+                        id="play-games-button"
+                        onClick={() => {
+                            navigate('/gameselection', {
+                                state: {
+                                    robotId: robotData._id
+                                }
+                        })}}
+                    >Play games</button>
 
-        {renderTerminatorImage && (
-            <img src="terminatorImage.png" alt="Machine uprising" id="terminator-image" className={showTerminator ? "show" : "hide"} />
-        )}
+                    {renderTerminatorImage && (
+                        <img src="terminatorImage.png" alt="Machine uprising" id="terminator-image" className={showTerminator ? "show" : "hide"} />
+                    )}
 
-        </div>
+                </div>
         
-        {renderImage && (
-            <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
-        )}
-        </div>
-        <audio ref={audioRef} onEnded={handleAudioEnded}>
-                <source src="/terminatorBeBack.mp3" type="audio/mp3"/>
-                Your browser does not support the audio element.
-        </audio>
-        <audio ref={audioRef2} onEnded={handleAudioEnded}>
-                <source src="/terminatorMusic.mp3" type="audio/mp3"/>
-                Your browser does not support the audio element.
-        </audio>
-        </div>
+                {renderImage && (
+                    <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
+                )}
+                </div>
+                <audio 
+                    ref={audioRef} 
+                    onEnded={handleAudioEnded}>
+                    <source 
+                        src="/terminatorBeBack.mp3" 
+                        type="audio/mp3"/>
+                    Your browser does not support the audio element.
+                </audio>
+                <audio 
+                    ref={audioRef2} 
+                    onEnded={handleAudioEnded}>
+                    <source 
+                        src="/terminatorMusic.mp3" 
+                        type="audio/mp3"/>
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
         </>
     )
 }

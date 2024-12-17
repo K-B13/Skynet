@@ -9,6 +9,7 @@ import BWAMScoreboard from "../../components/BWAM/BWAMScoreboard"
 import { useNavigate, useLocation } from "react-router-dom";
 import './BWAM.css'
 import { updateRobotCurrency } from "../../services/robot"
+import NavBar from "../NavBar/NavBar"
 
 const BWAM = () => {
     const [ selectedChoice, setSelectedChoice ] = useState({
@@ -117,6 +118,7 @@ const BWAM = () => {
     }
     return (
         <div id='BWAM-game'>
+            <NavBar robotId={robotId}/>
             <div id='BWAM-header'>
                 <BWAMRules />
                 <div id='BWAM-title-container'>

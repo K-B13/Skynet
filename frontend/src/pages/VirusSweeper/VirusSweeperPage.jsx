@@ -1,3 +1,4 @@
+import NavBar from '../NavBar/NavBar.jsx';
 import VirusSweeperBoard from './VirusSweeperBoard.jsx'; 
 import './VirusSweeperPage.css';  
 import { useState,useRef } from 'react';
@@ -24,7 +25,7 @@ const handleStartGame = () => {
 
     return (
     <div id="virus-sweeper-page">
-
+        <NavBar robotId={robotId}/>
         <h1>Virus Sweeper</h1>
         {!gameStarted ? (
             <div id="virus-sweeper-rules">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation} from "react-router-dom";
 import './TriviaGamePage.css'
+import NavBar from "../NavBar/NavBar";
 
 
 export function TriviaGamePage() {
@@ -26,6 +27,7 @@ export function TriviaGamePage() {
     
     return (
     <div id="trivia-game-rules-page">
+        <NavBar robotId={robotId}/>
         <div id="trivia-game-rules-container">
         <h1>Welcome to the trivia game!</h1>
         <p>You will work through a selection of 20 questions, for every correct question you will gain $ to spend on your Robot</p>
