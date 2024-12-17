@@ -1593,7 +1593,7 @@ describe('PUT lower battery', () => {
             const prompt = randomResponse(robot)
             expect(prompt).toBe(`Warning! You are in critical condition. Your battery is at ${robot.batteryLife}% and your hardware maintenance is at ${robot.hardware}%. You must act quickly! Can you respond urgently, pleading for help based on your personality?`)
         })
-        
+
         it('Tests if your battery is low', async () => {
             const robot = new Robot({
                 name: "kimi",
@@ -1668,10 +1668,7 @@ describe('PUT lower battery', () => {
                 dislikes: ["oranges"],
             });
             const prompt = randomResponse(robot)
-            expect(prompt).toBe(userMessage = `You dislike the following: "orange". Respond in the first person as if you are personally expressing this dislike. 
-Start by clearly stating, "I dislike [thing] because..." or "I hate [thing] because...". 
-Then provide a specific and personal reason that reflects why it bothers you or disrupts your peace, 
-considering your personality and current mood.`)
+            expect(prompt).toBe(userMessage = `You dislike the following: "oranges". Respond in the first person as if you are personally expressing this dislike. Start by clearly stating, "I dislike [thing] because..." or "I hate [thing] because...".  Then provide a specific and personal reason that reflects why it bothers you or disrupts your peace, considering your personality and current mood.`)
         })
 
         it('Tests if you get a quirky response if you have no likes', async () => {

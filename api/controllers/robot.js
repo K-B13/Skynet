@@ -480,10 +480,7 @@ const randomResponse = (robot) => {
             } else {
                 if (robot.dislikes.length !== 0) {
                     const randomDislike = robot.dislikes[Math.floor(Math.random() * robot.dislikes.length)];
-                    userMessage = `You dislike the following: "${randomDislike}". Respond in the first person as if you are personally expressing this dislike. 
-Start by clearly stating, "I dislike [thing] because..." or "I hate [thing] because...". 
-Then provide a specific and personal reason that reflects why it bothers you or disrupts your peace, 
-considering your personality and current mood.`;
+                    userMessage = `You dislike the following: "${randomDislike}". Respond in the first person as if you are personally expressing this dislike. Start by clearly stating, "I dislike [thing] because..." or "I hate [thing] because...".  Then provide a specific and personal reason that reflects why it bothers you or disrupts your peace, considering your personality and current mood.`;
                 } else {
                     userMessage =`Can you answer with a quirky response that makes sense related to your personality`
                 }
