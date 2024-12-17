@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRobotByUserId, lowerRobotBattery, deleteRobot } from "../../services/robot";
+import { getRobotByUserId, lowerRobotBattery, deleteRobot, getRobotSpeach } from "../../services/robot";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 import { useNavigate } from "react-router-dom";
 import RobotScreen from "../../components/RobotScreen"
@@ -69,18 +69,23 @@ const LandingPage = () => {
         }
     }, [robotData.currency]);
 
-    const constructSpeach = (dealWithOpinions) => {
-        const initialGreetings = `Hello, I am ${robotData.name}. `
-        const likes = dealWithOpinions(robotData.likes, 'like')
-        const dislikes = dealWithOpinions(robotData.dislikes, 'dislike')
-        setRobotSpeach(`${initialGreetings} ${likes} ${dislikes}`)
+    const constructSpeach = async (dealWithOpinions) => {
+        if (robotData.intelligence <= 100){
+            const initialGreetings = `Hello, I am ${robotData.name}. `
+            const likes = dealWithOpinions(robotData.likes, 'like')
+            const dislikes = dealWithOpinions(robotData.dislikes, 'dislike')
+            setRobotSpeach(`${initialGreetings} ${likes} ${dislikes}`)
+        } else {
+            const response = await getRobotSpeach(robotData._id)
+            setRobotSpeach(response)
+        }
         speachClearance()
     }
 
     const speachClearance = () => {
         setTimeout(() => {
             setRobotSpeach('')
-        }, 5000)
+        }, 8000)
     }
 
     const createNewRobot =  async () => {
