@@ -20,6 +20,7 @@ export function TriviaGame() {
     const [gameOver, setGameOver] = useState(false);
     const [moneyEarned, setMoneyEarned] = useState(0);
     const navigate = useNavigate()
+    
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -52,7 +53,7 @@ export function TriviaGame() {
                 try {
                     const response = await updateRobotCurrency(robotId, moneyEarned);
                     if(response.message === 'robot currency updated'){
-                        navigate('/gameselection')
+                        navigate('/landingpage')
                     }
                 } catch (error) {
                     console.error("Error updating currency:", error);
@@ -109,10 +110,12 @@ export function TriviaGame() {
 
     if (gameOver) {
         return (
-            <div>
+            <div id="trivia-game-over">
+                <div id="trivia-game-over-container">
                 <h1>Game Over!</h1>
                 <p>Your final score: {score} points</p>
                 <p>You will receive ${moneyEarned}</p>
+                </div>
             </div>
         );
     }
@@ -129,11 +132,13 @@ export function TriviaGame() {
     ];
 
     return (
-        <div>
+        <div id="trivia-game">
+            <div id="trivia-game-question-container">
             <h1>Trivia Game - {level} Level</h1>
+            <p id="trivia-score">Your Score: {score}</p>
             <h2>Question: {questionNum}</h2>
             <h3>Category: {decodeHtmlEntities(currentQuestion.category)}</h3>
-            <p>{decodeHtmlEntities(currentQuestion.question)}</p>
+            <p id="question">{decodeHtmlEntities(currentQuestion.question)}</p>
             <ul>
                 {allAnswers.map((answer, index) => {
                     const isCorrect = answer === currentQuestion.correct_answer;
@@ -159,7 +164,7 @@ export function TriviaGame() {
                     );
                 })}
             </ul>
-            <p>Your Score: {score}</p>
+            </div>
         </div>
     );
 }

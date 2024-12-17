@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation} from "react-router-dom";
-
+import './TriviaGamePage.css'
 
 
 export function TriviaGamePage() {
@@ -26,13 +26,25 @@ export function TriviaGamePage() {
     
     return (
     <div id="trivia-game-rules-page">
+        <div id="trivia-game-rules-container">
         <h1>Welcome to the trivia game!</h1>
-        <p>You will work through a selection of 20 questions, for every correct question your will gain $10 to spend on your Robot</p>
-        <p> Please select your difficult level and then click start</p>
+        <p>You will work through a selection of 20 questions, for every correct question you will gain $ to spend on your Robot</p>
+        <h2>Scoring</h2>
+        <p>Easy level will give you $5 x your final score
+            <br/>
+            <br/>
+            Medium level will give you $10 x your final score
+            <br/>
+            <br/>
+            Hard level will give you $15 x your final score
+        </p>
+        <h3> Please select your difficulty level</h3>
         <button value="easy"onClick={handleSelection}>Easy</button>
         <button value="medium"onClick={handleSelection}>Medium</button>
         <button value="hard"onClick={handleSelection}>Hard</button>
+        <p>Click start to start the game</p>
         <button onClick={handleStart}>Start</button>
+        </div>
     </div>
     );
 }
