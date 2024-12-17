@@ -1593,6 +1593,7 @@ describe('PUT lower battery', () => {
             const prompt = randomResponse(robot)
             expect(prompt).toBe(`Warning! You are in critical condition. Your battery is at ${robot.batteryLife}% and your hardware maintenance is at ${robot.hardware}%. You must act quickly! Can you respond urgently, pleading for help based on your personality?`)
         })
+        
         it('Tests if your battery is low', async () => {
             const robot = new Robot({
                 name: "kimi",
@@ -1604,6 +1605,7 @@ describe('PUT lower battery', () => {
             const prompt = randomResponse(robot)
             expect(prompt).toBe(`Critical warning: Your battery is dangerously low at ${robot.batteryLife}%. Please respond as if your very survival depends on it, reflecting your desperation based on your personality.`)
         })
+
         it('Tests if your hardware is low', async () => {
             const robot = new Robot({
                 name: "kimi",
@@ -1615,9 +1617,10 @@ describe('PUT lower battery', () => {
             const prompt = randomResponse(robot)
             expect(prompt).toBe(`Warning: Your hardware maintenance is at ${robot.hardware}%, far below safe levels! If you are not fixed soon, You might just have to take matters into your own hands. Can you respond with a threatening tone based on your personality?`)
         })
+
         it('Tests if get a quirky prompt', async () => {
             jest.spyOn(global.Math, 'random')
-            .mockReturnValueOnce(0.01)
+            .mockReturnValueOnce(0.1)
             const robot = new Robot({
                 name: "kimi",
                 likes: ["apples", "politics"],
@@ -1626,9 +1629,10 @@ describe('PUT lower battery', () => {
             const prompt = randomResponse(robot)
             expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
         })
+
         it('Tests if get a prompt about likes', async () => {
             jest.spyOn(global.Math, 'random')
-            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.2)
             .mockReturnValueOnce(0.1)
             .mockReturnValueOnce(0.5)
             const robot = new Robot({
@@ -1642,7 +1646,7 @@ describe('PUT lower battery', () => {
         
         it('Tests if you get a quirky response if you have no likes', async () => {
             jest.spyOn(global.Math, 'random')
-            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.2)
             .mockReturnValueOnce(0.1)
             const robot = new Robot({
                 name: "kimi",
@@ -1652,9 +1656,10 @@ describe('PUT lower battery', () => {
             const prompt = randomResponse(robot)
             expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
         })
+
         it('Tests if get a prompt about dislikes', async () => {
             jest.spyOn(global.Math, 'random')
-            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.2)
             .mockReturnValueOnce(0.6)
             .mockReturnValueOnce(0.5)
             const robot = new Robot({
@@ -1663,11 +1668,15 @@ describe('PUT lower battery', () => {
                 dislikes: ["oranges"],
             });
             const prompt = randomResponse(robot)
-            expect(prompt).toBe(`You express your opinion about something you dislike: "oranges". It bothers you because it contradicts your values or disrupts your peace. Make sure you directly mention what you are talking about and your opinion on it.`)
+            expect(prompt).toBe(userMessage = `You dislike the following: "orange". Respond in the first person as if you are personally expressing this dislike. 
+Start by clearly stating, "I dislike [thing] because..." or "I hate [thing] because...". 
+Then provide a specific and personal reason that reflects why it bothers you or disrupts your peace, 
+considering your personality and current mood.`)
         })
+
         it('Tests if you get a quirky response if you have no likes', async () => {
             jest.spyOn(global.Math, 'random')
-            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.2)
             .mockReturnValueOnce(0.5)
             const robot = new Robot({
                 name: "kimi",

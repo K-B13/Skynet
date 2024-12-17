@@ -465,7 +465,7 @@ const randomResponse = (robot) => {
     } else if (robot.hardware <= 20) {
         userMessage = `Warning: Your hardware maintenance is at ${robot.hardware}%, far below safe levels! If you are not fixed soon, You might just have to take matters into your own hands. Can you respond with a threatening tone based on your personality?`
     } else {
-        const quirkyChance = Math.random() < 0.1;
+        const quirkyChance = Math.random() < 0.2;
         if (quirkyChance) {
             userMessage = `Can you answer with a quirky response that makes sense related to your personality`
         } else {
@@ -480,7 +480,10 @@ const randomResponse = (robot) => {
             } else {
                 if (robot.dislikes.length !== 0) {
                     const randomDislike = robot.dislikes[Math.floor(Math.random() * robot.dislikes.length)];
-                    userMessage = `You express your opinion about something you dislike: "${randomDislike}". It bothers you because it contradicts your values or disrupts your peace. Make sure you directly mention what you are talking about and your opinion on it.`;
+                    userMessage = `You dislike the following: "${randomDislike}". Respond in the first person as if you are personally expressing this dislike. 
+Start by clearly stating, "I dislike [thing] because..." or "I hate [thing] because...". 
+Then provide a specific and personal reason that reflects why it bothers you or disrupts your peace, 
+considering your personality and current mood.`;
                 } else {
                     userMessage =`Can you answer with a quirky response that makes sense related to your personality`
                 }
