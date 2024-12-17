@@ -1,7 +1,7 @@
 # Skynet Beta Functional Specification
 
 ### Accounts and authentication
-- AA001 - Users can sign up with username and password. There is visual feedback for doing so.
+- AA001 - Users can sign up with username and password. There is visual feedback for doing so. 
 - AA002 - Inputted passwords are hidden by default, but can be revealed to the user with a ‘show’ button
 - AA003 - Users cannot sign up with invalid email. Emails must:
 	- have a valid format
@@ -69,6 +69,6 @@
 - MG001 - Users can play mini games in order to earn currency
 - MG002 - Each mini game will have a description that teaches the user how to play the game
 
-## Security Measures
+### Security Measures
 - SE001 - A user cannot manipulate another user's robot
 - SE002 - A user cannot manipulate another user's account details
