@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getRobotByUserId, lowerRobotBattery, deleteRobot } from "../../services/robot";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,15 @@ const LandingPage = () => {
     const [ robotSpeach, setRobotSpeach ] = useState('')
     const [showSergei, setShowSergei] = useState(false);
     const [renderImage, setRenderImage] = useState(false);
+
+    const [renderTerminatorImage, setRenderTerminatorImage] =useState(false)
+    const [showTerminator, setShowTerminator] = useState(false)
+    const audioRef = useRef(null);
+    const audioRef2 = useRef(null);
+    const chance = Math.floor(Math.random() * 5);
+    const [flash, setFlash] = useState(false);
     const [ displayMessage, setDisplayMessage ] = useState('')
+
 
     const navigate = useNavigate()
 
@@ -71,6 +79,33 @@ const LandingPage = () => {
         }
     }, [robotData.currency]);
 
+    useEffect(() => {
+        if (robotData.isAlive === false) {
+            if(chance === 1){
+                setFlash(true)
+                setRenderTerminatorImage(true); 
+                setTimeout(() => setShowTerminator(true), 10);
+                audioRef2.current.play();
+                const timer = setTimeout(() => {
+                    setShowTerminator(false); 
+                    setTimeout(() => setRenderTerminatorImage(false), setFlash(false), audioRef2.current.pause(), 1000);
+                }, 11000);
+
+                return () => clearTimeout(timer);
+            }
+            else{
+                audioRef.current.play();
+            }
+        }
+    }, [robotData.isAlive]);
+
+    const handleAudioEnded = () => {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        audioRef2.current.pause();
+        audioRef2.current.currentTime = 0;
+    };
+
     const constructSpeach = (dealWithOpinions) => {
         const initialGreetings = `Hello, I am ${robotData.name}. `
         const likes = dealWithOpinions(robotData.likes, 'like')
@@ -108,7 +143,8 @@ const LandingPage = () => {
 
     return (
         <>
-        <div className="landing-page">
+        <div id="landing-page">
+        <div className={`overlay ${flash ? "flash" : ""}`}></div>
         <RobotScreen
             name={robotData.name}
             currency={robotData.currency}
@@ -173,13 +209,25 @@ const LandingPage = () => {
                 }
             })}}
             >Play games</button>
-            </div>
+
+        {renderTerminatorImage && (
+            <img src="terminatorImage.png" alt="Machine uprising" id="terminator-image" className={showTerminator ? "show" : "hide"} />
+        )}
+
         </div>
         
         {renderImage && (
             <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
         )}
         </div>
+        <audio ref={audioRef} onEnded={handleAudioEnded}>
+                <source src="/terminatorBeBack.mp3" type="audio/mp3"/>
+                Your browser does not support the audio element.
+        </audio>
+        <audio ref={audioRef2} onEnded={handleAudioEnded}>
+                <source src="/terminatorMusic.mp3" type="audio/mp3"/>
+                Your browser does not support the audio element.
+        </audio>
         </>
     )
 }
