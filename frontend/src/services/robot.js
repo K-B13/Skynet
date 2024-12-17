@@ -209,6 +209,6 @@ export const getRobotSpeach = async (robotId) => {
 
     const data = await response.json()
 
-    return data.message
+    return data
 }
 

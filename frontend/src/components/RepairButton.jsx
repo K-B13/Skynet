@@ -24,7 +24,6 @@ const RepairButton = (props) => {
     const handleRepair = async () => {
         try {
             const response = await updateRobotHardware(props.robotId, 50);
-            console.log(response)
             if(response.message === "robot hardware updated"){
                 props.setRobotData(response.robot);
             } else if (!response.robot) {
