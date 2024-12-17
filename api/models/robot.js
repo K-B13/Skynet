@@ -5,6 +5,7 @@ const RobotSchema = new mongoose.Schema({
     currency: { type: Number, default: 500 },
     batteryLife: { type: Number, default: 100 },
     memoryCapacity: { type: Number, default: 16, max: 4096 },
+    personality: { type: String, enum: ['Helpful', 'Wise', 'Fiery', 'Playful'], default: 'Helpful' },
     intelligence: { type: Number, default: 0 },
     hardware: { type: Number, default: 100 },
     image: { type: String, default: '/Neutralanim.gif' },

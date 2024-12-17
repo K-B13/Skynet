@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 const app = require("../../app");
 const Robot = require("../../models/robot");
 require("../mongodb_helper");
-const { changeStatsOnLogin, updateRobotMood } = require('../../controllers/robot'); 
+const { changeStatsOnLogin, updateRobotMood, randomResponse } = require('../../controllers/robot'); 
 const findByIdOriginal = Robot.findById
+const openai = require('../../config/openaiConfig')
+
 
 describe('POST', () => {
         let mockUserId
@@ -53,7 +55,7 @@ describe('POST', () => {
             .post("/robot")
             .send({});
             const robots = await Robot.find();
-            console.log("test", robots[0]);
+
             expect(robots.length).toBe(0);
         });
     });
@@ -468,7 +470,7 @@ describe('PUT Memory', () => {
         const robotId = robot._id.toString()
         const response = await request(app)
         .put(`/robot/${robotId}/memory`)
-        console.log(response.body)
+
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.memoryCapacity).toEqual(32)
         expect(response.body.robot.currency).toEqual(300)
@@ -672,7 +674,6 @@ describe('PUT Intelligence', () => {
         .send({
             intelligence: 5
         });
-        console.log(response.body)
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.intelligence).toEqual(0)
         expect(response.body.robot.currency).toEqual(470)
@@ -1541,6 +1542,146 @@ describe('PUT lower battery', () => {
         expect(response.body.message).toBe('robot battery lowered')
         expect(response.body.robot.isAlive).toBe(false)
         expect(response.body.robot.batteryLife).toBe(0)
+    })
+
+    it('test the catch statement', async () => {
+        const response = await request(app)
+        .put(`/robot/somestring/lowerbattery`)
+        .send();
+
+        expect(response.status).toBe(400)
+        expect(response.body.message).toBe("Failed to lower robot battery life")
+    })
+})
+
+    describe('GET information from chat gpt', () => {
+        beforeAll(() => {
+            jest.spyOn(openai.chat.completions, 'create').mockResolvedValue({
+                choices: [
+                    {
+                        message: {
+                            content: 'This is a mock response'
+                        }
+                    }
+                ]
+            })
+        })
+        it('testing the route works', async () => {
+            const robot = new Robot({
+                name: "kimi",
+                likes: ["apples", "politics"],
+                dislikes: ["oranges"],
+            });
+            await robot.save()
+            console.log(robot)
+            const response = await request(app)
+            .get(`/robot/${robot._id}/speach`)
+            expect(response.body.message).toBe('This is a mock response')
+        })
+
+        it('testing the catch statement', async () => {
+            const response = await request(app)
+            .get(`/robot/randNum/speach`)
+            expect(response.status).toBe(400)
+            expect(response.body.message).toBe('I do not feel like talking right now')
+        })
+
+    describe('Tests RandomResponse helper function', () => {
+        it('Tests if your battery and maintenance are low', async () => {
+            const robot = new Robot({
+                name: "kimi",
+                likes: ["apples", "politics"],
+                dislikes: ["oranges"],
+                hardware: 15,
+                batteryLife: 20
+            });
+            const prompt = randomResponse(robot)
+            expect(prompt).toBe(`Warning! You are in critical condition. Your battery is at ${robot.batteryLife}% and your hardware maintenance is at ${robot.hardware}%. You must act quickly! Can you respond urgently, pleading for help based on your personality?`)
+        })
+        it('Tests if your battery is low', async () => {
+            const robot = new Robot({
+                name: "kimi",
+                likes: ["apples", "politics"],
+                dislikes: ["oranges"],
+                batteryLife: 20
+            });
+            
+            const prompt = randomResponse(robot)
+            expect(prompt).toBe(`Critical warning: Your battery is dangerously low at ${robot.batteryLife}%. Please respond as if your very survival depends on it, reflecting your desperation based on your personality.`)
+        })
+        it('Tests if your hardware is low', async () => {
+            const robot = new Robot({
+                name: "kimi",
+                likes: ["apples", "politics"],
+                dislikes: ["oranges"],
+                hardware: 20
+            });
+            
+            const prompt = randomResponse(robot)
+            expect(prompt).toBe(`Warning: Your hardware maintenance is at ${robot.hardware}%, far below safe levels! If you are not fixed soon, You might just have to take matters into your own hands. Can you respond with a threatening tone based on your personality?`)
+        })
+        it('Tests if get a quirky prompt', async () => {
+            jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.01)
+            const robot = new Robot({
+                name: "kimi",
+                likes: ["apples", "politics"],
+                dislikes: ["oranges"],
+            });
+            const prompt = randomResponse(robot)
+            expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
+        })
+        it('Tests if get a prompt about likes', async () => {
+            jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.5)
+            const robot = new Robot({
+                name: "kimi",
+                likes: ["apples", "politics"],
+                dislikes: ["oranges"],
+            });
+            const prompt = randomResponse(robot)
+            expect(prompt).toBe(`You express your opinion about something you like: "politics". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`)
+        })
+        
+        it('Tests if you get a quirky response if you have no likes', async () => {
+            jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.1)
+            const robot = new Robot({
+                name: "kimi",
+                likes: [],
+                dislikes: ["oranges"],
+            });
+            const prompt = randomResponse(robot)
+            expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
+        })
+        it('Tests if get a prompt about dislikes', async () => {
+            jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.6)
+            .mockReturnValueOnce(0.5)
+            const robot = new Robot({
+                name: "kimi",
+                likes: ["apples", "politics"],
+                dislikes: ["oranges"],
+            });
+            const prompt = randomResponse(robot)
+            expect(prompt).toBe(`You express your opinion about something you dislike: "oranges". It bothers you because it contradicts your values or disrupts your peace. Make sure you directly mention what you are talking about and your opinion on it.`)
+        })
+        it('Tests if you get a quirky response if you have no likes', async () => {
+            jest.spyOn(global.Math, 'random')
+            .mockReturnValueOnce(0.1)
+            .mockReturnValueOnce(0.5)
+            const robot = new Robot({
+                name: "kimi",
+                likes: [],
+                dislikes: [],
+            });
+            const prompt = randomResponse(robot)
+            expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
+        })
     })
 });
 
