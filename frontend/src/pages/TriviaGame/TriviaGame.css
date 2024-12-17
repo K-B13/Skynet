@@ -1,0 +1,14 @@
+button.correct {
+    background-color: #4caf50; /* Green for correct answers */
+    color: white;
+}
+
+button.wrong {
+    background-color: #f44336; /* Red for wrong answers */
+    color: white;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}

@@ -11,6 +11,8 @@ import VirusSweeperPage from "./pages/VirusSweeper/VirusSweeperPage"
 import BWAM from "./pages/BatteryWiresAndMotherboard/BWAM";
 import NutzAndBoltz from "./pages/NutzAndBoltz/NutzAndBoltz";
 import {GameSelection} from "./pages/GameSelection/GameSelectionPage"
+import {TriviaGamePage} from "./pages/TriviaGame/TriviaGamePage"
+import {TriviaGame} from "./pages/TriviaGame/TriviaGame"
 
 
 // docs: https://reactrouter.com/en/main/start/overview
@@ -54,6 +56,14 @@ const router = createBrowserRouter([
   {
     path: "/gameselection",
     element: <GameSelection />
+  },
+  {
+    path: "/triviagame",
+    element: <TriviaGamePage />
+  },
+  {
+    path: "/triviagame/:level",
+    element: <TriviaGame />
   }
 ]);
 

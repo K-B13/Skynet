@@ -33,8 +33,6 @@ const LandingPage = () => {
         }
         fetchRobot();
     }, []);
-
-    console.log("MY ROBOT IS ALIVE: ", robotData.isAlive);
     
     useEffect(() => {
         // const ONE_MINUTE = 60 * 1000; //Left this in incase anyone wants to test it out instead of waiting 30 mins
