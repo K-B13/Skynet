@@ -2,13 +2,13 @@ import { useEffect, useState, useRef } from "react";
 import { getRobotByUserId, lowerRobotBattery, deleteRobot } from "../../services/robot";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 import { useNavigate } from "react-router-dom";
-import RobotScreen from "../../components/RobotScreen"
-import MemoryButtons from "../../components/MemoryButtons"
-import RepairButton from "../../components/RepairButton"
-import SpeakButton from "../../components/SpeakButton"
-import EnergyButtons from "../../components/EnergyButtons"
-import KillButton from "../../components/KillButton"
-import './LandingPage.css'
+import RobotScreen from "../../components/RobotScreen";
+import MemoryButtons from "../../components/MemoryButtons";
+import RepairButton from "../../components/RepairButton";
+import SpeakButton from "../../components/SpeakButton";
+import EnergyButtons from "../../components/EnergyButtons";
+import KillButton from "../../components/KillButton";
+import './LandingPage.css';
 
 
 const LandingPage = () => {
@@ -228,8 +228,10 @@ const LandingPage = () => {
                 <source src="/terminatorMusic.mp3" type="audio/mp3"/>
                 Your browser does not support the audio element.
         </audio>
+        </div>
         </>
     )
 }
+
 
 export default LandingPage

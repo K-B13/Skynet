@@ -52,6 +52,8 @@ export function TriviaGame() {
             const updateCurrency = async () => {
                 try {
                     const response = await updateRobotCurrency(robotId, moneyEarned);
+                    console.log("MONEY EARNED TRIVIA: ",moneyEarned);
+                    
                     if(response.message === 'robot currency updated'){
                         navigate('/landingpage')
                     }

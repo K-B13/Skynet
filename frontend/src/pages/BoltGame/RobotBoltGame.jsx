@@ -6,12 +6,13 @@ import {updateRobotCurrency} from '../../services/robot'
 const RobotBoltGame = ({robotId}) => {
     const navigate = useNavigate();
     const audioRef = useRef(null);
-
+    
     useEffect(() => {
         const handleGameOver = async (finalScore) => {
+            
             const response = await updateRobotCurrency(robotId, finalScore);
+            console.log(response);
             if(response.message === "robot currency updated"){
-                
                 setTimeout(() => {
                     navigate('/landingpage');
                 }, 3000); 
