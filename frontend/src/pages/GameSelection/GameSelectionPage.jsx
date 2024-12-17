@@ -46,7 +46,7 @@ export function GameSelection() {
                 }
             })}}
 
-            />Virus sweeper
+            />
             <button
             onClick={() => {navigate('/triviagame', {
                 state: {
