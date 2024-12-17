@@ -1,5 +1,5 @@
 import { killRobot } from "../services/robot"
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 
 const KillButton = (props) => {
     
@@ -22,6 +22,7 @@ const KillButton = (props) => {
         checkAlive();
     }, [props.isAlive]);
 
+
     const handleKill = async () => {
         try {
             const response = await killRobot(props.robotId);
@@ -32,6 +33,7 @@ const KillButton = (props) => {
             console.error("error killing robot", err);
         }
     }
+
 
     return (
         <div id='kill-robot-container'>

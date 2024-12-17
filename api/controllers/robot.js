@@ -54,7 +54,7 @@ async function updateRobotCurrency(req, res) {
 
         if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
         newCurrency = singleRobot.currency += newAmount
-        if(singleRobot.batteryLife === 100) {
+        if(singleRobot.batteryLife === 100 && req.body.currency <0) {
             return res.status(200).json({ message: "Robot already fully charged" });
         }
         if(newCurrency < 0){

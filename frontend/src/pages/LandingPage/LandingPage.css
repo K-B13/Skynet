@@ -1,4 +1,4 @@
-.landing-page {
+#landing-page {
     background-image: url('./landingBackground.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -91,3 +91,59 @@
 }
 
 
+.terminator-container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#terminator-image {
+    position: absolute;
+    bottom: 0px;
+    width: 1200px;
+    margin:auto;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 2s ease, transform 6s ease;
+}
+
+#terminator-image.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#terminator-image.hide {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 0, 0, 0.8); 
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out; 
+    }
+
+    .overlay.flash {
+    opacity: 1;
+    animation: flashEffect 1s linear infinite;
+    }
+
+    @keyframes flashEffect {
+    0% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.8;
+    }
+    }

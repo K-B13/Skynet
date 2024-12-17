@@ -46,6 +46,16 @@ export function GameSelection() {
                 }
             })}}
             />
+
+            <img
+            src="./triviaSelection.png"
+            onClick={() => {navigate('/triviagame', {
+                state: {
+                    robotId: robotId
+                }
+            })}}
+            />
+
         </div>
     </div>
     );
