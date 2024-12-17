@@ -27,7 +27,7 @@ export function TriviaGame() {
             setLoading(true);
             try {
                 const response = await fetch(
-                    `https://opentdb.com/api.php?amount=2&difficulty=${level}&type=multiple`
+                    `https://opentdb.com/api.php?amount=20&difficulty=${level}&type=multiple`
                 );
                 const data = await response.json();
                 if (data.results) {
