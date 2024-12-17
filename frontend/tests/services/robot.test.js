@@ -55,7 +55,7 @@ describe('robot services', () => {
             const url = fetchArguments[0]
 
             expect(url).toEqual(`${BACKEND_URL}/robot/${fakeRobotId}/speach`)
-            expect(returnedMsg).toEqual('Robot conversation')
+            expect(returnedMsg).toEqual({ message: 'Robot conversation' })
         })
     })
 })
