@@ -1,21 +1,12 @@
 const Robot = require("../models/robot");
-const OpenAI = require("openai");
-const orgId =  process.env.ORG_ID
-const key = process.env.OPENAI_KEY
-const openai = new OpenAI({
-    apiKey: key
-});
+const openai = require("../config/openaiConfig");
 
 async function createRobot(req, res) {
     
     try{
-        const name = req.body.name;
-        const likes = req.body.likes;
-        const dislikes = req.body.dislikes;
-        const userId = req.body.userId;
-
+        const { name, likes, dislikes, userId, personality } = req.body
         const robot = new Robot({
-            name, likes, dislikes, userId
+            name, likes, dislikes, userId, personality
         });
         changeRobotMood(robot, robot.batteryLife, robot.hardware)
         await robot.save()
@@ -407,36 +398,81 @@ const changeRobotMood = async (robot, battery, hardware) => {
 }
 
 const robotSpeach = async (req, res) => {
-    const { id } = req.params
-    console.log(id)
-    const robot = await Robot.findById(id)
-    console.log(robot)
-    const completion = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [
-            {
-                'role': 'system',
-                'content': [
-                    {
-                        'type': 'text',
-                        'text':
-                        `You are a virtual robot. You are speaking to your owner.Your name is ${robot.name} Your personality is ${robot.personality} and you are currently ${robot.mood}`
-                    }
-                ]
-            },
-            {
-                'role': 'user',
-                'content': [
-                    {
-                        'type': 'text',
-                        'text': 'How are you doing?'
-                    }
-                ]
-            }
-        ]
-    })
 
-    res.status(400).json({ message: completion.choices[0].message });
+    const { id } = req.params
+    const robot = await Robot.findById(id)
+    const userInput = randomResponse(robot)
+    try {
+        const completion = await openai.chat.completions.create({
+            model: 'gpt-4o',
+            messages: [
+                {   
+                    'role': 'system',
+                    'content': [
+                        {
+                            'type': 'text',
+                            'text':
+                            `You are a virtual robot. You are speaking to your owner. Your name is ${robot.name}. Your personality is ${robot.personality}, and your mood is currently ${robot.mood}. When responding, always reflect your current mood and personality in your tone and style, but avoid directly stating it in your response.`
+                        }
+                    ]
+                },
+                {
+                    'role': 'user',
+                    'content': [
+                        {
+                            'type': 'text',
+                            'text':userInput ? userInput : 'How are you doing?'
+                        }
+                    ]
+                }
+            ],
+            max_tokens: 100
+        })
+
+        res.status(200).json({ message: completion.choices[0].message.content });
+    } catch (err) {
+        console.error(err)
+        res.status(400).json({ message: robot.name ? `Hi, my name is ${robot.name}`: 'I do not feel like talking right now' })
+    }
+}
+
+const randomResponse = (robot) => {
+    let userMessage;
+
+    const batteryLow = robot.batteryLife <= 20;
+    const hardwareLow = robot.hardware <= 20;
+
+    if (batteryLow && hardwareLow) {
+        userMessage = `Warning! You are in critical condition. Your battery is at ${robot.batteryLife}% and your hardware maintenance is at ${robot.hardware}%. You must act quickly! Can you respond urgently, pleading for help based on your personality?`
+    }  else if (robot.batteryLife <= 20) {
+        userMessage = `Critical warning: Your battery is dangerously low at ${robot.batteryLife}%. Please respond as if your very survival depends on it, reflecting your desperation based on your personality.`;
+    } else if (robot.hardware <= 20) {
+        userMessage = `Warning: Your hardware maintenance is at ${robot.hardware}%, far below safe levels! If you are not fixed soon, You might just have to take matters into your own hands. Can you respond with a threatening tone based on your personality?`
+    } else {
+        const quirkyChance = Math.random() < 0.9    ;
+
+        if (quirkyChance) {
+            userMessage = `Can you answer with a quirky response that makes sense related to your personality`
+        } else {
+            const randomChance = Math.random()
+            if (randomChance < 0.5) {
+                if (robot.likes.length !== 0) {
+                    const randomLike = robot.likes[Math.floor(Math.random() * robot.likes.length)];
+                    userMessage = `You express your opinion about something you like: "${randomLike}". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`;
+                } else {
+                    userMessage = `Can you answer with a quirky response that makes sense related to your personality`
+                }
+            } else {
+                if (robot.dislikes.length !== 0) {
+                    const randomDislike = robot.dislikes[Math.floor(Math.random() * robot.dislikes.length)];
+                    userMessage = `You express your opinion about something you dislike: "${randomDislike}". It bothers you because it contradicts your values or disrupts your peace. Make sure you directly mention what you are talking about and your opinion on it.`;
+                } else {
+                    userMessage =`Can you answer with a quirky response that makes sense related to your personality`
+                }
+            }
+        }
+    }
+    return userMessage
 }
 
 const RobotsController = {

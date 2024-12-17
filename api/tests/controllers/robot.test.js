@@ -5,6 +5,8 @@ const Robot = require("../../models/robot");
 require("../mongodb_helper");
 const { changeStatsOnLogin, updateRobotMood } = require('../../controllers/robot'); 
 const findByIdOriginal = Robot.findById
+const openai = require('../../config/openaiConfig')
+
 
 describe('POST', () => {
         let mockUserId
@@ -53,7 +55,7 @@ describe('POST', () => {
             .post("/robot")
             .send({});
             const robots = await Robot.find();
-            console.log("test", robots[0]);
+
             expect(robots.length).toBe(0);
         });
     });
@@ -468,7 +470,7 @@ describe('PUT Memory', () => {
         const robotId = robot._id.toString()
         const response = await request(app)
         .put(`/robot/${robotId}/memory`)
-        console.log(response.body)
+
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.memoryCapacity).toEqual(32)
         expect(response.body.robot.currency).toEqual(300)
@@ -672,7 +674,6 @@ describe('PUT Intelligence', () => {
         .send({
             intelligence: 5
         });
-        console.log(response.body)
         expect(response.statusCode).toBe(200);
         expect(response.body.robot.intelligence).toEqual(0)
         expect(response.body.robot.currency).toEqual(470)
@@ -1541,6 +1542,33 @@ describe('PUT lower battery', () => {
         expect(response.body.message).toBe('robot battery lowered')
         expect(response.body.robot.isAlive).toBe(false)
         expect(response.body.robot.batteryLife).toBe(0)
+    })
+
+    describe('GET information from chat gpt', () => {
+        beforeAll(() => {
+            jest.spyOn(openai.chat.completions, 'create').mockResolvedValue({
+                choices: [
+                    {
+                        message: {
+                            content: 'This is a mock response'
+                        }
+                    }
+                ]
+            })
+        })
+        it('testing', async () => {
+            const robot = new Robot({
+                name: "kimi",
+                likes: ["apples", "politics"],
+                dislikes: ["oranges"],
+            });
+            await robot.save()
+            console.log(robot)
+            const response = await request(app)
+            .get(`/robot/${robot._id}/speach`)
+            console.log(response.body)
+            expect(response.body.message).toBe('This is a mock response')
+        })
     })
 });
 
