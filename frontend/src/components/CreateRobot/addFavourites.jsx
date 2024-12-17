@@ -11,6 +11,7 @@ const AddFavourites = ( { input, changeInput, descriptor, placeholder, onChangeF
                             <input
                                 type='text'
                                 className='like-input'
+                                maxLength='40'
                                 name={index} 
                                 id={`create-robot-${descriptor}-${index + 1}`}
                                 value={like}

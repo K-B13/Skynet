@@ -14,6 +14,7 @@ const RobotBoltGameRules = () => {
     };
 
     return (
+        <div id ="robot-bolt-game-page">
             <div id="robot-bolt-game-rules-container">
             <h1 id="bolt-game-title">Rules</h1>
             <p>When the game begins bolts will fall down, your job is to catch them which will earn you money!
@@ -36,6 +37,7 @@ const RobotBoltGameRules = () => {
             ) : (
                 <RobotBoltGame robotId={robotId} />
             )}
+            </div>
             </div>
     )
 }
