@@ -398,7 +398,6 @@ const changeRobotMood = async (robot, battery, hardware) => {
 }
 
 const robotSpeach = async (req, res) => {
-
     const { id } = req.params
     try {
         const robot = await Robot.findById(id)
