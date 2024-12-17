@@ -76,8 +76,13 @@ const LandingPage = () => {
             const dislikes = dealWithOpinions(robotData.dislikes, 'dislike')
             setRobotSpeach(`${initialGreetings} ${likes} ${dislikes}`)
         } else {
+
             const response = await getRobotSpeach(robotData._id)
-            setRobotSpeach(response)
+            if (response.audio) {
+                const audio = new Audio(response.audio);
+                audio.play()
+            }
+            setRobotSpeach(response.message)
         }
         speachClearance()
     }

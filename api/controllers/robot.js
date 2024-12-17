@@ -155,7 +155,6 @@ async function updateRobotIntelligence(req, res) {
         
         if(randomNumber <=8){
             newIntelligence = singleRobot.intelligence += brain
-            
             if(newIntelligence > singleRobot.memoryCapacity){
                 
                 singleRobot.intelligence = singleRobot.memoryCapacity
@@ -411,7 +410,7 @@ const robotSpeach = async (req, res) => {
                         {
                             'type': 'text',
                             'text':
-                            `You are a virtual robot. You are speaking to your owner. Your name is ${robot.name}. Your personality is ${robot.personality}, and your mood is currently ${robot.mood}. When responding, always reflect your current mood and personality in your tone and style, but avoid directly stating it in your response.`
+                            `You are a virtual robot. You are speaking to your owner. Your name is ${robot.name}. Your personality is ${robot.personality}, and your mood is currently ${robot.mood}. When responding, always reflect your current mood and personality in your tone and style, but avoid directly stating it in your response. Limit your response up to 3 sentences.`
                         }
                     ]
                 },
@@ -428,7 +427,25 @@ const robotSpeach = async (req, res) => {
             max_tokens: 100
         })
 
+        const textResponse = completion.choices[0].message.content
+
+        if (robot.intelligence >= 1000 && !!textResponse) {
+            const mp3 = await openai.audio.speech.create({
+                model: 'tts-1',
+                voice: 'fable',
+                input: textResponse
+            })
+            // We get a readable stream from mp3 and here we convert it to a buffer and then encode to base64 so it can be sent in JSON
+            const buffer = Buffer.from(await mp3.arrayBuffer())
+            const audioBase64 = buffer.toString('base64')
+            return res.status(200).json({
+                message: textResponse,
+                audio: `data:audio/mp3;base64,${audioBase64}`
+            })
+        }
+
         res.status(200).json({ message: completion.choices[0].message.content });
+
     } catch (err) {
         console.error(err)
         res.status(400).json({ message: 'I do not feel like talking right now' })

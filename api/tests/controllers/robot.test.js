@@ -549,16 +549,11 @@ describe('PUT Intelligence', () => {
     });
 
     it('Should return a 200 when robot intelligence is updated', async () => {
+        jest.spyOn(global.Math, 'random').mockReturnValue(0.5);
         const robot = new Robot({
             name: "kimi",
-            currency: 500,
-            batteryLife: 100,
             memoryCapacity: 100,
             intelligence: 0,
-            hardware: 1,
-            image: "",
-            isAlive: true,
-            mood: "Neutral",
             likes: ["apples", "politics"],
             dislikes: ["oranges"],
         });
