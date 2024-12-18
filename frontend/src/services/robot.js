@@ -148,10 +148,14 @@ export const killRobot = async (robotId) => {
     return data
 }
 
-export const changeStatsOnLogin = async (robotId) => {
-
+export const changeStatsOnLogin = async (robotId, lastLogin, currentDate) => {
+    
     const requestOptions = {
         method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({lastLogin: lastLogin, currentDate: currentDate})
     }
 
     const response = await fetch(`${BACKEND_URL}/robot/${robotId}/changestats`, requestOptions);

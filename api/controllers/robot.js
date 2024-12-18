@@ -294,16 +294,21 @@ async function changeStatsOnLogin(req, res) {
     const randomHardware = Math.floor(Math.random() * 10);
     try{
         const robotId = req.params.id
+        const lastLogin = new Date(req.body.lastLogin);
+        const currentDate = new Date(req.body.currentDate)
+        const differenceInMilliseconds = currentDate.getTime() - lastLogin.getTime();
+        const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
+        const loggedOutDepletion = Math.floor(differenceInHours * 4)
         const singleRobot = await Robot.findById(robotId)
         if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
         if(randomBattery <=2){
-            singleRobot.batteryLife = singleRobot.batteryLife -= 10
+            singleRobot.batteryLife -= 10 + loggedOutDepletion
         }
         else if(randomBattery >2 && randomBattery <=6){
-            singleRobot.batteryLife = singleRobot.batteryLife -= 5
+            singleRobot.batteryLife -= 5 + loggedOutDepletion
         }
         else if(randomBattery >6){
-            singleRobot.batteryLife = singleRobot.batteryLife -= 2
+            singleRobot.batteryLife -= 2 + loggedOutDepletion
         }
         if(randomHardware <=2){
             singleRobot.hardware = singleRobot.hardware -= 15
@@ -314,7 +319,9 @@ async function changeStatsOnLogin(req, res) {
         else if(randomHardware >6){
             singleRobot.hardware = singleRobot.hardware -= 2
         }
-        singleRobot.currency = singleRobot.currency += 100
+        if(loggedOutDepletion >= 24){
+            singleRobot.currency = singleRobot.currency += 100
+        }
 
         const battery = singleRobot.batteryLife
         const hardware = singleRobot.hardware
