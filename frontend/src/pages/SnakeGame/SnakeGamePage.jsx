@@ -29,23 +29,42 @@ const handleStartGame = () => {
         {!gameStarted ? (
             <div id="snake-game-rules">
                     <h2>Rules</h2>
-                    <p>The goal is to reveal all the cells that do not contain a virus.
+                    <p>The goal is to eat as much food as possible to earn $, you will earn 5 times your score, so if you eat 5 bits of food you will earn $25
                     <br />
                     <br />
-                    Each revealed cell shows a number indicating how many adjacent cells contain mines. 
+                    The game ends when the snake:
                     <br />
                     <br />
-                    Cells with no adjacent mines are revealed automatically.
-                    <br />
-                    <br/>
-                    The game is won when all non-virus cells are revealed.
-                    <br />
-                    <br />
-                    You will score a point for every safe cell you reveal. 1 point is equal to $1
+                        Collides with the edge of the screen.
+                        <br />
+                        <br />
+                        Collides with itself.
                     </p>
-        
-                    <h3 id="snake-game-controls">Controls</h3>
-                    <p>Use your mouse to click on a cell to reveal it. If the cell contains a virus, the game is over.</p>
+                    <br />
+                    <br />
+                    <h3>Movement</h3>
+                    <p>
+                    The snake continuously moves in the current direction (up, down, left, or right).
+                    <br />
+                    <br />
+                    You can change the direction of the snake using your arrow keys.
+                    <br />
+                    <br />
+                    The snake cannot turn directly back on itself (e.g., if moving left, you cannot immediately move right).
+                    </p>
+                    <h4>Food</h4>
+                    <p>Food spawns randomly on the screen, and the snake must eat the food by moving its head onto the foods position.
+                    <br />
+                    <br />
+                    Each time the snake eats food:
+                    <br />
+                    <br />
+                    The snake grows longer by one segment.
+                    <br />
+                    <br />
+                    You earn 1 point.
+                    </p>
+                    
                 <button onClick={handleStartGame} id="snake-game-start-button">
                     Start Game
                 </button>
