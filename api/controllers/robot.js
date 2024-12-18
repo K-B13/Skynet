@@ -51,10 +51,10 @@ async function updateRobotCurrency(req, res) {
         const newAmount = req.body.currency
         
         const singleRobot = await Robot.findById(robotId)
-
+        console.log(newAmount)
         if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
         newCurrency = singleRobot.currency += newAmount
-        if(singleRobot.batteryLife === 100 && req.body.currency <0) {
+        if(singleRobot.batteryLife === 100 && newAmount < 0) {
             return res.status(200).json({ message: "Robot already fully charged" });
         }
         if(newCurrency < 0){
@@ -80,7 +80,9 @@ async function updateRobotBattery(req, res) {
         const newBatteryLife = req.body.batteryLife
         const singleRobot = await Robot.findById(robotId)
         if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
-
+        if (singleRobot.batteryLife === 100) {
+            return res.status(200).json({ message: "Robot already fully charged" });
+        }
         newBattery = singleRobot.batteryLife += newBatteryLife
         if(newBattery <=0){
             singleRobot.batteryLife = 0
@@ -90,11 +92,10 @@ async function updateRobotBattery(req, res) {
         }
         else if(newBattery > 100){
             singleRobot.batteryLife = 100
-            console.log("battery full")
             await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
             await singleRobot.save();
         }
-        else{
+        else {
             singleRobot.batteryLife = newBattery
             await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
             await singleRobot.save();
@@ -302,7 +303,7 @@ async function changeStatsOnLogin(req, res) {
         else if(randomBattery >2 && randomBattery <=6){
             singleRobot.batteryLife = singleRobot.batteryLife -= 5
         }
-        else if(randomBattery >6){
+        else if(randomBattery > 6){
             singleRobot.batteryLife = singleRobot.batteryLife -= 2
         }
 

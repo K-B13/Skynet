@@ -324,6 +324,24 @@ describe('PUT Battery life', () => {
         expect(response.body.robot.isAlive).toBe(false)
     });
 
+    it('Should return a message telling user if battery already full', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+        });
+        await robot.save()
+        const robotId = robot._id
+        const response = await request(app)
+        .put(`/robot/${robotId}/battery`)
+        .send({
+            batteryLife: 10
+        });
+        
+        expect(response.statusCode).toBe(200);
+        expect(response.body.message).toEqual('Robot already fully charged')
+    })
+
     it('Should return 400 if invalid id passed', async () => {
         const robot = new Robot({
             name: "kimi",

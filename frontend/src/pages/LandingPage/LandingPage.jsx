@@ -31,6 +31,7 @@ const LandingPage = () => {
     const [disabled, setdisabled] = useState(false)
     const [ isLoading, setIsLoading ] = useState(false)
 
+    const messageTimeoutRef = useRef(null);
 
     const navigate = useNavigate()
 
@@ -154,7 +155,11 @@ const LandingPage = () => {
     }
 
     const displayMessageClearance = () => {
-        setTimeout(() => {
+        if(messageTimeoutRef.current) {
+            clearTimeout(messageTimeoutRef.current)
+        }
+
+        messageTimeoutRef.current = setTimeout(() => {
             setDisplayMessage('')
         }, 6000)
     }

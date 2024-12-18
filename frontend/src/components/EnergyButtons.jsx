@@ -49,11 +49,11 @@ const EnergyButtons = (props) => {
 
         try {
             const response = await updateRobotCurrency(props.robotId, chargeCost);
+            console.log(response)
             if(response.message === "robot currency updated"){
                 props.setRobotData(response.robot);
             } else if (!response.robot) {
                 props.showMessage(response.message)
-                return
             }
         } catch (err) {
             console.error("error updating robot currency", err);
@@ -62,6 +62,8 @@ const EnergyButtons = (props) => {
             const response = await updateRobotBattery(props.robotId, amountToCharge);
             if(response.message === "robot battery updated"){
                 props.setRobotData(response.robot);
+            } else if (response.message === 'Robot already fully charged') {
+                props.showMessage(response.message)
             }
         } catch (err) {
             console.error("error updating robot batterLife", err);
