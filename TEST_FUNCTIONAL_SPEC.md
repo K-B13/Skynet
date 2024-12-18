@@ -4,7 +4,7 @@
 - Testing the current application against its specification
 - ✅ = pass ❌ = fail
 - Will update periodically as the application progresses
-- Last updated 2pm Wednesday 18th Dec
+- Last updated 5pm Wednesday 18th Dec
 - Current results = 68 ✅ 5 ❌
 - 47 cases covered with automated tests
 
