@@ -488,7 +488,7 @@ const randomResponse = (robot) => {
             if (randomChance < 0.5) {
                 if (robot.likes.length !== 0) {
                     const randomLike = robot.likes[Math.floor(Math.random() * robot.likes.length)];
-                    userMessage = `You express your opinion about something you like: "${randomLike}". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`;
+                    userMessage = `Your task is to express your opinion about something you like: "${randomLike}". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`;
                 } else {
                     userMessage = `Your task is to answer with a quirky response that makes sense related to your personality`
                 }

@@ -1630,7 +1630,7 @@ describe('PUT lower battery', () => {
                 dislikes: ["oranges"],
             });
             const prompt = randomResponse(robot)
-            expect(prompt).toBe(`You express your opinion about something you like: "politics". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`)
+            expect(prompt).toBe(`Your task is to express your opinion about something you like: "politics". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`)
         })
         
         it('Tests if you get a quirky response if you have no likes', async () => {
