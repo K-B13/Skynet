@@ -553,7 +553,6 @@ describe('PUT Intelligence', () => {
         const robot = new Robot({
             name: "kimi",
             memoryCapacity: 100,
-            intelligence: 0,
             likes: ["apples", "politics"],
             dislikes: ["oranges"],
         });
@@ -561,11 +560,9 @@ describe('PUT Intelligence', () => {
         const robotId = robot._id.toString()
         const response = await request(app)
         .put(`/robot/${robotId}/intelligence`)
-        .send({
-            intelligence: 10
-        });
+        .send();
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.intelligence).toEqual(10)
+        expect(response.body.robot.intelligence).toEqual(5)
         expect(response.body.robot.currency).toEqual(470)
         
     });
@@ -587,9 +584,7 @@ describe('PUT Intelligence', () => {
         const robotId = robot._id
         const response = await request(app)
         .put(`/robot/${robotId}/intelligence`)
-        .send({
-            intelligence: 10
-        });
+        .send();
 
         expect(response.statusCode).toBe(200);
         expect(response.body.message).toBe('Insufficient funds')
@@ -611,9 +606,7 @@ describe('PUT Intelligence', () => {
         const robotId = robot._id
         const response = await request(app)
         .put(`/robot/${robotId}/intelligence`)
-        .send({
-            intelligence: 10
-        });
+        .send();
 
         expect(response.statusCode).toBe(200);
         expect(response.body.message).toBe('Insufficient memory storage')
@@ -626,9 +619,7 @@ describe('PUT Intelligence', () => {
             name: "kimi",
             currency: 500,
             batteryLife: 100,
-            memoryCapacity: 100,
-            intelligence: 0,
-            hardware: 1,
+            intelligence: 13,
             image: "",
             isAlive: true,
             mood: "Neutral",
@@ -639,11 +630,9 @@ describe('PUT Intelligence', () => {
         const robotId = robot._id.toString()
         const response = await request(app)
         .put(`/robot/${robotId}/intelligence`)
-        .send({
-            intelligence: 150
-        });
+        .send();
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.intelligence).toEqual(100)
+        expect(response.body.robot.intelligence).toEqual(16)
         expect(response.body.robot.currency).toEqual(470)
         jest.restoreAllMocks();
     });
