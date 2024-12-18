@@ -23,7 +23,7 @@ const MemoryButtons = (props) => {
 
     const handleTeach = async () => {
         try {
-            const response = await updateRobotIntelligence(props.robotId, 5);
+            const response = await updateRobotIntelligence(props.robotId);
             if(response.message === "Robot intelligence increased"){
                 props.setRobotData(response.robot);
             }
