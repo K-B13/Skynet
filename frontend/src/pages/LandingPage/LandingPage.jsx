@@ -28,6 +28,7 @@ const LandingPage = () => {
     const chance = Math.floor(Math.random() * 5);
     const [flash, setFlash] = useState(false);
     const [ displayMessage, setDisplayMessage ] = useState('')
+    const [disabled, setdisabled] = useState(false)
 
 
     const navigate = useNavigate()
@@ -102,6 +103,7 @@ const LandingPage = () => {
 
     useEffect(() => {
         if (robotData.isAlive === false) {
+            setdisabled(true)
             if(chance === 1){
                 setFlash(true)
                 setRenderTerminatorImage(true); 
@@ -178,6 +180,10 @@ const LandingPage = () => {
                 
                 )}
 
+                {didNotLearn && setTimeout(() => {
+                    setDidNotLearn(false);
+                }, 5000)}
+
                 <div id='button-container'>
                     <div id='button-contianer-upper'>
                         <EnergyButtons
@@ -222,6 +228,7 @@ const LandingPage = () => {
                         </button>
                     }
                     <button 
+                        disabled={disabled}
                         id="play-games-button"
                         onClick={() => {
                             navigate('/gameselection', {
