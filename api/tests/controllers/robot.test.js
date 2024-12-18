@@ -1686,4 +1686,63 @@ describe('PUT lower battery', () => {
     })
 });
 
+describe('PUT Last login', () => {
+    beforeEach(async () => {
+        await Robot.deleteMany();
+    });
+
+    it('Should return a 200 when robot login is updated', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 90,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            lastLogin: "2024-12-17T10:00:00Z"
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const currentDate = new Date();
+        const response = await request(app)
+        .put(`/robot/${robotId}/lastlogin`)
+        .send({
+            lastLogin: currentDate
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.lastLogin).toBe(currentDate.toISOString())
+        
+    });
+
+    it('Should return 400 if invalid id passed', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 100,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            lastLogin: "2024-12-17T10:00:00Z"
+        });
+        await robot.save()
+        const currentDate = new Date();
+        const invalidRobotId = '12345';
+        const response = await request(app)
+            .put(`/robot/${invalidRobotId}/lastlogin`)
+            .send({ lastLogin: currentDate });
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toBe('Failed to update robot last login');
+    });
+
+});
 

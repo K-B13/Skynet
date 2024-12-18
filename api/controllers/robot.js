@@ -490,6 +490,20 @@ const randomResponse = (robot) => {
     return userMessage
 }
 
+async function updateLastLogin(req, res) {  
+    try{
+        const robotId = req.params.id
+        const dateToAdd = req.body.lastLogin
+        const singleRobot = await Robot.findById(robotId)
+        singleRobot.lastLogin = dateToAdd
+        await singleRobot.save()
+        return res.status(200).json({robot: singleRobot, message: "robot last login updated"});
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to update robot last login"});
+    };
+};
+
 const RobotsController = {
     createRobot: createRobot,
     updateRobotCurrency: updateRobotCurrency,
@@ -504,7 +518,8 @@ const RobotsController = {
     changeStatsOnLogin: changeStatsOnLogin,
     lowerRobotBattery: lowerRobotBattery,
     robotSpeach: robotSpeach,
-    randomResponse: randomResponse
+    randomResponse: randomResponse,
+    updateLastLogin: updateLastLogin
 };
 
 module.exports = RobotsController;

@@ -212,3 +212,23 @@ export const getRobotSpeach = async (robotId) => {
     return data
 }
 
+export const updateLastLogin = async (robotId, lastLogin) => {
+
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({lastLogin: lastLogin})
+    }
+
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/lastlogin`, requestOptions);
+
+    if (!response.ok) {
+        throw new Error('Failed to update robot last login')
+    }
+
+    const data = await response.json()
+    return data;
+}
+
