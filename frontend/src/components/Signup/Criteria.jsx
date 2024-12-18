@@ -24,8 +24,6 @@ const Criteria = ({passwordErrors, emailErrors }) => {
         "Password must contain a number",
         "Password must contain an uppercase letter",
         "Password must contain a lowercase letter",
-        "Password must be a string",
-        "Password must not have spaces on either end",
     ];
 
     const isHighlighted = (errorArray, criterion) => {
@@ -33,9 +31,11 @@ const Criteria = ({passwordErrors, emailErrors }) => {
     };
 
     return (
-        <div>
-            <div>
-                <h5>Email Criteria:</h5>
+        <div id='criteria-component'>
+            <div id='email-criteria-container'>
+                <h5
+                    id='email-criteria-heading'
+                >Email Criteria:</h5>
                 {
                     emailCriteria.map((criterion, index) => {
                         return (
@@ -50,8 +50,10 @@ const Criteria = ({passwordErrors, emailErrors }) => {
                     })
                 }
             </div>
-            <div>
-                <h5>Password Criteria:</h5>
+            <div id='password-criteria-container'>
+                <h5
+                    id='password-criteria-heading'
+                >Password Criteria:</h5>
                 {
                     passwordCriteria.map((criterion, index) => {
                         return (
