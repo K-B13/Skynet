@@ -138,7 +138,7 @@ async function updateRobotIntelligence(req, res) {
     
     try{
         const robotId = req.params.id
-        const brain = req.body.intelligence
+        const brain = 5
         
         const singleRobot = await Robot.findById(robotId)
 
