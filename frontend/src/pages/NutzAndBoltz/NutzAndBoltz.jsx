@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import Board from "../../components/NutzAndBoltz/Board"
 import { updateRobotCurrency } from "../../services/robot"
 import './NutzAndBoltz.css'
+import NavBar from "../NavBar/NavBar"
 
 const NutzAndBoltz = () => {
     const [ winner, setWinner ] = useState('')
@@ -11,7 +12,7 @@ const NutzAndBoltz = () => {
     const { robotId } = location.state || '';
 
     useEffect(() => {
-        addCurrency()
+        if (winner) addCurrency()
     }, [winner])
 
     const addCurrency = async () => {
@@ -22,6 +23,7 @@ const NutzAndBoltz = () => {
     }
     return (
         <div id='NAB-game'>
+            <NavBar robotId={robotId}/>
             <h2 id='NAB-title'>Nutz and Boltz</h2>
             {winner && 
             <h3 id='NAB-results'>
