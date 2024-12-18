@@ -13,6 +13,7 @@ import NutzAndBoltz from "./pages/NutzAndBoltz/NutzAndBoltz";
 import {GameSelection} from "./pages/GameSelection/GameSelectionPage"
 import {TriviaGamePage} from "./pages/TriviaGame/TriviaGamePage"
 import {TriviaGame} from "./pages/TriviaGame/TriviaGame"
+import SnakeGamePage from "./pages/SnakeGame/SnakeGamePage"
 
 
 // docs: https://reactrouter.com/en/main/start/overview
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
   {
     path: "/triviagame/:level",
     element: <TriviaGame />
+  },
+  {
+    path: "/snakegame",
+    element: <SnakeGamePage />
   }
 ]);
 
