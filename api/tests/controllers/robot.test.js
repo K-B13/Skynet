@@ -1616,7 +1616,7 @@ describe('PUT lower battery', () => {
                 dislikes: ["oranges"],
             });
             const prompt = randomResponse(robot)
-            expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
+            expect(prompt).toBe(`Your task is to answer with a quirky response that makes sense related to your personality`)
         })
 
         it('Tests if get a prompt about likes', async () => {
@@ -1643,7 +1643,7 @@ describe('PUT lower battery', () => {
                 dislikes: ["oranges"],
             });
             const prompt = randomResponse(robot)
-            expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
+            expect(prompt).toBe(`Your task is to answer with a quirky response that makes sense related to your personality`)
         })
 
         it('Tests if get a prompt about dislikes', async () => {
@@ -1670,7 +1670,7 @@ describe('PUT lower battery', () => {
                 dislikes: [],
             });
             const prompt = randomResponse(robot)
-            expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
+            expect(prompt).toBe(`Your task is to answer with a quirky response that makes sense related to your personality`)
         })
     })
 });
