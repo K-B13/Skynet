@@ -7,9 +7,9 @@ import { changeStatsOnLogin, updateLastLogin } from "../../services/robot";
 import { login } from "../../services/authentication";
 import "./LoginPage.css"
 export function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ showPassword, setShowPassword ] = useState(false);
   const [ errorMessage, setErrorMessage ] = useState('')
   const navigate = useNavigate();
   const location = useLocation()
@@ -83,9 +83,11 @@ export function LoginPage() {
 
   return (
     <div id="login-page">
-      <h2>Login</h2>
+      <h2
+        id='login-title'
+      >Login</h2>
       <img id="dancing-robot" alt="Dancing Robot" src="/dancingRobot.gif"/>
-      {message && <p>{message}</p>}
+      {message && !errorMessage && <p>{message}</p>}
       {errorMessage && <p>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <label htmlFor="email"></label>
@@ -115,7 +117,9 @@ export function LoginPage() {
         </form>
         <p>
         <a href="/signup" id="no-account">
-          Dont Have an Account
+          Don<span
+            id='login-apostrophe'
+          >&#39;</span>t Have an Account
         </a>
         </p>
         </div>
