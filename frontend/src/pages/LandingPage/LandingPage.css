@@ -1,0 +1,159 @@
+#landing-page {
+    background-image: url('./landingBackground.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+#button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+#button-contianer-upper {
+    display: flex;
+}
+
+#button-contianer-lower {
+    display: flex;
+    margin: 0.8rem;
+}
+
+#energy-buttons, #memory-buttons, #repair-button-container, #speak-button-container, #kill-robot-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0.2rem;
+    padding: 0.5rem;
+    z-index: 2;
+}
+
+#memory-buttons button, #energy-buttons button, #repair-button-container button, #kill-robot, #speak-button, #create-new-robot, #play-games-button {
+    margin: 0.4rem;
+    align-items: center;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter, sans-serif;
+    font-size: 0.8rem;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative; 
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-color: #e0722e;
+
+    box-shadow: 5px 5px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+#memory-buttons button:hover, #energy-buttons button:hover, #repair-button-container button:hover, #kill-robot:hover, #speak-button:hover, #create-new-robot:hover, #play-games-button:hover {
+    box-shadow: 0px 0px 0px #111; 
+    transform: translate(5px, 5px);
+    outline: 0;
+}
+
+#sergei-tip-image {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 550px;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 2s ease, transform 2s ease;
+}
+
+#sergei-tip-image.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#sergei-tip-image.hide {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+
+.terminator-container {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#terminator-image {
+    position: absolute;
+    bottom: 0px;
+    width: 1200px;
+    margin:auto;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 2s ease, transform 6s ease;
+}
+
+#terminator-image.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#terminator-image.hide {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 0, 0, 0.8); 
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out; 
+    }
+
+    .overlay.flash {
+    opacity: 1;
+    animation: flashEffect 1s linear infinite;
+    }
+
+    @keyframes flashEffect {
+    0% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.8;
+    }
+    }
+
+
+    #learning-fail{
+        background-color: rgb(224, 114, 46, 0.8);
+        font-size: 1.5em;
+        width: 40vw;
+        margin: auto;
+        border-radius: 8px;
+        border: 1px solid white;
+    }

@@ -111,13 +111,13 @@ export const updateRobotMemory = async (robotId) => {
     return data
 }
 
-export const updateRobotIntelligence = async (robotId, intelligence) => {
+export const updateRobotIntelligence = async (robotId) => {
     const requestOptions = {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({intelligence: intelligence})
+        body: JSON.stringify()
     }
 
     const response = await fetch(`${BACKEND_URL}/robot/${robotId}/intelligence`, requestOptions);
@@ -164,26 +164,21 @@ export const changeStatsOnLogin = async (robotId) => {
     return data
 }
 
+export const deleteRobot = async (robotId) => {
 
-// export const updateRobotMood = async (robotId, mood) => {
+    const requestOptions = {
+        method: 'DELETE'
+    }
 
-//     const requestOptions = {
-//         method: 'PUT',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({mood: mood})
-//     }
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}`, requestOptions);
 
-//     const response = await fetch(`${BACKEND_URL}/robot/${robotId}/mood`, requestOptions);
+    if(!response.ok){
+        throw new Error('Failed to delete robot');
+    }
 
-//     if (!response.ok) {
-//         throw new Error('Failed to update robot battery')
-//     }
-
-//     const data = await response.json()
-//     return data;
-// }
+    const data = await response.json();
+    return data;
+}
 
 export const lowerRobotBattery = async (robotId) => {
     
@@ -199,5 +194,21 @@ export const lowerRobotBattery = async (robotId) => {
 
     const data = await response.json()
     return data;
+}
+
+export const getRobotSpeach = async (robotId) => {
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/speach`);
+
+    const requestOptions = {
+        method: 'GET'
+    }
+
+    if(!response.ok) {
+        throw new Error('Failed to get robot message', requestOptions)
+    }
+
+    const data = await response.json()
+
+    return data
 }
 

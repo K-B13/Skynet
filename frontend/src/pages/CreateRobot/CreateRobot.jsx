@@ -54,6 +54,7 @@ const CreateRobot = () => {
     }
 
     return (
+        <div id="create-robot-background">
         <div id='create-robot-page'>
             <h2 id='create-robot-heading'>Create Robot</h2>
             <form id='create-robot-form'
@@ -79,6 +80,7 @@ const CreateRobot = () => {
                             id='create-robot-name'
                             name='name'
                             className='name-input'
+                            maxLength='40'
                             value={formDetails.name}
                             onChange={handleChanges}
                             required
@@ -107,6 +109,7 @@ const CreateRobot = () => {
                     >Submit</button>
                 </div>
             </form>
+        </div>
         </div>
     )
 }

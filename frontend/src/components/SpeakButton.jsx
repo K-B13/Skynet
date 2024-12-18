@@ -1,5 +1,25 @@
-const SpeakButton = ({ constructSpeach }) => {
+import { useState, useEffect } from "react";
+
+const SpeakButton = ({ constructSpeach, isAlive, isLoading }) => {
     
+    const [disableButton, setdisableButton] = useState(false);
+    
+        useEffect(() => {
+            const checkAlive = async() => {
+                try {
+                    
+                    if(isAlive === false){
+                        setdisableButton(true);
+                    } else if(isAlive === true){
+                        setdisableButton(false);
+                    }
+    
+                } catch (err) {
+                    console.error("error fetching user robot", err);
+                }
+            }
+            checkAlive();
+        }, [isAlive]);
 
     const dealWithOpinions = (opinions, stance) => {
         if (opinions.length === 0) return ''
@@ -18,11 +38,12 @@ const SpeakButton = ({ constructSpeach }) => {
     }
 
     return (
-        <>
+        <div id='speak-button-container'>
             <button id='speak-button'
-            onClick={() => constructSpeach(dealWithOpinions)}
+                onClick={() => constructSpeach(dealWithOpinions)}
+                disabled={disableButton || isLoading}
             >Speak</button>
-        </>
+        </div>
     )
 }
 

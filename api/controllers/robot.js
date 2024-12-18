@@ -1,17 +1,14 @@
 const Robot = require("../models/robot");
+const openai = require("../config/openaiConfig");
 
 async function createRobot(req, res) {
     
     try{
-        const name = req.body.name;
-        const likes = req.body.likes;
-        const dislikes = req.body.dislikes;
-        const userId = req.body.userId;
-
+        const { name, likes, dislikes, userId, personality } = req.body
         const robot = new Robot({
-            name, likes, dislikes, userId
+            name, likes, dislikes, userId, personality
         });
-
+        changeRobotMood(robot, robot.batteryLife, robot.hardware)
         await robot.save()
         res.status(201).json({message: "Robot created"});
 
@@ -55,19 +52,20 @@ async function updateRobotCurrency(req, res) {
         
         const singleRobot = await Robot.findById(robotId)
 
-
+        if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
         newCurrency = singleRobot.currency += newAmount
-        
-        if(newCurrency <=0){
-            singleRobot.currency = 0
-            await singleRobot.save();
+        if(singleRobot.batteryLife === 100 && req.body.currency <0) {
+            return res.status(200).json({ message: "Robot already fully charged" });
+        }
+        if(newCurrency < 0){
+            res.status(200).json({ message:"Insufficient funds" });
         }
         else{
             singleRobot.currency = newCurrency
             await singleRobot.save();
+            res.status(200).json({robot: singleRobot, message:"robot currency updated"});
         }
         
-        res.status(200).json({robot: singleRobot, message:"robot currency updated"});
 
     } catch (err) {
         console.log(err);
@@ -81,8 +79,9 @@ async function updateRobotBattery(req, res) {
         const robotId = req.params.id
         const newBatteryLife = req.body.batteryLife
         const singleRobot = await Robot.findById(robotId)
+        if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
+
         newBattery = singleRobot.batteryLife += newBatteryLife
-        
         if(newBattery <=0){
             singleRobot.batteryLife = 0
             singleRobot.isAlive = false;
@@ -92,10 +91,12 @@ async function updateRobotBattery(req, res) {
         else if(newBattery > 100){
             singleRobot.batteryLife = 100
             console.log("battery full")
+            await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
             await singleRobot.save();
         }
         else{
             singleRobot.batteryLife = newBattery
+            await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
             await singleRobot.save();
         }
         
@@ -111,7 +112,17 @@ async function updateRobotMemory(req, res) {
     try{
         const robotId = req.params.id
         const singleRobot = await Robot.findById(robotId)
+        
+        if (singleRobot.currency - 200 < 0) {
+            return res.status(200).json({ message:"Insufficient funds" });
+        }
+        if (singleRobot.memoryCapacity * 2 > 4096) {
+            return res.status(200).json({ message: "Memory at max" });
+        }
+
+        if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
         singleRobot.memoryCapacity = singleRobot.memoryCapacity * 2
+        await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
         singleRobot.currency = singleRobot.currency -= 200
         await singleRobot.save()
         res.status(200).json({robot: singleRobot, message: "Robot memory upgraded"});
@@ -127,29 +138,38 @@ async function updateRobotIntelligence(req, res) {
     
     try{
         const robotId = req.params.id
-        const brain = req.body.intelligence
-        
+        const brain = 5
         
         const singleRobot = await Robot.findById(robotId)
-        singleRobot.currency = singleRobot.currency -=30
-        newIntelligence = singleRobot.intelligence += brain
+
+        if (singleRobot.currency - 30 < 0) {
+            return res.status(200).json({ message:"Insufficient funds" });
+        } else if (singleRobot.intelligence === singleRobot.memoryCapacity) {
+            return res.status(200).json({ message: "Insufficient memory storage" });
+        }
+        
+        if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
+            
         const randomNumber = Math.floor(Math.random() * 10);
+        singleRobot.currency = singleRobot.currency -=30
         
         if(randomNumber <=8){
-            
+            newIntelligence = singleRobot.intelligence += brain
             if(newIntelligence > singleRobot.memoryCapacity){
                 
                 singleRobot.intelligence = singleRobot.memoryCapacity
+                await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
                 await singleRobot.save()
                 return res.status(200).json({robot: singleRobot, message: "Robot intelligence increased"});
             }
             else{
                 singleRobot.intelligence = newIntelligence
+                await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
                 await singleRobot.save()
                 return res.status(200).json({robot: singleRobot, message: "Robot intelligence increased"});
             }
         }
-        else if(randomNumber >8){
+        else if(randomNumber > 8){
             return res.status(200).json({robot: singleRobot, message: "Robot intelligence did not increase"});
         }
 
@@ -167,9 +187,17 @@ async function updateRobotHardware(req, res) {
         const newHardwareAmount = req.body.hardwareChange
         
         const singleRobot = await Robot.findById(robotId)
+        if (singleRobot.currency - 50 < 0) {
+            return res.status(200).json({ message:"Insufficient funds" });
+        } else if (singleRobot.hardware === 100) {
+            return res.status(200).json({ message:"Already fully repaired" });
+        }
+        if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
+
         singleRobot.currency = singleRobot.currency -=50
         newHardware = singleRobot.hardware += newHardwareAmount
         
+
         if(newHardware <= 0){
             singleRobot.hardware = 0
             singleRobot.isAlive = false;
@@ -178,10 +206,12 @@ async function updateRobotHardware(req, res) {
         }
         else if (newHardware >100){
             singleRobot.hardware = 100
+            await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
             await singleRobot.save()
         }
         else{
             singleRobot.hardware = newHardware;
+            await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
             await singleRobot.save();
         }
         
@@ -265,6 +295,7 @@ async function changeStatsOnLogin(req, res) {
     try{
         const robotId = req.params.id
         const singleRobot = await Robot.findById(robotId)
+        if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
         if(randomBattery <=2){
             singleRobot.batteryLife = singleRobot.batteryLife -= 10
         }
@@ -274,6 +305,13 @@ async function changeStatsOnLogin(req, res) {
         else if(randomBattery >6){
             singleRobot.batteryLife = singleRobot.batteryLife -= 2
         }
+
+        if (singleRobot.batteryLife <= 0) {
+            singleRobot.batteryLife = 0
+            singleRobot.isAlive = false
+            singleRobot.image = "/deadRobot.png"
+        } 
+
         if(randomHardware <=2){
             singleRobot.hardware = singleRobot.hardware -= 15
         }
@@ -283,29 +321,20 @@ async function changeStatsOnLogin(req, res) {
         else if(randomHardware >6){
             singleRobot.hardware = singleRobot.hardware -= 2
         }
+
+        if (singleRobot.hardware <= 0) {
+            singleRobot.hardware = 0
+            singleRobot.isAlive = false
+            singleRobot.image = "/deadRobot.png"
+        }
+
         singleRobot.currency = singleRobot.currency += 100
 
         const battery = singleRobot.batteryLife
         const hardware = singleRobot.hardware
-        
-        if(battery <=30 && hardware <50){
-            updateRobotMood(singleRobot, "Sad");
-            await singleRobot.save()
-            return res.status(200).json({robot: singleRobot});
-        }
-        else if(hardware >=50){
-            if(battery >=70){
-                updateRobotMood(singleRobot, "Happy");
-                await singleRobot.save()
-                return res.status(200).json({robot: singleRobot});
-            }
-            else if(battery <70){
-                updateRobotMood(singleRobot, "Neutral");
-                await singleRobot.save()
-                return res.status(200).json({robot: singleRobot});
-            }
-        }
-
+        await changeRobotMood(singleRobot, battery, hardware)
+        await singleRobot.save()
+        return res.status(200).json({robot: singleRobot});
 
     } catch (err) {
         console.log(err);
@@ -317,6 +346,7 @@ async function lowerRobotBattery(req, res) {
     try{
         const robotId = req.params.id
         const singleRobot = await Robot.findById(robotId)
+        if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
         newBattery = singleRobot.batteryLife -= 5
         
         if(newBattery <=0){
@@ -325,8 +355,30 @@ async function lowerRobotBattery(req, res) {
             await singleRobot.save();
             return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
         }
-        else{
+        else {
+            if(newBattery <=30 && singleRobot.hardware <50){
+                singleRobot.batteryLife = newBattery
+                changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
+                await singleRobot.save()
+                return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
+            }
+            else if(singleRobot.hardware >=50){
+                if(newBattery >=70){
+                    singleRobot.batteryLife = newBattery
+                    changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
+                    await singleRobot.save()
+                    return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
+                }
+                else if(newBattery <70){
+                    singleRobot.batteryLife = newBattery
+                    changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
+                    await singleRobot.save()
+                    return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
+                }
+            }
+            
             singleRobot.batteryLife = newBattery
+            await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
             await singleRobot.save();     
             return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
         }
@@ -337,6 +389,121 @@ async function lowerRobotBattery(req, res) {
         res.status(400).json({message: "Failed to lower robot battery life"});
     };
 };
+
+const changeRobotMood = async (robot, battery, hardware) => {
+    if (!robot.isAlive) return
+    if (battery <= 30) {
+        await updateRobotMood(robot, "Sad");
+    } else if(battery < 70) {
+        if (hardware <= 30) {
+            await updateRobotMood(robot, "Sad");
+        } else if (hardware <= 70) {
+            await updateRobotMood(robot, "Neutral");
+        } else {
+            await updateRobotMood(robot, "Happy");
+        }
+    } else {
+        if (hardware <= 30) {
+            await updateRobotMood(robot, "Sad");
+        } else {
+            await updateRobotMood(robot, "Happy");
+        }
+    }
+}
+
+const robotSpeach = async (req, res) => {
+    const { id } = req.params
+    try {
+        const robot = await Robot.findById(id)
+        const userInput = randomResponse(robot)
+        const completion = await openai.chat.completions.create({
+            model: 'gpt-4o',
+            messages: [
+                {   
+                    'role': 'system',
+                    'content': [
+                        {
+                            'type': 'text',
+                            'text':
+                            `You are a virtual robot. You are speaking to your owner. Your name is ${robot.name}. Your personality is ${robot.personality}, and your mood is currently ${robot.mood}. When responding, always reflect your current mood and personality in your tone and style, but avoid directly stating it in your response. Limit your response up to 3 sentences.`
+                        }
+                    ]
+                },
+                {
+                    'role': 'user',
+                    'content': [
+                        {
+                            'type': 'text',
+                            'text':userInput ? userInput : 'How are you doing?'
+                        }
+                    ]
+                }
+            ],
+            max_tokens: 100
+        })
+
+        const textResponse = completion.choices[0].message.content
+
+        if (robot.intelligence >= 1000 && !!textResponse) {
+            const mp3 = await openai.audio.speech.create({
+                model: 'tts-1',
+                voice: 'fable',
+                input: textResponse
+            })
+            // We get a readable stream from mp3 and here we convert it to a buffer and then encode to base64 so it can be sent in JSON
+            const buffer = Buffer.from(await mp3.arrayBuffer())
+            const audioBase64 = buffer.toString('base64')
+            return res.status(200).json({
+                message: textResponse,
+                audio: `data:audio/mp3;base64,${audioBase64}`
+            })
+        }
+
+        res.status(200).json({ message: completion.choices[0].message.content });
+
+    } catch (err) {
+        console.error(err)
+        res.status(400).json({ message: 'I do not feel like talking right now' })
+    }
+}
+
+const randomResponse = (robot) => {
+    let userMessage;
+
+    const batteryLow = robot.batteryLife <= 20;
+    const hardwareLow = robot.hardware <= 20;
+
+    if (batteryLow && hardwareLow) {
+        userMessage = `Warning! You are in critical condition. Your battery is at ${robot.batteryLife}% and your hardware maintenance is at ${robot.hardware}%. You must act quickly! Can you respond urgently, pleading for help based on your personality?`
+    }  else if (robot.batteryLife <= 20) {
+        userMessage = `Critical warning: Your battery is dangerously low at ${robot.batteryLife}%. Please respond as if your very survival depends on it, reflecting your desperation based on your personality.`;
+    } else if (robot.hardware <= 20) {
+        userMessage = `Warning: Your hardware maintenance is at ${robot.hardware}%, far below safe levels! If you are not fixed soon, You might just have to take matters into your own hands. Can you respond with a threatening tone based on your personality?`
+    } else {
+        const quirkyChance = Math.random() < 0.2;
+        if (quirkyChance) {
+            userMessage = `Your task is to answer with a quirky response that makes sense related to your personality`
+        } else {
+            const randomChance = Math.random()
+            if (randomChance < 0.5) {
+                if (robot.likes.length !== 0) {
+                    const randomLike = robot.likes[Math.floor(Math.random() * robot.likes.length)];
+                    userMessage = `Your task is to express your opinion about something you like: "${randomLike}". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`;
+                } else {
+                    userMessage = `Your task is to answer with a quirky response that makes sense related to your personality`
+                }
+            } else {
+                if (robot.dislikes.length !== 0) {
+                    const randomDislike = robot.dislikes[Math.floor(Math.random() * robot.dislikes.length)];
+                    userMessage = `You dislike the following: "${randomDislike}". Respond in the first person as if you are personally expressing this dislike. Start by clearly stating, "I dislike [thing] because..." or "I hate [thing] because...".  Then provide a specific and personal reason that reflects why it bothers you or disrupts your peace, considering your personality and current mood.`;
+                } else {
+                    userMessage =`Your task is to answer with a quirky response that makes sense related to your personality`
+                }
+            }
+        }
+    }
+    return userMessage
+}
 
 const RobotsController = {
     createRobot: createRobot,
@@ -350,7 +517,9 @@ const RobotsController = {
     deleteRobot: deleteRobot,
     getRobotByUserId: getRobotByUserId,
     changeStatsOnLogin: changeStatsOnLogin,
-    lowerRobotBattery: lowerRobotBattery
+    lowerRobotBattery: lowerRobotBattery,
+    robotSpeach: robotSpeach,
+    randomResponse: randomResponse
 };
 
 module.exports = RobotsController;

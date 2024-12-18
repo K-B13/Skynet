@@ -1,0 +1,144 @@
+#BWAM-game {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    justify-content: space-around;
+}
+
+#BWAM-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem;
+}
+
+#BWAM-title-container {
+    display: flex;
+    align-items: center;
+    margin: 0 0.8rem;
+    justify-content: center;
+}
+
+#BWAM-rules-container, #BWAM-scoreboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e0722e;
+    border-radius: 2rem;
+    border: 1px solid black;
+    min-width: 30vw;
+}
+
+#BWAM-rules-heading, #BWAM-scoreboard-heading {
+    border-bottom: 1px solid black;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+#BWAM-rules{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    height: 100%;
+    padding: 0.4rem;
+    margin: 0.3rem;
+    font-size: 0.8rem;
+}
+
+#BWAM-scoreboard {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    flex-grow: 1;
+    height: 100%;
+    padding: 0.4rem;
+    font-size: 0.8rem;
+}
+
+#BWAM-rules-container p, #BWAM-scoreboard-container p {
+    margin: 0.4rem 0;
+}
+
+#BWAM-result-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#BWAM-result-announcement {
+    min-height: 2rem;
+}
+
+#BWAM-user-choice-pic, #BWAM-current-choice-pic, #BWAM-robot-choice-pic {
+    border-radius: 2rem;
+}
+
+#BWAM-choices {
+    display: flex;
+    justify-content: space-around;
+    width: 60%;
+}
+
+#BWAM-choice-motherboard, #BWAM-choice-wires, #BWAM-choice-battery {
+    padding: 0;
+    border: none;
+    margin: 1.2rem;
+    background-color: transparent;
+}
+
+#BWAM-choice-motherboard-pic, #BWAM-choice-wires-pic, #BWAM-choice-battery-pic {
+    border-radius: 2rem;
+}  
+
+#BWAM-choice-motherboard-pic:hover, #BWAM-choice-wires-pic:hover, #BWAM-choice-battery-pic:hover {
+    cursor: pointer;
+    scale: 1.2;
+}
+
+#BWAM-confirm-decision-container {
+    display: flex;
+    justify-content: center;
+}
+
+#BWAM-return-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+#BWAM-confirm-decision, #BWAM-return-to-games, #BWAM-return-to-landingpage {
+    margin: 0.8rem;
+    align-items: center;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter, sans-serif;
+    font-size: 0.8rem;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative; 
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-color: #e0722e;
+
+    box-shadow: 4px 4px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+#BWAM-confirm-decision:hover, #BWAM-return-to-games:hover, #BWAM-return-to-landingpage:hover {
+    box-shadow: 0px 0px 0px #111; 
+    transform: translate(4px, 4px);
+    outline: 0;
+}
