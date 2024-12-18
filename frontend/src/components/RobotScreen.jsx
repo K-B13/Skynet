@@ -1,3 +1,5 @@
+import { FaRegHourglass } from "react-icons/fa";
+
 import './RobotScreen.css'
 const RobotScreen = (props) => {
     return (
@@ -8,6 +10,7 @@ const RobotScreen = (props) => {
                     <p id='currency'>${props.currency}</p>
                     </div>
                     <div id='robot-image-container'>
+                        {props.isLoading && <FaRegHourglass id='hourglass'/>}
                         <img id='robot-image' src={props.image}/> 
                     </div>
                     <div id='robot-stats'>

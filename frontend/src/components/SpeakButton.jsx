@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const SpeakButton = ({ constructSpeach, isAlive }) => {
+const SpeakButton = ({ constructSpeach, isAlive, isLoading }) => {
     
     const [disableButton, setdisableButton] = useState(false);
     
@@ -40,8 +40,8 @@ const SpeakButton = ({ constructSpeach, isAlive }) => {
     return (
         <div id='speak-button-container'>
             <button id='speak-button'
-            onClick={() => constructSpeach(dealWithOpinions)}
-            disabled={disableButton}
+                onClick={() => constructSpeach(dealWithOpinions)}
+                disabled={disableButton || isLoading}
             >Speak</button>
         </div>
     )
