@@ -89,6 +89,7 @@ export function SignupPage() {
               }
         </div>
         <button
+          id='signup-submit'
           type="submit"
         >
           Submit
