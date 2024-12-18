@@ -4,6 +4,7 @@ export default class CoinCollect extends Phaser.Scene {
 		super("CoinCollect");
 		this.onGameOver = onGameOver;
 		this.gameOver = false;
+		this.coinsEarned = 0;
 	}
 
 	/** @returns {void} */
@@ -195,9 +196,10 @@ export default class CoinCollect extends Phaser.Scene {
         })
 		this.positions = positions
 
-		 this.gameOverText = this.add.text(640, 360, "Game Over!", {
+		this.gameOverText = this.add.text(640, 360, "Game Over!", {
         fontSize: "64px",
         color: "#ff0000",
+		backgroundColor: "#000",
         fontStyle: "bold",
         align: "center"
     }).setOrigin(0.5); 
@@ -214,7 +216,8 @@ update() {
 triggerGameOver() {
 	if(this.gameOver) return;
 	this.gameOver = true;
-    
+    this.coinsEarned = Number(this.score.text)
+	this.gameOverText.setText(`Game Over! Money earned: $${this.coinsEarned}`);
     this.gameOverText.setVisible(true);
 
     // Stop the game mechanics
