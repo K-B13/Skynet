@@ -65,12 +65,18 @@
     min-width: 70%;
 }
 
+#right-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
 #button-container-lower {
     display: flex;
     margin: 0.8rem;
 }
 
-#memory-buttons, #repair-button-container, #speak-button-container, #kill-robot-container, #teach-button-container {
+#memory-buttons, #repair-button-container, #teach-button-container {
     display: flex;
     flex-direction: column;
     margin: 0.2rem;
@@ -78,7 +84,15 @@
     z-index: 2;
 }
 
-#memory-buttons button, #energy-buttons button, #repair-button-container button, #kill-robot, #speak-button, #create-new-robot, #play-games-button, #teach-button {
+#speak-button-container, #kill-robot-container, #memory-buttons {
+    display: flex;
+    flex-direction: column;
+    margin: 0.1rem;
+    padding: 0.5rem;
+    z-index: 2;
+}
+
+#energy-buttons button, #repair-button-container button, #create-new-robot, #play-games-button, #teach-button {
     margin: 0.4rem;
     align-items: center;
     border: 2px solid #111;
@@ -94,6 +108,34 @@
     line-height: 24px;
     max-width: 100%;
     padding: 0 25px;
+    position: relative; 
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-color: #ffc433;
+
+    box-shadow: 5px 5px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+#memory-buttons button, #kill-robot, #speak-button {
+    margin: 0.2rem;
+    align-items: center;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter, sans-serif;
+    font-size: 0.8rem;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 1.2rem;
     position: relative; 
     text-align: center;
     text-decoration: none;
@@ -132,7 +174,6 @@
     opacity: 0;
     transform: translateY(20px);
 }
-
 
 .terminator-container {
     position: relative;
