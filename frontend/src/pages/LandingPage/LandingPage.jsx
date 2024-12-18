@@ -31,6 +31,7 @@ const LandingPage = () => {
     const [disabled, setdisabled] = useState(false)
     const [ isLoading, setIsLoading ] = useState(false)
 
+    const messageTimeoutRef = useRef(null);
 
     const navigate = useNavigate()
 
@@ -154,7 +155,11 @@ const LandingPage = () => {
     }
 
     const displayMessageClearance = () => {
-        setTimeout(() => {
+        if(messageTimeoutRef.current) {
+            clearTimeout(messageTimeoutRef.current)
+        }
+
+        messageTimeoutRef.current = setTimeout(() => {
             setDisplayMessage('')
         }, 6000)
     }
@@ -187,12 +192,8 @@ const LandingPage = () => {
                     robotSpeach={robotSpeach}
                     displayMessage={displayMessage}
                     isLoading={isLoading}
+                    didNotLearn={didNotLearn}
                     />
-
-                {didNotLearn && (
-                    <p id="learning-fail">Sorry your robot failed to learn!</p>
-                )}
-
 
                 <div id='button-container'>
                     <div id='button-contianer-upper'>
@@ -223,20 +224,21 @@ const LandingPage = () => {
                         isAlive={robotData.isAlive}
                         isLoading={isLoading}
                         />
-                    <KillButton
-                        showMessage={showMessage}
-                        setRobotData={setRobotData}
-                        robotId={robotData._id}
-                        isAlive={robotData.isAlive}
-                    />
+                    
                     {
-                        !robotData.isAlive && 
-                        <button 
-                            id='create-new-robot'
-                            onClick={createNewRobot}
-                        >
-                        Create New Robot
-                        </button>
+                        !robotData.isAlive ? 
+                            <button 
+                                id='create-new-robot'
+                                onClick={createNewRobot}
+                            >
+                            Create New Robot
+                            </button>:
+                            <KillButton
+                                showMessage={showMessage}
+                                setRobotData={setRobotData}
+                                robotId={robotData._id}
+                                isAlive={robotData.isAlive}
+                            />
                     }
                     <button 
                         disabled={disabled}

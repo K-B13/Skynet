@@ -41,7 +41,9 @@ export function SignupPage() {
 
   return (
     <div id="signup">
-      <h2>Sign Up</h2>
+      <h2
+      id='signup-title'
+      >Sign Up</h2>
       {
         showErrors.message &&
         <p>{showErrors.message}</p>
@@ -91,7 +93,7 @@ export function SignupPage() {
       </form>
       <p>
         <a href="/login" id="have-account">
-          Already Have Account
+          Already Have an Account
         </a>
       </p>
     </div>

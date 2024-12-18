@@ -43,7 +43,7 @@ const CreateRobot = () => {
         const updatedDetails = clearEmptyLikesAndDislikes()
         const response = await createRobot({...updatedDetails, userId: userId}, token)
         console.log(response)
-        navigate('/landingpage')
+        navigate('/landingpage', { replace: true })
     }
 
     const clearEmptyLikesAndDislikes =  () => {
