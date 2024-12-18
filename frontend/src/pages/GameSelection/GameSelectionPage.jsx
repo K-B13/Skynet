@@ -57,6 +57,16 @@ export function GameSelection() {
             })}}
             />
 
+        <button
+            // src="./snakeSelection.png"
+            onClick={() => {navigate('/snakegame', {
+                state: {
+                    robotId: robotId
+                }
+            })}}
+            >
+            SNAKE</button>
+
         </div>
     </div>
     );
