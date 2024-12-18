@@ -40,22 +40,100 @@
     cursor: pointer;
 }
 
-
 .NAB-buttons img {
     width: 100%; 
     height: 100%;
     object-fit: contain; 
 }
 
+#NAB-rules-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#NAB-rules-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw; 
+    height: 100vh; 
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(1rem); 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    z-index: 4;
+}
+
+#NAB-rules {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    flex-direction: column;
+    background-color: #e0722e;
+    padding: 0.9rem;
+    border-radius: 2rem;
+}
+
+#NAB-rules-close-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 0.4rem;
+}
+
+#NAB-rules-close:hover {
+    cursor: pointer;
+    animation: spin 0.25s linear;
+}
+
+#rules-content-container p {
+    margin: 1.2rem;
+}
+
+#NAB-view-rules-button {
+    margin: 1.1rem 0.2rem 0.2rem 0.2rem;
+    align-items: center;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter, sans-serif;
+    font-size: 0.8rem;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative; 
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-color: #e0722e;
+
+    box-shadow: 4px 4px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+#NAB-view-rules-button:hover {
+    box-shadow: 0px 0px 0px #111; 
+    transform: translate(4px, 4px);
+    outline: 0;
+}
+
 #NAB-return-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin: 0.2rem;
     padding: 0.5rem;
     z-index: 2;
 }
 
-#NAB-return {
+#NAB-return-to-landingpage, #NAB-return-to-games {
     margin: 0.4rem;
     align-items: center;
     border: 2px solid #111;
@@ -83,9 +161,17 @@
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
 }
 
-#NAB-return:hover {
+#NAB-return-to-landingpage:hover, #NAB-return-to-games:hover {
     box-shadow: 0px 0px 0px #111; 
     transform: translate(3px, 3px);
     outline: 0;
-    
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(90deg);
+    }
 }

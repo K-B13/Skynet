@@ -104,7 +104,12 @@
     justify-content: center;
 }
 
-#BWAM-confirm-decision, #BWAM-return-to-landingpage {
+#BWAM-return-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+#BWAM-confirm-decision, #BWAM-return-to-games, #BWAM-return-to-landingpage {
     margin: 0.8rem;
     align-items: center;
     border: 2px solid #111;
@@ -128,12 +133,12 @@
     touch-action: manipulation;
     background-color: #e0722e;
 
-    box-shadow: 8px 8px 0px #111;
+    box-shadow: 4px 4px 0px #111;
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
 }
 
-#BWAM-confirm-decision:hover, #BWAM-return-to-landingpage:hover {
+#BWAM-confirm-decision:hover, #BWAM-return-to-games:hover, #BWAM-return-to-landingpage:hover {
     box-shadow: 0px 0px 0px #111; 
-    transform: translate(8px, 8px);
+    transform: translate(4px, 4px);
     outline: 0;
 }
