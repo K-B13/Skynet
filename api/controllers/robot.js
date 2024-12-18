@@ -138,7 +138,7 @@ async function updateRobotIntelligence(req, res) {
     
     try{
         const robotId = req.params.id
-        const brain = req.body.intelligence
+        const brain = 5
         
         const singleRobot = await Robot.findById(robotId)
 
@@ -310,6 +310,13 @@ async function changeStatsOnLogin(req, res) {
         else if(randomBattery >6){
             singleRobot.batteryLife -= 2 + loggedOutDepletion
         }
+
+        if (singleRobot.batteryLife <= 0) {
+            singleRobot.batteryLife = 0
+            singleRobot.isAlive = false
+            singleRobot.image = "/deadRobot.png"
+        } 
+
         if(randomHardware <=2){
             singleRobot.hardware = singleRobot.hardware -= 15
         }
@@ -319,9 +326,17 @@ async function changeStatsOnLogin(req, res) {
         else if(randomHardware >6){
             singleRobot.hardware = singleRobot.hardware -= 2
         }
+
+        if (singleRobot.hardware <= 0) {
+            singleRobot.hardware = 0
+            singleRobot.isAlive = false
+            singleRobot.image = "/deadRobot.png"
+        }
+
         if(loggedOutDepletion >= 24){
             singleRobot.currency += 100
         }
+
 
         const battery = singleRobot.batteryLife
         const hardware = singleRobot.hardware
@@ -369,6 +384,7 @@ async function lowerRobotBattery(req, res) {
                     return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
                 }
             }
+            
             singleRobot.batteryLife = newBattery
             await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
             await singleRobot.save();     
@@ -474,22 +490,22 @@ const randomResponse = (robot) => {
     } else {
         const quirkyChance = Math.random() < 0.2;
         if (quirkyChance) {
-            userMessage = `Can you answer with a quirky response that makes sense related to your personality`
+            userMessage = `Your task is to answer with a quirky response that makes sense related to your personality`
         } else {
             const randomChance = Math.random()
             if (randomChance < 0.5) {
                 if (robot.likes.length !== 0) {
                     const randomLike = robot.likes[Math.floor(Math.random() * robot.likes.length)];
-                    userMessage = `You express your opinion about something you like: "${randomLike}". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`;
+                    userMessage = `Your task is to express your opinion about something you like: "${randomLike}". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`;
                 } else {
-                    userMessage = `Can you answer with a quirky response that makes sense related to your personality`
+                    userMessage = `Your task is to answer with a quirky response that makes sense related to your personality`
                 }
             } else {
                 if (robot.dislikes.length !== 0) {
                     const randomDislike = robot.dislikes[Math.floor(Math.random() * robot.dislikes.length)];
                     userMessage = `You dislike the following: "${randomDislike}". Respond in the first person as if you are personally expressing this dislike. Start by clearly stating, "I dislike [thing] because..." or "I hate [thing] because...".  Then provide a specific and personal reason that reflects why it bothers you or disrupts your peace, considering your personality and current mood.`;
                 } else {
-                    userMessage =`Can you answer with a quirky response that makes sense related to your personality`
+                    userMessage =`Your task is to answer with a quirky response that makes sense related to your personality`
                 }
             }
         }

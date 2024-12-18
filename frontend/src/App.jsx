@@ -6,6 +6,7 @@ import { LoginPage } from "./pages/Login/LoginPage";
 import { SignupPage } from "./pages/Signup/SignupPage";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import CreateRobot from "./pages/CreateRobot/CreateRobot";
+import Blackjack from "./pages/BlackJack/BlackJack";
 import RobotBoltGameRules from "./pages/BoltGame/RobotBoltGameRules";
 import VirusSweeperPage from "./pages/VirusSweeper/VirusSweeperPage"
 import BWAM from "./pages/BatteryWiresAndMotherboard/BWAM";
@@ -14,7 +15,6 @@ import {GameSelection} from "./pages/GameSelection/GameSelectionPage"
 import {TriviaGamePage} from "./pages/TriviaGame/TriviaGamePage"
 import {TriviaGame} from "./pages/TriviaGame/TriviaGame"
 import SnakeGamePage from "./pages/SnakeGame/SnakeGamePage"
-
 
 // docs: https://reactrouter.com/en/main/start/overview
 const router = createBrowserRouter([
@@ -37,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: "/createrobot",
     element: <CreateRobot />
+  },
+  {
+    path: "/blackjack",
+    element: <Blackjack />,
   },
   {
     path: "/boltgame",

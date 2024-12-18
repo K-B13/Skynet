@@ -28,6 +28,7 @@ const LandingPage = () => {
     const [flash, setFlash] = useState(false);
     const [ displayMessage, setDisplayMessage ] = useState('')
     const [disabled, setdisabled] = useState(false)
+    const [ isLoading, setIsLoading ] = useState(false)
 
 
     const navigate = useNavigate()
@@ -41,6 +42,7 @@ const LandingPage = () => {
                 if(robot.message === "Fetched robot by user Id"){
                     setRobotData(robot.robot);
                 }
+
 
             } catch (err) {
                 console.error("error fetching user robot", err);
@@ -85,6 +87,7 @@ const LandingPage = () => {
     }, [robotData.currency]);
 
     const constructSpeach = async (dealWithOpinions) => {
+        setIsLoading(true)
         if (robotData.intelligence <= 100){
             const initialGreetings = `Hello, I am ${robotData.name}. `
             const likes = dealWithOpinions(robotData.likes, 'like')
@@ -99,6 +102,7 @@ const LandingPage = () => {
             }
             setRobotSpeach(response.message)
         }
+        setIsLoading(false)
         speachClearance()
     }
 
@@ -157,6 +161,16 @@ const LandingPage = () => {
         }, 6000)
     }
 
+    useEffect(() => {
+        if (didNotLearn) {
+            const timeoutId = setTimeout(() => {
+            setDidNotLearn(false);
+            }, 5000);
+
+            return () => clearTimeout(timeoutId);
+        }
+        }, [didNotLearn]);
+
     return (
         <>
             <div id="landing-page">
@@ -174,16 +188,13 @@ const LandingPage = () => {
                     isAlive={robotData.isAlive}
                     robotSpeach={robotSpeach}
                     displayMessage={displayMessage}
+                    isLoading={isLoading}
                     />
 
                 {didNotLearn && (
                     <p id="learning-fail">Sorry your robot failed to learn!</p>
-                
                 )}
 
-                {didNotLearn && setTimeout(() => {
-                    setDidNotLearn(false);
-                }, 5000)}
 
                 <div id='button-container'>
                     <div id='button-contianer-upper'>
@@ -212,6 +223,7 @@ const LandingPage = () => {
                     <SpeakButton 
                         constructSpeach={constructSpeach} 
                         isAlive={robotData.isAlive}
+                        isLoading={isLoading}
                         />
                     <KillButton
                         showMessage={showMessage}
@@ -269,6 +281,5 @@ const LandingPage = () => {
         </>
     )
 }
-
 
 export default LandingPage

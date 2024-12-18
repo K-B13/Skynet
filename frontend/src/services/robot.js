@@ -111,13 +111,13 @@ export const updateRobotMemory = async (robotId) => {
     return data
 }
 
-export const updateRobotIntelligence = async (robotId, intelligence) => {
+export const updateRobotIntelligence = async (robotId) => {
     const requestOptions = {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({intelligence: intelligence})
+        body: JSON.stringify()
     }
 
     const response = await fetch(`${BACKEND_URL}/robot/${robotId}/intelligence`, requestOptions);

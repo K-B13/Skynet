@@ -553,7 +553,6 @@ describe('PUT Intelligence', () => {
         const robot = new Robot({
             name: "kimi",
             memoryCapacity: 100,
-            intelligence: 0,
             likes: ["apples", "politics"],
             dislikes: ["oranges"],
         });
@@ -561,11 +560,9 @@ describe('PUT Intelligence', () => {
         const robotId = robot._id.toString()
         const response = await request(app)
         .put(`/robot/${robotId}/intelligence`)
-        .send({
-            intelligence: 10
-        });
+        .send();
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.intelligence).toEqual(10)
+        expect(response.body.robot.intelligence).toEqual(5)
         expect(response.body.robot.currency).toEqual(470)
         
     });
@@ -587,9 +584,7 @@ describe('PUT Intelligence', () => {
         const robotId = robot._id
         const response = await request(app)
         .put(`/robot/${robotId}/intelligence`)
-        .send({
-            intelligence: 10
-        });
+        .send();
 
         expect(response.statusCode).toBe(200);
         expect(response.body.message).toBe('Insufficient funds')
@@ -611,9 +606,7 @@ describe('PUT Intelligence', () => {
         const robotId = robot._id
         const response = await request(app)
         .put(`/robot/${robotId}/intelligence`)
-        .send({
-            intelligence: 10
-        });
+        .send();
 
         expect(response.statusCode).toBe(200);
         expect(response.body.message).toBe('Insufficient memory storage')
@@ -626,9 +619,7 @@ describe('PUT Intelligence', () => {
             name: "kimi",
             currency: 500,
             batteryLife: 100,
-            memoryCapacity: 100,
-            intelligence: 0,
-            hardware: 1,
+            intelligence: 13,
             image: "",
             isAlive: true,
             mood: "Neutral",
@@ -639,11 +630,9 @@ describe('PUT Intelligence', () => {
         const robotId = robot._id.toString()
         const response = await request(app)
         .put(`/robot/${robotId}/intelligence`)
-        .send({
-            intelligence: 150
-        });
+        .send();
         expect(response.statusCode).toBe(200);
-        expect(response.body.robot.intelligence).toEqual(100)
+        expect(response.body.robot.intelligence).toEqual(16)
         expect(response.body.robot.currency).toEqual(470)
         jest.restoreAllMocks();
     });
@@ -1631,7 +1620,7 @@ describe('PUT lower battery', () => {
                 dislikes: ["oranges"],
             });
             const prompt = randomResponse(robot)
-            expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
+            expect(prompt).toBe(`Your task is to answer with a quirky response that makes sense related to your personality`)
         })
 
         it('Tests if get a prompt about likes', async () => {
@@ -1645,7 +1634,7 @@ describe('PUT lower battery', () => {
                 dislikes: ["oranges"],
             });
             const prompt = randomResponse(robot)
-            expect(prompt).toBe(`You express your opinion about something you like: "politics". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`)
+            expect(prompt).toBe(`Your task is to express your opinion about something you like: "politics". You find this enjoyable because it aligns with your preferences and personality. Make sure you directly mention what you are talking about and your opinion on it.`)
         })
         
         it('Tests if you get a quirky response if you have no likes', async () => {
@@ -1658,7 +1647,7 @@ describe('PUT lower battery', () => {
                 dislikes: ["oranges"],
             });
             const prompt = randomResponse(robot)
-            expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
+            expect(prompt).toBe(`Your task is to answer with a quirky response that makes sense related to your personality`)
         })
 
         it('Tests if get a prompt about dislikes', async () => {
@@ -1685,7 +1674,7 @@ describe('PUT lower battery', () => {
                 dislikes: [],
             });
             const prompt = randomResponse(robot)
-            expect(prompt).toBe(`Can you answer with a quirky response that makes sense related to your personality`)
+            expect(prompt).toBe(`Your task is to answer with a quirky response that makes sense related to your personality`)
         })
     })
 });
