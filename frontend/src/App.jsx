@@ -15,6 +15,7 @@ import {GameSelection} from "./pages/GameSelection/GameSelectionPage"
 import {TriviaGamePage} from "./pages/TriviaGame/TriviaGamePage"
 import {TriviaGame} from "./pages/TriviaGame/TriviaGame"
 import SnakeGamePage from "./pages/SnakeGame/SnakeGamePage"
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // docs: https://reactrouter.com/en/main/start/overview
 const router = createBrowserRouter([
@@ -32,47 +33,92 @@ const router = createBrowserRouter([
   },
   {
     path: "/landingpage",
-    element: <LandingPage />,
+    element: (
+      <ProtectedRoute>
+        <LandingPage />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/createrobot",
-    element: <CreateRobot />
+    element: (
+      <ProtectedRoute>
+        <CreateRobot />
+      </ProtectedRoute>
+  )
   },
   {
     path: "/blackjack",
-    element: <Blackjack />,
+    element: (
+      <ProtectedRoute>
+        <Blackjack />
+    </ProtectedRoute>
+    )
+    ,
   },
   {
     path: "/boltgame",
-    element: <RobotBoltGameRules />
+    element: (
+      <ProtectedRoute>
+        <RobotBoltGameRules />
+      </ProtectedRoute>
+    )
   },
   {
     path: "/virussweeper",
-    element: <VirusSweeperPage />
+    element: (
+      <ProtectedRoute>
+        <VirusSweeperPage />
+      </ProtectedRoute>
+  )
   },
   {
     path: "/bwam",
-    element: <BWAM />
+    element: (
+      <ProtectedRoute>
+        <BWAM />
+      </ProtectedRoute>
+    )
   },
   {
     path: "/nab",
-    element: <NutzAndBoltz />
+    element: (
+      <ProtectedRoute>
+        <NutzAndBoltz />
+      </ProtectedRoute>
+    )
   },
   {
     path: "/gameselection",
-    element: <GameSelection />
+    element: (
+      <ProtectedRoute>
+        <GameSelection />
+      </ProtectedRoute>
+    )
   },
   {
     path: "/triviagame",
-    element: <TriviaGamePage />
+    element: (
+      <ProtectedRoute>
+        <TriviaGamePage />
+      </ProtectedRoute>
+    )
   },
   {
     path: "/triviagame/:level",
-    element: <TriviaGame />
+    element: (
+      <ProtectedRoute>
+        <TriviaGame />
+      </ProtectedRoute>
+    )
   },
   {
     path: "/snakegame",
-    element: <SnakeGamePage />
+    element: (
+      <ProtectedRoute>
+        <SnakeGamePage />
+      </ProtectedRoute>
+    )
   }
 ]);
 
