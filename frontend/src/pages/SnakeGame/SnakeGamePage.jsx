@@ -27,6 +27,7 @@ const handleStartGame = () => {
         <NavBar robotId={robotId}/>
         <h1>Snake Game</h1>
         {!gameStarted ? (
+            <div id="snake-game-page">
             <div id="snake-game-rules">
                     <h2>Rules</h2>
                     <p>The goal is to eat as much food as possible to earn $, you will earn 5 times your score, so if you eat 5 bits of food you will earn $25
@@ -69,6 +70,7 @@ const handleStartGame = () => {
                     Start Game
                 </button>
                 </div>
+            </div>
             ) : (
                 <SnakeGame robotId={robotId} />
 
