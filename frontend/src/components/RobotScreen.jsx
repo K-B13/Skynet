@@ -34,6 +34,11 @@ const RobotScreen = (props) => {
                     id='robot-speach'
                     >{props.robotSpeach}</p>}
                 </div>
+                <div id='learning-fail-container'>
+                    {props.didNotLearn && (
+                        <p id="learning-fail">Sorry your robot failed to learn!</p>
+                    )}
+                </div>
             </div>
         </div>
     )
