@@ -65,6 +65,11 @@
 - UP008 - Users can create a new robot of their robot dies
 - UP009 - Users cannot charge, teach, upgrade hardware or increase memory if they do not have the required currency
 
+### Speak
+- SP001 - Robots with < 100 intelligence have basic responses
+- SP002 - Robots with 100-999 intelligence have AI generated responses
+- SP003 - Robots with >= 1000 intelligence have AI generated responses with text to speech
+
 ### Minigames
 - MG001 - Users can play mini games in order to earn currency
 - MG002 - Each mini game will have a description that teaches the user how to play the game
@@ -72,3 +77,6 @@
 ### Security Measures
 - SE001 - A user cannot manipulate another user's robot
 - SE002 - A user cannot manipulate another user's account details
+- SE003 - Users cannot gain any advantage by using the API instead of the frontend
+- SE004 - A user cannot access the create robot page if they already have an alive robot
+- SE005 - A user who is not logged in cannot access any pages other than splash, sign up and login
