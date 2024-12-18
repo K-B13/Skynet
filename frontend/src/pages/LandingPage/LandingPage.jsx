@@ -191,7 +191,6 @@ const LandingPage = () => {
 
                 {didNotLearn && (
                     <p id="learning-fail">Sorry your robot failed to learn!</p>
-                
                 )}
 
 

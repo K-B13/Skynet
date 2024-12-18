@@ -138,7 +138,7 @@ async function updateRobotIntelligence(req, res) {
     
     try{
         const robotId = req.params.id
-        const brain = req.body.intelligence
+        const brain = 5
         
         const singleRobot = await Robot.findById(robotId)
 
@@ -305,6 +305,13 @@ async function changeStatsOnLogin(req, res) {
         else if(randomBattery >6){
             singleRobot.batteryLife = singleRobot.batteryLife -= 2
         }
+
+        if (singleRobot.batteryLife <= 0) {
+            singleRobot.batteryLife = 0
+            singleRobot.isAlive = false
+            singleRobot.image = "/deadRobot.png"
+        } 
+
         if(randomHardware <=2){
             singleRobot.hardware = singleRobot.hardware -= 15
         }
@@ -314,6 +321,13 @@ async function changeStatsOnLogin(req, res) {
         else if(randomHardware >6){
             singleRobot.hardware = singleRobot.hardware -= 2
         }
+
+        if (singleRobot.hardware <= 0) {
+            singleRobot.hardware = 0
+            singleRobot.isAlive = false
+            singleRobot.image = "/deadRobot.png"
+        }
+
         singleRobot.currency = singleRobot.currency += 100
 
         const battery = singleRobot.batteryLife
@@ -362,6 +376,7 @@ async function lowerRobotBattery(req, res) {
                     return res.status(200).json({robot: singleRobot, message: "robot battery lowered"});
                 }
             }
+            
             singleRobot.batteryLife = newBattery
             await changeRobotMood(singleRobot, singleRobot.batteryLife, singleRobot.hardware)
             await singleRobot.save();     
