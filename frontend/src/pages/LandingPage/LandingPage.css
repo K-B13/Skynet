@@ -9,6 +9,18 @@
     height: 100vh;
     width: 100vw;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#landing-page-container {
+    margin: 0.8rem;
+    width: 70vw;
+    background-color: #ffc433;
+    border-radius: 0.8rem;
+    padding: 0.4rem;
+    border: 0.1rem solid #111;
 }
 
 #button-container {
@@ -57,7 +69,7 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    background-color: #e0722e;
+    background-color: #ffc433;
 
     box-shadow: 5px 5px 0px #111;
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;

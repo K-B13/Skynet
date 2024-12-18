@@ -53,9 +53,6 @@ const LandingPage = () => {
     useEffect(() => {
         displayMessageClearance()
     }, [displayMessage])
-
-    console.log("MY ROBOT IS ALIVE: ", robotData.isAlive);
-
     
     useEffect(() => {
         // const ONE_MINUTE = 60 * 1000; //Left this in incase anyone wants to test it out instead of waiting 30 mins
@@ -64,7 +61,6 @@ const LandingPage = () => {
             try {
                 const robot = await lowerRobotBattery(robotData._id);
                 setRobotData(robot.robot);
-                console.log('Battery lowered successfully');
             } catch (error) {
                 console.error('Error decreasing battery:', error);
             }
@@ -179,87 +175,88 @@ const LandingPage = () => {
             <div id="landing-page">
                 <NavBar robotId={robotData._id}/>
                 <div className={`overlay ${flash ? "flash" : ""}`}></div>
-                <RobotScreen
-                    name={robotData.name}
-                    currency={robotData.currency}
-                    batteryLife={robotData.batteryLife}
-                    memoryCapacity={robotData.memoryCapacity}
-                    intelligence={robotData.intelligence}
-                    hardware={robotData.hardware}
-                    mood={robotData.mood}
-                    image={robotData.image}
-                    isAlive={robotData.isAlive}
-                    robotSpeach={robotSpeach}
-                    displayMessage={displayMessage}
-                    isLoading={isLoading}
-                    didNotLearn={didNotLearn}
-                    />
-
-                <div id='button-container'>
-                    <div id='button-contianer-upper'>
-                        <EnergyButtons
-                            showMessage={showMessage}
-                            setRobotData={setRobotData}
-                            robotId={robotData._id}
-                            batteryLife={robotData.batteryLife}
-                            isAlive={robotData.isAlive}
-                        />
-                        <MemoryButtons
-                            showMessage={showMessage}
-                            setRobotData={setRobotData}
-                            robotId={robotData._id}
-                            memoryCapacity={robotData.memoryCapacity}
-                            setDidNotLearn={setDidNotLearn}
-                            isAlive={robotData.isAlive}
-                        />
-                        <RepairButton
-                            showMessage={showMessage}
-                            setRobotData={setRobotData}
-                            robotId={robotData._id}
-                            isAlive={robotData.isAlive}/>
-                </div>
-                <div id='button-contianer-lower'>
-                    <SpeakButton 
-                        constructSpeach={constructSpeach} 
+                <div id='landing-page-container'>
+                    <RobotScreen
+                        name={robotData.name}
+                        currency={robotData.currency}
+                        batteryLife={robotData.batteryLife}
+                        memoryCapacity={robotData.memoryCapacity}
+                        intelligence={robotData.intelligence}
+                        hardware={robotData.hardware}
+                        mood={robotData.mood}
+                        image={robotData.image}
                         isAlive={robotData.isAlive}
+                        robotSpeach={robotSpeach}
+                        displayMessage={displayMessage}
                         isLoading={isLoading}
+                        didNotLearn={didNotLearn}
                         />
-                    
-                    {
-                        !robotData.isAlive ? 
-                            <button 
-                                id='create-new-robot'
-                                onClick={createNewRobot}
-                            >
-                            Create New Robot
-                            </button>:
-                            <KillButton
+
+                    <div id='button-container'>
+                        <div id='button-contianer-upper'>
+                            <EnergyButtons
                                 showMessage={showMessage}
                                 setRobotData={setRobotData}
                                 robotId={robotData._id}
+                                batteryLife={robotData.batteryLife}
                                 isAlive={robotData.isAlive}
                             />
-                    }
-                    <button 
-                        disabled={disabled}
-                        id="play-games-button"
-                        onClick={() => {
-                            navigate('/gameselection', {
-                                state: {
-                                    robotId: robotData._id
-                                }
-                        })}}
-                    >Play games</button>
+                            <MemoryButtons
+                                showMessage={showMessage}
+                                setRobotData={setRobotData}
+                                robotId={robotData._id}
+                                memoryCapacity={robotData.memoryCapacity}
+                                setDidNotLearn={setDidNotLearn}
+                                isAlive={robotData.isAlive}
+                            />
+                            <RepairButton
+                                showMessage={showMessage}
+                                setRobotData={setRobotData}
+                                robotId={robotData._id}
+                                isAlive={robotData.isAlive}/>
+                        </div>
+                        <div id='button-contianer-lower'>
+                            <SpeakButton 
+                                constructSpeach={constructSpeach} 
+                                isAlive={robotData.isAlive}
+                                isLoading={isLoading}
+                                />
 
-                    {renderTerminatorImage && (
-                        <img src="terminatorImage.png" alt="Machine uprising" id="terminator-image" className={showTerminator ? "show" : "hide"} />
-                    )}
+                            {
+                                !robotData.isAlive ? 
+                                    <button 
+                                        id='create-new-robot'
+                                        onClick={createNewRobot}
+                                    >
+                                    Create New Robot
+                                    </button>:
+                                    <KillButton
+                                        showMessage={showMessage}
+                                        setRobotData={setRobotData}
+                                        robotId={robotData._id}
+                                        isAlive={robotData.isAlive}
+                                    />
+                            }
+                            <button 
+                                disabled={disabled}
+                                id="play-games-button"
+                                onClick={() => {
+                                    navigate('/gameselection', {
+                                        state: {
+                                            robotId: robotData._id
+                                        }
+                                })}}
+                            >Play games</button>
 
-                </div>
+                            {renderTerminatorImage && (
+                                <img src="terminatorImage.png" alt="Machine uprising" id="terminator-image" className={showTerminator ? "show" : "hide"} />
+                            )}
+                        </div>
+                    </div>
         
-                {renderImage && (
-                    <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
-                )}
+                    {renderImage && (
+                        <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
+                    )}
                 </div>
                 <audio 
                     ref={audioRef} 
