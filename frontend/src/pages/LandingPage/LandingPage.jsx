@@ -29,6 +29,7 @@ const LandingPage = () => {
     const [flash, setFlash] = useState(false);
     const [ displayMessage, setDisplayMessage ] = useState('')
     const [disabled, setdisabled] = useState(false)
+    const [ isLoading, setIsLoading ] = useState(false)
 
 
     const navigate = useNavigate()
@@ -84,6 +85,7 @@ const LandingPage = () => {
     }, [robotData.currency]);
 
     const constructSpeach = async (dealWithOpinions) => {
+        setIsLoading(true)
         if (robotData.intelligence <= 100){
             const initialGreetings = `Hello, I am ${robotData.name}. `
             const likes = dealWithOpinions(robotData.likes, 'like')
@@ -98,6 +100,7 @@ const LandingPage = () => {
             }
             setRobotSpeach(response.message)
         }
+        setIsLoading(false)
         speachClearance()
     }
 
@@ -183,6 +186,7 @@ const LandingPage = () => {
                     isAlive={robotData.isAlive}
                     robotSpeach={robotSpeach}
                     displayMessage={displayMessage}
+                    isLoading={isLoading}
                     />
 
                 {didNotLearn && (
@@ -218,6 +222,7 @@ const LandingPage = () => {
                     <SpeakButton 
                         constructSpeach={constructSpeach} 
                         isAlive={robotData.isAlive}
+                        isLoading={isLoading}
                         />
                     <KillButton
                         showMessage={showMessage}

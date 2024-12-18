@@ -30,9 +30,14 @@
 
 #robot-image-container {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     flex-grow: 1;
     justify-content: center;
+    flex-direction: column;
+}
+
+#hourglass {
+    animation: spin-hourglass 1s linear infinite;
 }
 
 #currency-container {
@@ -71,4 +76,16 @@
 #robot-image{
     width:200px;
     height: 200px;
+}
+
+@keyframes spin-hourglass {
+    0% {
+        transform: rotate(0deg);
+    }
+    60% {
+        transform: rotate(360deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
