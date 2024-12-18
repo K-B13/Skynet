@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom"
 import LogoutButton from '../../components/LogoutButton'
 import { deleteUser } from "../../services/user"
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions"
+import './NavBar.css'
 const NavBar = ({ robotId }) => {
     const navigate = useNavigate()
     const eraseUser = async () => {
@@ -11,9 +12,7 @@ const NavBar = ({ robotId }) => {
             return
         }
         const token = localStorage.getItem('token')
-        console.log(token)
         const userId = getPayloadFromToken(token).userId
-        console.log(userId)
         try {
             await deleteUser(userId, token)
             navigate('/')
@@ -24,13 +23,22 @@ const NavBar = ({ robotId }) => {
     }
 
     return (
-        <nav id='navbar'>
-            <Link to='/landingpage' state={{robotId: robotId}}>Landing Page</Link>
-            <Link to='/gameselection' state={{robotId: robotId}}>Games</Link>
-            <button
-                onClick={eraseUser}
-            >Delete Account</button>
-            <LogoutButton />
+        <nav id='navbar-container'>
+            <div id='navbar'>
+                <div id='navbar-left'>
+                    <Link to='/landingpage' state={{robotId: robotId}}>Landing Page</Link>
+                </div>
+                <div id='navbar-right'>
+                    <div id='navbar-games-container'>
+                        <Link to='/gameselection' state={{robotId: robotId}}>Games</Link>
+                    </div>
+                    <button
+                        id='delete-account'
+                        onClick={eraseUser}
+                    >Delete Account</button>
+                    <LogoutButton />
+                </div>
+            </div>
         </nav>
     )
 }
