@@ -156,6 +156,16 @@ const LandingPage = () => {
         }, 6000)
     }
 
+    useEffect(() => {
+        if (didNotLearn) {
+            const timeoutId = setTimeout(() => {
+            setDidNotLearn(false);
+            }, 5000);
+
+            return () => clearTimeout(timeoutId);
+        }
+        }, [didNotLearn]);
+
     return (
         <>
             <div id="landing-page">
@@ -180,9 +190,6 @@ const LandingPage = () => {
                 
                 )}
 
-                {didNotLearn && setTimeout(() => {
-                    setDidNotLearn(false);
-                }, 5000)}
 
                 <div id='button-container'>
                     <div id='button-contianer-upper'>
