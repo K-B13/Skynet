@@ -126,6 +126,12 @@ const BWAM = () => {
                 </div>
                 <BWAMScoreboard scoreboard={scoreboard} />
             </div>
+            {
+                !activeGame && 
+                <p id='BWAM-currency-won'>
+                    {scoreboard.robotScore === 3 ? 'You did not win any coins' : `You have won ${150 - (scoreboard.robotScore * 50)} coins`}
+                </p>
+            }
             <BWAMResults outcome={outcome} selectedChoice={selectedChoice} relatedPic={relatedPic} currentChoice={currentChoice}/>
             {activeGame ? 
             <div id='BWAM-main-game'>
@@ -146,12 +152,20 @@ const BWAM = () => {
                 </div>
                     }
             </div>:
-            <button
-            id='BWAM-return-to-landingpage'
-            onClick={() => navigate('/landingpage')}
-            >
-                Back to Robot
-            </button>
+            <div id='BWAM-return-buttons'>
+                <button
+                    id='BWAM-return-to-games'
+                    onClick={() => navigate('/gameselection', {state: {robotId: robotId}})}
+                >
+                    Back to Games
+                </button>
+                <button
+                    id='BWAM-return-to-landingpage'
+                    onClick={() => navigate('/landingpage')}
+                >
+                    Back to Robot
+                </button>
+            </div>
             }
         </div>
     )
