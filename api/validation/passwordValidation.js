@@ -17,7 +17,7 @@ const passwordSpecialCharacter = (password) => {
 const passwordHasAnInteger = (password) => {
     const integerRegex = /\d/;
     if (integerRegex.test(password)) return { passes: true };
-    return { passes: false, message: "Password does not have an integer" };
+    return { passes: false, message: "Password does not have a number" };
 };
 
 const passwordIncludesUpperCase = (password) => {
