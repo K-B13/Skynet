@@ -1,3 +1,4 @@
+
 import { FaRegHourglass } from "react-icons/fa";
 
 import './RobotScreen.css'
@@ -21,7 +22,6 @@ const RobotScreen = (props) => {
                         <p id='hardware'>Hardware {props.hardware}%</p>
                         <p id='mood'>Mood: {props.mood}</p>
                     </div>
-
                 </div>
                 <div id='robot-display-message-container'>
                     {
@@ -39,4 +39,4 @@ const RobotScreen = (props) => {
     )
 }
 
-export default RobotScreen
+export default RobotScreen;
