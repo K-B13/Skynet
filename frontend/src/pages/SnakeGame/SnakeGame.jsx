@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import "./SnakeGame.css";
+import {useNavigate} from 'react-router-dom'
+import { updateRobotCurrency } from '../../services/robot';
 
-const SnakeGame = () => {
+const SnakeGame = ({robotId}) => {
     const canvasRef = useRef(null);
     const [snake, setSnake] = useState([{ x: 10, y: 10 }]); 
     const [food, setFood] = useState({ x: 15, y: 15 });
@@ -9,6 +11,7 @@ const SnakeGame = () => {
     const [nextDirection, setNextDirection] = useState({ x: 0, y: -1 });
     const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
+    const navigate = useNavigate();
 
     const cellSize = 20;
     const canvasSize = 600;
@@ -95,19 +98,40 @@ const SnakeGame = () => {
         });
 
         ctx.fillStyle = 'black';
-        ctx.fillRect(food.x * cellSize, food.y * cellSize, cellSize, cellSize);
+        ctx.beginPath();
+        ctx.arc(food.x * cellSize + cellSize / 2, food.y * cellSize + cellSize / 2, cellSize / 2, 0, Math.PI * 2);
+        ctx.fill();
+        
 
         if (gameOver) {
             ctx.fillStyle = 'black';
             ctx.font = '30px Arial';
-            ctx.fillText(`Game Over | Money earned $${score * 5}`, canvasSize / 4, canvasSize / 2);
+            const text = `Game Over | Money earned $${score * 5}`;
+            const textWidth = ctx.measureText(text).width;
+            ctx.fillText(text, (canvasSize - textWidth) / 2, canvasSize / 2);
+            addCash()
         }
     }, [snake, food, gameOver]);
 
+    const addCash = async () =>{
+        const money = score * 5
+        const response = await updateRobotCurrency(robotId, money);
+            if(response.message === "robot currency updated"){
+                setTimeout(() => {
+                    navigate('/landingpage');
+                }, 3000); 
+            }
+    }
+
     return (
-        <div id="SnakeGame">
+        <div id="nokia-phone">
+        <div id="snake-contianer">
+        <div id="SnakeScreen">
             <canvas ref={canvasRef} width={canvasSize} height={canvasSize}></canvas>
-            <p>Score: {score}</p>
+            <p id="snake-game-score">Score: {score}</p>
+        </div>
+
+        </div>
         </div>
     );
 };

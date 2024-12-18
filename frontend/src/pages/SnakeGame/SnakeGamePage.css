@@ -1,0 +1,44 @@
+#snake-game-page {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    background-image: url('/snakeBackground.png');
+    background-size: cover;
+    background-position: center;
+}
+
+#snake-game-rules{
+    background-color: rgb(117, 52, 128, 0.8);
+    width: 60vw;
+    border:1px solid black;
+    border-radius: 8px;
+    margin: 20px auto;
+    padding: 20px;
+    color: #fff;
+}
+
+#snake-game-rules button{
+    margin: auto;
+    border: 2px solid #111;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    line-height: 24px;
+    padding: 5px 25px; 
+    text-align: center;
+    background-color: #2e81e0;
+
+    box-shadow: 8px 8px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+#snake-game-rules button:hover{
+    box-shadow: 0px 0px 0px #111; 
+    transform: translate(8px, 8px);
+    outline: 0;
+}
