@@ -9,3 +9,36 @@
     height: 100vh;
     width: 100vw;
 }
+
+#signup button{
+    margin: 5px;
+    border: 2px solid #111;
+    border-radius: 8px;
+    color: #111;
+    cursor: pointer;
+    line-height: 24px;
+    padding: 5px 20px; 
+    text-align: center;
+    background-color: #e0722e;
+    font-size: 20px;
+    color: #fff;
+
+    box-shadow: 8px 8px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+
+}
+
+#signup button:hover{
+    box-shadow: 0px 0px 0px #111; 
+    transform: translate(8px, 8px);
+    outline: 0;
+    color: #000;
+}
+
+#have-account{
+    color: #fff;
+    background-color: rgb(0, 0, 0, 0.5);
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+}

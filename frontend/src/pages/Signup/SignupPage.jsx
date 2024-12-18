@@ -90,7 +90,7 @@ export function SignupPage() {
         </button>
       </form>
       <p>
-        <a href="/login">
+        <a href="/login" id="have-account">
           Already Have Account
         </a>
       </p>
