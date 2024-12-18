@@ -9,7 +9,7 @@ const RobotScreen = (props) => {
                 <div id='robot-screen-upper'>
                     <div id='currency-container'>
                         <div id='currency-container-inner'>
-                            <p id='currency'>${props.currency}</p>
+                            <p id='currency'>Currency ${props.currency}</p>
                         </div>
                     </div>
                     <div id='robot-image-container'>

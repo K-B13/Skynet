@@ -70,16 +70,16 @@ const EnergyButtons = (props) => {
         }
     }
     
-    const decreaseBattery = async () => {
-        try {
-            const response = await updateRobotBattery(props.robotId, -10);
-            if(response.message === "robot battery updated"){
-                props.setRobotData(response.robot);
-            }
-        } catch (err) {
-            console.error("error updating robot batteryLife", err);
-        }
-    }
+    // const decreaseBattery = async () => {
+    //     try {
+    //         const response = await updateRobotBattery(props.robotId, -10);
+    //         if(response.message === "robot battery updated"){
+    //             props.setRobotData(response.robot);
+    //         }
+    //     } catch (err) {
+    //         console.error("error updating robot batteryLife", err);
+    //     }
+    // }
 
     // if props.isAlive is false, setdisabledbutton = true
     // and then disabled = disabledButton
@@ -87,7 +87,7 @@ const EnergyButtons = (props) => {
 
         <>
             <div id='energy-buttons'>
-                <p>{disableButton}</p>
+                {/* <p>{disableButton}</p> */}
                 <button id='charge-by-10'
                 disabled={disableButton}
                 onClick={handleChargeByTen}>
@@ -98,8 +98,8 @@ const EnergyButtons = (props) => {
                 onClick={handleChargeToFull}>
                     charge full
                 </button>
-                <button
-                onClick={decreaseBattery}>decreaseBattery [TESTING]</button>
+                {/* <button
+                onClick={decreaseBattery}>decreaseBattery [TESTING]</button> */}
             </div>
         </>
 
