@@ -42,3 +42,7 @@
     border-radius: 8px;
     cursor: pointer;
 }
+
+.highlight {
+    color: red;
+}

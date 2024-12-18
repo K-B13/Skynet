@@ -3,12 +3,16 @@ import { useNavigate } from "react-router-dom";
 
 import { signup } from "../../services/authentication";
 import "./SignupPage.css"
+import Criteria from "../../components/Signup/Criteria";
 
 export function SignupPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [ showErrors, setShowErrors ] = useState({})
+  const [ email, setEmail ] = useState("");
+  const [ password, setPassword ] = useState("");
+  const [ showPassword, setShowPassword ] = useState(false);
+  const [ showErrors, setShowErrors ] = useState({
+    emailErrors: [],
+    passwordErrors: []
+  })
   const navigate = useNavigate();
 
   async function handleSubmit(event) {
@@ -44,22 +48,7 @@ export function SignupPage() {
       <h2
       id='signup-title'
       >Sign Up</h2>
-      {
-        showErrors.message &&
-        <p>{showErrors.message}</p>
-      }
-      {
-        showErrors.passwordErrors &&
-        showErrors.passwordErrors.map((passwordError, index) => {
-          return <p key={index} >{passwordError}</p>
-        })
-      }
-      {
-        showErrors.emailErrors &&
-        showErrors.emailErrors.map((emailError, index) => {
-          return <p key={index} >{emailError}</p>
-        })
-      }
+      <Criteria emailErrors={showErrors.emailErrors} passwordErrors={showErrors.passwordErrors}/>
       <form onSubmit={handleSubmit}>
         <input
           id="email"
