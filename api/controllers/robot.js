@@ -36,7 +36,7 @@ async function getRobotByUserId(req, res) {
         
         const singleRobot = await Robot.findOne({userId: loggedInUser})
         
-        res.status(200).json({robot: singleRobot});
+        res.status(200).json({robot: singleRobot, message: "Fetched robot by user Id"});
 
 
     } catch (err) {
@@ -490,7 +490,7 @@ const randomResponse = (robot) => {
     return userMessage
 }
 
-async function updateLastLogin(req, res) {  
+async function updateLastLogin(req, res) {
     try{
         const robotId = req.params.id
         const dateToAdd = req.body.lastLogin

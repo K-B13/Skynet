@@ -213,7 +213,10 @@ export const getRobotSpeach = async (robotId) => {
 }
 
 export const updateLastLogin = async (robotId, lastLogin) => {
-
+    console.log("HITTING SERVICE");
+    console.log("ROBOT ID in service:", robotId);
+    
+    
     const requestOptions = {
         method: 'PUT',
         headers: {

@@ -14,6 +14,8 @@ export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation()
   const { message } = location.state || '';
+  const [lastLoginDate, setLastLoginDate] = useState('')
+    const currentDate = new Date();
 
 
     const fetchRobot = async() => {
@@ -23,8 +25,13 @@ export function LoginPage() {
             const robot = await getRobotByUserId(user.userId);
             if (robot.robot === null ){
                 navigate("/createRobot");
-            } else {
-              await changeStatsOnLogin(robot.robot._id)
+            } else if(robot.message === "Fetched robot by user Id") {
+                if (!lastLoginDate) {
+                    setLastLoginDate(robot.robot.lastLogin);
+                    console.log("Last login: ", robot.robot.lastLogin);
+                    console.log("New login: ", currentDate.toISOString());
+                }
+                await changeStatsOnLogin(robot.robot._id, lastLoginDate, currentDate)
                 navigate("/landingpage");
             }
         } catch (err) {

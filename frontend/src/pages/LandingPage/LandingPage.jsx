@@ -1,6 +1,6 @@
 
 import { useEffect, useState, useRef } from "react";
-import { getRobotByUserId, lowerRobotBattery, deleteRobot, getRobotSpeach } from "../../services/robot";
+import { getRobotByUserId, lowerRobotBattery, deleteRobot, getRobotSpeach, updateLastLogin } from "../../services/robot";
 
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,6 @@ const LandingPage = () => {
     const [ robotSpeach, setRobotSpeach ] = useState('')
     const [showSergei, setShowSergei] = useState(false);
     const [renderImage, setRenderImage] = useState(false);
-
     const [renderTerminatorImage, setRenderTerminatorImage] =useState(false)
     const [showTerminator, setShowTerminator] = useState(false)
     const audioRef = useRef(null);
@@ -29,6 +28,8 @@ const LandingPage = () => {
     const [flash, setFlash] = useState(false);
     const [ displayMessage, setDisplayMessage ] = useState('')
     const [disabled, setdisabled] = useState(false)
+    const [lastLoginDate, setLastLoginDate] = useState('')
+    const currentDate = new Date();
 
 
     const navigate = useNavigate()
@@ -39,13 +40,36 @@ const LandingPage = () => {
             const user = getPayloadFromToken(token);
             try {
                 const robot = await getRobotByUserId(user.userId);
-                setRobotData(robot.robot);
+                if(robot.message === "Fetched robot by user Id"){
+                    setRobotData(robot.robot);
+                    if (!lastLoginDate) {
+                        setLastLoginDate(robot.robot.lastLogin);
+                        console.log("Last login: ", robot.robot.lastLogin);
+                        console.log("New login: ", currentDate.toISOString());
+                    }
+                }
+
             } catch (err) {
                 console.error("error fetching user robot", err);
             }
         }
         fetchRobot();
     }, []);
+
+    useEffect(() => {
+        const updateLogin = async () => {
+            if (lastLoginDate) {
+                try {
+                    await updateLastLogin(robotData._id, currentDate);
+                    console.log("Last login updated successfully.");
+                } catch (err) {
+                    console.error("Error updating last login:", err);
+                }
+            }
+        };
+    
+        updateLogin();
+    }, [lastLoginDate]);
 
 
     useEffect(() => {
