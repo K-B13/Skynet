@@ -35,11 +35,13 @@
 
 #delete-account, #logout-button {
     background-color: #e83511;
-    color: #111;
+    color: #fff; 
     padding: 0.4rem 0.7rem;
     margin: 0.4rem 0.5rem;
+    
 }
 
 #delete-account:hover, #logout-button:hover {
     scale: 1.1;
+    background-color: #b20c00;
 }

@@ -47,7 +47,7 @@
 }
 
 #currency-container-inner {
-    background-color: #ffc433;
+    background-color: #e83511;
     border-radius: 0.6rem;
     padding: 0.6rem;
 }
@@ -64,7 +64,7 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 0.3rem;
-    background-color: #ffc433;
+    background-color: #e83511;
     border-radius: 0.5rem;
 }
 
