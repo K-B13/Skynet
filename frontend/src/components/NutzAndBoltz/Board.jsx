@@ -40,6 +40,7 @@ const Board = ({ winner, setWinner }) => {
 
     const handleTileClick = (e) => {
         if (audioRef.current) {
+            audioRef.current.volume = 0.2;
             audioRef.current.play();
         }
         const tile = e.target.value;

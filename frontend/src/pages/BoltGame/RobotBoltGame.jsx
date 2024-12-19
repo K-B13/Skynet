@@ -22,6 +22,7 @@ const RobotBoltGame = ({robotId}) => {
         const createdGame = createGame('game-container', handleGameOver);
 
         if (audioRef.current) {
+            audioRef.current.volume = 0.2;
             audioRef.current.play();
         }
 
