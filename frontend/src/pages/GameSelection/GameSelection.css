@@ -11,15 +11,22 @@
 }
 
 #games-to-select{
-    background-color: rgb(255, 255, 255, 0.6);
-    border-radius: 10px;
-    width: 80vw;
-    margin:auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    grid-gap: 20px; 
+    justify-items: center; 
+    margin: 20px auto; 
+    max-width: 1200px;
 }
 
-#games-to-select img{
+#games-to-select > div {
+    position: relative;
     width: 300px;
     height: 200px;
+}
+
+
+#games-to-select img{
     cursor: pointer;
     border: 2px solid black;
     border-radius: 8px;
@@ -34,4 +41,187 @@
     box-shadow: 0px 0px 0px #111; 
     transform: translate(5px, 5px);
     outline: 0;
+}
+/* nuts */
+#nuts-container {
+    position: relative;
+    width: 300px;
+    height: 200px;
+}
+
+#nuts-container .image {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#nuts-container .gif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#nuts-container:hover .image {
+    display: none;
+}
+
+#nuts-container:hover .gif {
+    display: block;
+}
+
+/* bwm */
+
+#bwm-container {
+    position: relative;
+    width: 300px;
+    height: 200px;
+}
+
+#bwm-container .image {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#bwm-container .gif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#bwm-container:hover .image {
+    display: none;
+}
+
+#bwm-container:hover .gif {
+    display: block;
+}
+
+/* bolt */
+
+#bolt-container {
+    position: relative;
+    width: 300px;
+    height: 200px;
+}
+
+#bolt-container .image {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#bolt-container .gif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#bolt-container:hover .image {
+    display: none;
+}
+
+#bolt-container:hover .gif {
+    display: block;
+}
+
+/* virus */
+#virus-container {
+    position: relative;
+    width: 300px;
+    height: 200px;
+}
+
+#virus-container .image {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#virus-container .gif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#virus-container:hover .image {
+    display: none;
+}
+
+#virus-container:hover .gif {
+    display: block;
+}
+
+/* trivia */
+
+#trivia-container {
+    position: relative;
+    width: 300px;
+    height: 200px;
+}
+
+#trivia-container .image {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#trivia-container .gif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#trivia-container:hover .image {
+    display: none;
+}
+
+#trivia-container:hover .gif {
+    display: block;
+}
+
+/* snake */
+
+#snake-preview-container {
+    position: relative;
+    width: 300px;
+    height: 200px;
+}
+
+#snake-preview-container .image {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#snake-preview-container .gif {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+#snake-preview-container:hover .image {
+    display: none;
+}
+
+#snake-preview-container:hover .gif {
+    display: block;
 }
