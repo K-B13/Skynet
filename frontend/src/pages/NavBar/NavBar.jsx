@@ -3,6 +3,7 @@ import LogoutButton from '../../components/LogoutButton'
 import { deleteUser } from "../../services/user"
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions"
 import './NavBar.css'
+import skynet from '/skynet.png'
 const NavBar = ({ robotId }) => {
     const navigate = useNavigate()
     const eraseUser = async () => {
@@ -26,7 +27,12 @@ const NavBar = ({ robotId }) => {
         <nav id='navbar-container'>
             <div id='navbar'>
                 <div id='navbar-left'>
-                    <Link to='/landingpage' state={{robotId: robotId}}>Landing Page</Link>
+                    <Link to='/landingpage' state={{robotId: robotId}}>
+                        <img 
+                            id='navbar-logo'
+                            src={skynet} 
+                        />
+                    </Link>
                 </div>
                 <div id='navbar-right'>
                     <div id='navbar-games-container'>
