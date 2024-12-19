@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { updateRobotCurrency } from "../../services/robot";
 import "./Blackjack.css";
 
+
 const Blackjack = () => {
   const [deck, setDeck] = useState(createDeck());
   const [playerHand, setPlayerHand] = useState([]);
@@ -138,7 +139,7 @@ const Blackjack = () => {
 
   useEffect(() => {
     if (gamesPlayed >= 8) {
-      navigate("/landingpage");
+      navigate("/gameselection", {state: {robotId: robotId}});
     }
   }, [gamesPlayed, navigate]);
 
@@ -155,7 +156,7 @@ const Blackjack = () => {
         try {
           const response = await updateRobotCurrency(robotId, cash);
           if (response.message === "robot currency updated") {
-            navigate("/landingpage");
+            navigate("/gameselection", {state: {robotId: robotId}});
           }
         } catch (error) {
           console.error("Error updating currency:", error);
@@ -174,6 +175,7 @@ const Blackjack = () => {
 
 
   return (
+    <div id="blackjack-page">
     <div className="game-container">
       <h1>Blackjack Game</h1>
       <div>
@@ -211,6 +213,7 @@ const Blackjack = () => {
           </button>
         )}
       </div>
+    </div>
     </div>
   );
 };

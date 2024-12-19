@@ -1,30 +1,45 @@
-body {
+/* body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Arial, sans-serif";
   background-color: #8e44ad; /* Purple background */
-  color: #ecf0f1;
+  /* color: #ecf0f1; */
+/* }  */
+
+#blackjack-page{
+bottom: 0;
+    left: 0;
+    width: 100vw;
+    min-height: 100vh;
+    padding: 0;
+    background-image: url('/blackjackBackground.png');
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-h1 {
+#blackjack-page h1 {
   font-size: 3rem;
   margin-bottom: 20px;
   color: #f39c12;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.game-container {
+#blackjack-page .game-container {
   text-align: center;
   margin: 40px auto;
-  max-width: 600px;
-  background: #9b59b6; /* Lighter purple for the container */
+  max-width: 800px;
+  background: rgb(155, 89, 182, 0.9); /* Lighter purple for the container */
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-button {
+#blackjack-page button {
   background-color: #e0722e;
   color: white;
   border: none;
@@ -36,11 +51,11 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+#blackjack-page button:hover {
   background-color: #cd5307;
 }
 
-button:disabled {
+#blackjack-page button:disabled {
   background-color: #95a5a6;
   cursor: not-allowed;
 }

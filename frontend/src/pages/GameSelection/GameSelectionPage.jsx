@@ -139,16 +139,28 @@ export function GameSelection() {
             />
 
         </div>
-
-            <button
+            <div id="blackjack-container">
+            <img
+            className="image"
+            src="./blackjackSelect.png"
             onClick={() => {navigate('/blackjack', {
                 state: {
                     robotId: robotId
                 }
             })}}
-            >
-                blackjack
-            </button>
+            />
+
+            <img
+            className="gif"
+            src="./blackjackSelectVid.gif"
+            onClick={() => {navigate('/blackjack', {
+                state: {
+                    robotId: robotId
+                }
+            })}}
+            />
+
+            </div>
 
         </div>
     </div>
