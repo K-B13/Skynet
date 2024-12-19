@@ -72,7 +72,7 @@ const MemoryButtons = (props) => {
         <>
             <div id='memory-buttons'>
                 {/* <button id='teach-button' disabled={disableButton} onClick={handleTeach}>teach</button> */}
-                <button id='upgrade-button' disabled={disableButton} onClick={handleUpgrade}>upgrade memory</button>
+                <button id='upgrade-button' disabled={disableButton} onClick={handleUpgrade}>Upgrade Memory</button>
                 {/* <button id='add-cash' disabled={disableButton} onClick={handleCashGrab}>ADD CASH</button> */}
             </div>
         </>
