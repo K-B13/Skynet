@@ -135,7 +135,7 @@ const BWAM = () => {
             {
                 !activeGame && 
                 <p id='BWAM-currency-won'>
-                    {scoreboard.robotScore === 3 ? 'You did not win any coins' : `You have won ${150 - (scoreboard.robotScore * 50)} coins`}
+                    {scoreboard.robotScore === 3 ? 'You did not win any money' : `You have won $${150 - (scoreboard.robotScore * 50)}`}
                 </p>
             }
             <BWAMResults outcome={outcome} selectedChoice={selectedChoice} relatedPic={relatedPic} currentChoice={currentChoice}/>

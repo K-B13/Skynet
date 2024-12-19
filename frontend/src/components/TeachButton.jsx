@@ -43,7 +43,7 @@ const TeachButton = ({ showMessage, setRobotData, robotId, setDidNotLearn, isAli
     return (
         <>
             <div id='teach-button-container'>
-                <button id='teach-button' disabled={disableButton} onClick={handleTeach}>teach</button>
+                <button id='teach-button' disabled={disableButton} onClick={handleTeach}>Teach</button>
             </div>
         </>
     )
