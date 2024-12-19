@@ -10,7 +10,7 @@ const RobotBoltGame = ({robotId}) => {
     useEffect(() => {
         const handleGameOver = async (finalScore) => {
             
-            const response = await updateRobotCurrency(robotId, finalScore);
+            const response = await updateRobotCurrency(robotId, finalScore * 10);
             console.log(response);
             if(response.message === "robot currency updated"){
                 setTimeout(() => {
