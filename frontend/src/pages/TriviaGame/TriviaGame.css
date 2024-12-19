@@ -15,6 +15,8 @@
     width: 80vw;
     margin: auto;
     border-radius: 8px;
+    padding: 1px;
+    padding-top: 0;
 }
 
 #trivia-game-question-container button.correct {
@@ -64,13 +66,24 @@
 
 #trivia-game-question-container p{
     font-size: 1.25em;
+    color:#111;
 }
+
+#trivia-game-question-container h2{
+    color:#111;
+}
+
+#trivia-game-question-container h3{
+    color:#2ea8e0;
+}
+
 
 #trivia-score{
     background-color: rgb(46, 168, 224, 0.5);
     width:40vw;
     margin:auto;
     border-radius: 8px;
+    color:#111;
 }
 
 #question{
@@ -96,6 +109,16 @@
     background-color: rgb(255, 255, 255,0.8);
     width: 60vw;
     margin: auto;
+    padding: 1px;
+    padding-top: 0;
     border-radius: 8px;
     font-size: 1.25em;
+}
+
+#trivia-game-over-container p{
+    color:#111
+}
+
+#trivia-game-over-container h1{
+    color:#111
 }
