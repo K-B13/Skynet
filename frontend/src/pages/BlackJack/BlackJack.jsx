@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateRobotCurrency } from "../../services/robot";
 import "./Blackjack.css";
+
 
 const Blackjack = () => {
   const [deck, setDeck] = useState(createDeck());
@@ -17,6 +18,7 @@ const Blackjack = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { robotId } = location.state;
+  const audioRef = useRef(null);
   
 
 
@@ -94,6 +96,10 @@ const Blackjack = () => {
   }
 
   function hit() {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2;
+      audioRef.current.play();
+  }
     if (gameOver) return;
 
     const card = dealCard(setPlayerHand);
@@ -108,6 +114,10 @@ const Blackjack = () => {
   }
 
   function stand() {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2;
+      audioRef.current.play();
+  }
     if (gameOver) return;
 
     let dealerNewHand = [...dealerHand];
@@ -138,7 +148,7 @@ const Blackjack = () => {
 
   useEffect(() => {
     if (gamesPlayed >= 8) {
-      navigate("/landingpage");
+      navigate("/gameselection", {state: {robotId: robotId}});
     }
   }, [gamesPlayed, navigate]);
 
@@ -155,7 +165,7 @@ const Blackjack = () => {
         try {
           const response = await updateRobotCurrency(robotId, cash);
           if (response.message === "robot currency updated") {
-            navigate("/landingpage");
+            navigate("/gameselection", {state: {robotId: robotId}});
           }
         } catch (error) {
           console.error("Error updating currency:", error);
@@ -174,6 +184,7 @@ const Blackjack = () => {
 
 
   return (
+    <div id="blackjack-page">
     <div className="game-container">
       <h1>Blackjack Game</h1>
       <div>
@@ -211,6 +222,11 @@ const Blackjack = () => {
           </button>
         )}
       </div>
+    <audio ref={audioRef} loop>
+                <source src="/blackjackmusic.mp3" type="audio/mp3" />
+                Your browser does not support the audio element.
+            </audio>
+    </div>
     </div>
   );
 };
