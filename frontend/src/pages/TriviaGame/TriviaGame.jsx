@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { updateRobotCurrency } from "../../services/robot";
-import { shuffle } from "lodash";
 
 import './TriviaGame.css'
 
@@ -130,13 +129,12 @@ export function TriviaGame() {
         return <div>Loading next question...</div>;
     }
 
-    const allAnswers = shuffle([
+    const allAnswers = ([
         ...currentQuestion.incorrect_answers,
         currentQuestion.correct_answer,
-    ]);
+    ]).sort();
 
-    //allAnswers = shuffle(allAnswers);
-    console.log('shuffled answers: ', allAnswers);
+    console.log('sorted answers: ', allAnswers);
     console.log('correct answer: ', currentQuestion.correct_answer)
 
     return (
