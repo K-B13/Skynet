@@ -118,7 +118,7 @@ const SnakeGame = ({robotId}) => {
         const response = await updateRobotCurrency(robotId, money);
             if(response.message === "robot currency updated"){
                 setTimeout(() => {
-                    navigate('/landingpage');
+                    navigate('/gameselection', {state: {robotId: robotId}});
                 }, 3000); 
             }
     }
