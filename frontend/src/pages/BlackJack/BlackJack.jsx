@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { updateRobotCurrency } from "../../services/robot";
 import "./Blackjack.css";
@@ -18,6 +18,7 @@ const Blackjack = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { robotId } = location.state;
+  const audioRef = useRef(null);
   
 
 
@@ -95,6 +96,10 @@ const Blackjack = () => {
   }
 
   function hit() {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2;
+      audioRef.current.play();
+  }
     if (gameOver) return;
 
     const card = dealCard(setPlayerHand);
@@ -109,6 +114,10 @@ const Blackjack = () => {
   }
 
   function stand() {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2;
+      audioRef.current.play();
+  }
     if (gameOver) return;
 
     let dealerNewHand = [...dealerHand];
@@ -213,6 +222,10 @@ const Blackjack = () => {
           </button>
         )}
       </div>
+    <audio ref={audioRef} loop>
+                <source src="/nutsMusic.mp3" type="audio/mp3" />
+                Your browser does not support the audio element.
+            </audio>
     </div>
     </div>
   );

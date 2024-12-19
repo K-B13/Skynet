@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { updateRobotCurrency } from "../../services/robot";
 
@@ -20,6 +20,7 @@ export function TriviaGame() {
     const [gameOver, setGameOver] = useState(false);
     const [moneyEarned, setMoneyEarned] = useState(0);
     const navigate = useNavigate()
+    const audioRef = useRef(null);
     
 
     useEffect(() => {
@@ -88,6 +89,10 @@ export function TriviaGame() {
     };
 
     const handleAnswerSelect = (selectedAnswer) => {
+        if (audioRef.current) {
+            audioRef.current.volume = 0.2;
+            audioRef.current.play();
+        }
         setUserAnswer(selectedAnswer);
         setShowAnswers(true);
 
@@ -168,6 +173,10 @@ export function TriviaGame() {
                 })}
             </ul>
             </div>
+            <audio ref={audioRef} loop>
+                <source src="/bwmMusic.mp3" type="audio/mp3" />
+                Your browser does not support the audio element.
+            </audio>
         </div>
     );
 }
