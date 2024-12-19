@@ -66,7 +66,7 @@ export function TriviaGame() {
 
             const timer = setTimeout(() => {
                 updateCurrency();
-            }, 3000);
+            }, 5000);
 
             return () => clearTimeout(timer);
         }

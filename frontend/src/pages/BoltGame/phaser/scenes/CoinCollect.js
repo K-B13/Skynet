@@ -198,7 +198,7 @@ export default class CoinCollect extends Phaser.Scene {
 
 		this.gameOverText = this.add.text(640, 360, "Game Over!", {
         fontSize: "64px",
-        color: "#ff0000",
+        color: "#fff",
 		backgroundColor: "#000",
         fontStyle: "bold",
         align: "center"
