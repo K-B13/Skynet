@@ -93,7 +93,7 @@
 
 #robot-display-message-container, #learning-fail-container {
     min-height: 2rem;
-    color: #e83511;
+    /* color: #e83511; */
 }
 
 #robot-display-message {

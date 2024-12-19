@@ -41,11 +41,11 @@ const RobotScreen = (props) => {
                         <p id='robot-display-message'>{props.displayMessage}</p>
                     }
                 </div>
-                <div id='learning-fail-container'>
+                {/* <div id='learning-fail-container'>
                     {props.didNotLearn && (
                         <p id="learning-fail">Sorry your robot failed to learn!</p>
                     )}
-                </div>
+                </div> */}
             </div>
         </div>
     )
