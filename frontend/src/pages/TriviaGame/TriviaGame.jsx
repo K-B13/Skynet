@@ -134,9 +134,6 @@ export function TriviaGame() {
         currentQuestion.correct_answer,
     ]).sort();
 
-    console.log('sorted answers: ', allAnswers);
-    console.log('correct answer: ', currentQuestion.correct_answer)
-
     return (
         <div id="trivia-game">
             <div id="trivia-game-question-container">
