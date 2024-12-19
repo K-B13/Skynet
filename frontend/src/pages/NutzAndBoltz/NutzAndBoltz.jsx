@@ -37,7 +37,7 @@ const NutzAndBoltz = () => {
                 <p
                     id='NAB-currency-won'
                 >
-                    {winner === 'Draw' ? 'You have won 50 coins': (winner === 'User' ? 'You have won 100 coins': 'You have won 0 coins')}
+                    {winner === 'Draw' ? 'You have won $50': (winner === 'User' ? 'You have won $100': 'You have not won any money')}
                 </p>
             </div>
             }
