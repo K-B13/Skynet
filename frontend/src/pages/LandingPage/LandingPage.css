@@ -231,7 +231,7 @@
 #terminator-image {
     position: absolute;
     bottom: 0px;
-    width: 1200px;
+    width: 1000px;
     margin:auto;
     z-index: 10;
     opacity: 0;
