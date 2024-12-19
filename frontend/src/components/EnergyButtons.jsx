@@ -49,7 +49,6 @@ const EnergyButtons = (props) => {
 
         try {
             const response = await updateRobotCurrency(props.robotId, chargeCost);
-            console.log(response)
             if(response.message === "robot currency updated"){
                 props.setRobotData(response.robot);
             } else if (!response.robot) {
