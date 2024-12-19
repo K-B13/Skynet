@@ -33,7 +33,7 @@ body {
   transition: background-color 0.3s ease;
 }
  button:hover {
-  background-color: #2ecc71;
+  /* background-color: #2ecc71; */
 }
  button:disabled {
   background-color: #95a5a6;

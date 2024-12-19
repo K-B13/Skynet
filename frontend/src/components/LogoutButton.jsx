@@ -8,7 +8,9 @@ function LogoutButton() {
     navigate("/");
   }
 
-  return <button onClick={logOut}>Log out</button>;
+  return <button 
+    id='logout-button'
+    onClick={logOut}>Log out</button>;
 }
 
 export default LogoutButton;

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { signup } from "../../services/authentication";
 import "./SignupPage.css"
 import Criteria from "../../components/Signup/Criteria";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 
 export function SignupPage() {
   const [ email, setEmail ] = useState("");
@@ -49,42 +50,54 @@ export function SignupPage() {
       id='signup-title'
       >Sign Up</h2>
       <Criteria emailErrors={showErrors.emailErrors} passwordErrors={showErrors.passwordErrors}/>
-      <form onSubmit={handleSubmit}>
-        <input
-          id="email"
-          type="text"
-          value={email}
-          onChange={handleEmailChange}
-          placeholder="Email"
-          required
-        />
-        <div>
+      <form 
+        id='signup-form'
+        onSubmit={handleSubmit}>
+        <div id='signup-email-container'>
+          <input
+            id="email"
+            className="signup-email"
+            type="text"
+            value={email}
+            onChange={handleEmailChange}
+            placeholder="Email"
+            required
+          />
+        </div>
+        <div id='signup-password-container'>
           <input
             id="password"
+            className="signup-password"
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={handlePasswordChange}
             placeholder="Password"
             required
           />
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-          >
-            {showPassword ? "Hide" : "Show"}
-          </button>
+            {
+              showPassword ? 
+                <IoEyeOff 
+                  id='signup-hide'
+                  type='text' 
+                  onClick={togglePasswordVisibility} 
+                /> : 
+                <IoEye 
+                  id='signup-reveal'
+                  type='text' 
+                  onClick={togglePasswordVisibility} 
+                />
+              }
         </div>
         <button
+          id='signup-submit'
           type="submit"
         >
           Submit
         </button>
-      </form>
-      <p>
         <a href="/login" id="have-account">
           Already Have an Account
         </a>
-      </p>
+      </form>
     </div>
   );
 }

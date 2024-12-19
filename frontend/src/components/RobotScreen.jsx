@@ -8,19 +8,25 @@ const RobotScreen = (props) => {
             <div id='robot-screen-main'>
                 <div id='robot-screen-upper'>
                     <div id='currency-container'>
-                    <p id='currency'>${props.currency}</p>
+                        <div id='currency-container-inner'>
+                            <p id='currency'>Currency ${props.currency}</p>
+                        </div>
                     </div>
                     <div id='robot-image-container'>
                         {props.isLoading && <FaRegHourglass id='hourglass'/>}
                         <img id='robot-image' src={props.image}/> 
                     </div>
-                    <div id='robot-stats'>
-                        <p id='name'>Name: {props.name} </p>
-                        <p id='battery-life'> Battery: {props.batteryLife}%</p>
-                        <p id='memory-capacity'>Memory: {props.memoryCapacity}GB</p>
-                        <p id='intelligence'>Intelligence: {props.intelligence}</p>
-                        <p id='hardware'>Hardware {props.hardware}%</p>
-                        <p id='mood'>Mood: {props.mood}</p>
+                    
+                    <div id='robot-stats-container'>
+                        <div id='robot-stats'>
+                            <p id='name'>Name: {props.name} </p>
+                            <p id='battery-life'> Battery: {props.batteryLife}%</p>
+                            <p id='memory-capacity'>Memory: {props.memoryCapacity}GB</p>
+                            <p id='intelligence'>Intelligence: {props.intelligence}</p>
+                            <p id='hardware'>Hardware {props.hardware}%</p>
+                            <p id='mood'>Mood: {props.mood}</p>
+                            <p id='alive'>Condition: {props.isAlive ? 'Alive': 'Deceased'}</p>
+                        </div>
                     </div>
                 </div>
                 <div id='robot-display-message-container'>

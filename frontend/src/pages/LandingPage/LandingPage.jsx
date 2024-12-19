@@ -12,6 +12,7 @@ import EnergyButtons from "../../components/EnergyButtons";
 import KillButton from "../../components/KillButton";
 import './LandingPage.css';
 import NavBar from "../NavBar/NavBar";
+import TeachButton from "../../components/TeachButton";
 
 
 const LandingPage = () => {
@@ -53,9 +54,6 @@ const LandingPage = () => {
     useEffect(() => {
         displayMessageClearance()
     }, [displayMessage])
-
-    console.log("MY ROBOT IS ALIVE: ", robotData.isAlive);
-
     
     useEffect(() => {
         // const ONE_MINUTE = 60 * 1000; //Left this in incase anyone wants to test it out instead of waiting 30 mins
@@ -64,7 +62,6 @@ const LandingPage = () => {
             try {
                 const robot = await lowerRobotBattery(robotData._id);
                 setRobotData(robot.robot);
-                console.log('Battery lowered successfully');
             } catch (error) {
                 console.error('Error decreasing battery:', error);
             }
@@ -179,87 +176,104 @@ const LandingPage = () => {
             <div id="landing-page">
                 <NavBar robotId={robotData._id}/>
                 <div className={`overlay ${flash ? "flash" : ""}`}></div>
-                <RobotScreen
-                    name={robotData.name}
-                    currency={robotData.currency}
-                    batteryLife={robotData.batteryLife}
-                    memoryCapacity={robotData.memoryCapacity}
-                    intelligence={robotData.intelligence}
-                    hardware={robotData.hardware}
-                    mood={robotData.mood}
-                    image={robotData.image}
-                    isAlive={robotData.isAlive}
-                    robotSpeach={robotSpeach}
-                    displayMessage={displayMessage}
-                    isLoading={isLoading}
-                    didNotLearn={didNotLearn}
-                    />
-
-                <div id='button-container'>
-                    <div id='button-contianer-upper'>
-                        <EnergyButtons
-                            showMessage={showMessage}
-                            setRobotData={setRobotData}
-                            robotId={robotData._id}
-                            batteryLife={robotData.batteryLife}
-                            isAlive={robotData.isAlive}
-                        />
-                        <MemoryButtons
-                            showMessage={showMessage}
-                            setRobotData={setRobotData}
-                            robotId={robotData._id}
-                            memoryCapacity={robotData.memoryCapacity}
-                            setDidNotLearn={setDidNotLearn}
-                            isAlive={robotData.isAlive}
-                        />
-                        <RepairButton
-                            showMessage={showMessage}
-                            setRobotData={setRobotData}
-                            robotId={robotData._id}
-                            isAlive={robotData.isAlive}/>
-                </div>
-                <div id='button-contianer-lower'>
-                    <SpeakButton 
-                        constructSpeach={constructSpeach} 
+                <div id='landing-page-container'>
+                    <RobotScreen
+                        name={robotData.name}
+                        currency={robotData.currency}
+                        batteryLife={robotData.batteryLife}
+                        memoryCapacity={robotData.memoryCapacity}
+                        intelligence={robotData.intelligence}
+                        hardware={robotData.hardware}
+                        mood={robotData.mood}
+                        image={robotData.image}
                         isAlive={robotData.isAlive}
+                        robotSpeach={robotSpeach}
+                        displayMessage={displayMessage}
                         isLoading={isLoading}
+                        didNotLearn={didNotLearn}
                         />
-                    
-                    {
-                        !robotData.isAlive ? 
-                            <button 
-                                id='create-new-robot'
-                                onClick={createNewRobot}
-                            >
-                            Create New Robot
-                            </button>:
-                            <KillButton
-                                showMessage={showMessage}
-                                setRobotData={setRobotData}
-                                robotId={robotData._id}
-                                isAlive={robotData.isAlive}
-                            />
-                    }
-                    <button 
-                        disabled={disabled}
-                        id="play-games-button"
-                        onClick={() => {
-                            navigate('/gameselection', {
-                                state: {
-                                    robotId: robotData._id
+
+                    <div id='button-container'>
+                        <div id='main-upper-button-container'>
+                            <div id='left-button-container'>
+                                <div id='left-upper-button-container'>
+                                    <RepairButton
+                                        showMessage={showMessage}
+                                        setRobotData={setRobotData}
+                                        robotId={robotData._id}
+                                        isAlive={robotData.isAlive}
+                                    />
+                                </div>
+                                <div id='left-middle-button-container'>
+                                    <EnergyButtons
+                                        showMessage={showMessage}
+                                        setRobotData={setRobotData}
+                                        robotId={robotData._id}
+                                        batteryLife={robotData.batteryLife}
+                                        isAlive={robotData.isAlive}
+                                    />
+                                </div>
+                                <div id='left-lower-button-container'>
+                                    <TeachButton 
+                                        showMessage={showMessage}
+                                        setRobotData={setRobotData}
+                                        robotId={robotData._id}
+                                        setDidNotLearn={setDidNotLearn}
+                                        isAlive={robotData.isAlive}
+                                    />
+                                </div> 
+                            </div>
+                            <div id='right-button-container'>
+                                <MemoryButtons
+                                    showMessage={showMessage}
+                                    setRobotData={setRobotData}
+                                    robotId={robotData._id}
+                                    memoryCapacity={robotData.memoryCapacity}
+                                    isAlive={robotData.isAlive}
+                                />
+                                <SpeakButton 
+                                    constructSpeach={constructSpeach} 
+                                    isAlive={robotData.isAlive}
+                                    isLoading={isLoading}
+                                />
+                                {
+                                    !robotData.isAlive ? 
+                                        <button 
+                                            id='create-new-robot'
+                                            onClick={createNewRobot}
+                                        >
+                                            Create New Robot
+                                        </button> :
+                                        <KillButton
+                                            showMessage={showMessage}
+                                            setRobotData={setRobotData}
+                                            robotId={robotData._id}
+                                            isAlive={robotData.isAlive}
+                                        />
                                 }
-                        })}}
-                    >Play games</button>
-
-                    {renderTerminatorImage && (
-                        <img src="terminatorImage.png" alt="Machine uprising" id="terminator-image" className={showTerminator ? "show" : "hide"} />
+                            </div>
+                        </div>
+                        <div id='main-lower-button-container'>
+                            <button 
+                                disabled={disabled}
+                                id="play-games-button"
+                                onClick={() => {
+                                    navigate('/gameselection', {
+                                        state: {
+                                            robotId: robotData._id
+                                        }
+                                })}}
+                            >Games</button>
+                        </div>
+                    </div>
+                        <div id='button-container-lower'>
+                            {renderTerminatorImage && (
+                                <img src="terminatorImage.png" alt="Machine uprising" id="terminator-image" className={showTerminator ? "show" : "hide"} />
+                            )}
+                        </div>
+                    {renderImage && (
+                        <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
                     )}
-
-                </div>
-        
-                {renderImage && (
-                    <img src="sergeiWarning.png" alt="Sergei money tip" id="sergei-tip-image" className={showSergei ? "show" : "hide"} />
-                )}
                 </div>
                 <audio 
                     ref={audioRef} 

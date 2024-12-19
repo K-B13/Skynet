@@ -71,23 +71,25 @@ const CreateRobot = () => {
                 }}
             >
                 <div id='create-robot-name-outer-container'>
-                    <div 
-                        id='create-robot-name-inner-container' 
-                        className='name-container'
-                    >
-                        <input
-                            type='text'
-                            id='create-robot-name'
-                            name='name'
-                            className='name-input'
-                            maxLength='40'
-                            value={formDetails.name}
-                            onChange={handleChanges}
-                            required
-                        />
-                        <label htmlFor='create-robot-name' className='name-label' id='create-robot-name-label'>Name</label>
-                        <div className='name-topline' id='create-robot-name-topline'></div>
-                        <div className='name-underline' id='create-robot-name-underline'></div>
+                    <div id='create-robot-name-inner-container' >
+                        <div 
+                            id='create-robot-name-container' 
+                            className='name-container'
+                        >
+                            <input
+                                type='text'
+                                id='create-robot-name'
+                                name='name'
+                                className='name-input'
+                                maxLength='40'
+                                value={formDetails.name}
+                                onChange={handleChanges}
+                                required
+                            />
+                            <label htmlFor='create-robot-name' className='name-label' id='create-robot-name-label'>Name</label>
+                            <div className='name-topline' id='create-robot-name-topline'></div>
+                            <div className='name-underline' id='create-robot-name-underline'></div>
+                        </div>
                     </div>
                 </div>
                 <div id='create-robot-personality-btns'>
