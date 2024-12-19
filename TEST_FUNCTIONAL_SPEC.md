@@ -5,7 +5,7 @@
 - ✅ = pass ❌ = fail
 - Will update periodically as the application progresses
 - Last updated 5pm Wednesday 18th Dec
-- Current results = 68 ✅ 5 ❌
+- Current results = 74 ✅ 1 ❌
 - 47 cases covered with automated tests
 
 ### Accounts and authentication
@@ -24,7 +24,7 @@
 - AA005 - Signed up users can log in if they provide the correct credentials ✅(automated)
 - AA006 - There is clear visual feedback if the user inputs invalid registration/login details ✅(automated)
 - AA007 - Logged in users can log out ✅(automated)
-- AA008 - Users can delete their account ❌
+- AA008 - Users can delete their account ✅
 - AA009 - Users can easily navigate between sign up and log in screens ✅(automated)
 
 ### Robot Creation and Display
@@ -61,7 +61,7 @@
 - RA011 - Hardware will randomly deplete by either 2, 5 or 15 upon logging in ✅
 - RA012 - Battery will randomly deplete by either 2, 5 or - 10 upon logging in ✅
 - RA013 - Currency starts at 500 for a newly-created robot. ✅(automated) There is currently no maximum amount of currency (could be implemented later)
-- RA014 - The user will gain 100 currency for only the first login of every calendar day ❌ (currently every login)
+- RA014 - The user will gain 100 currency for only the first login of every calendar day (pending testing)
 
 ### Upgrades and Actions
 - UP001 - Users can charge their robot, either by 10% or up to full charge. ✅(automated) When charging by full, each 1% of battery charged costs 1 currency ✅ (currently if you do +10 with 91+% battery, you get charged a flat 10 fee)
@@ -88,9 +88,9 @@
 - SE001 - A user cannot manipulate another user's robot ❌
 - SE002 - A user cannot manipulate another user's account details ✅
 - SE003 - Users cannot gain any advantage by using the API instead of the frontend (pending testing)
-- SE004 - A user cannot access the create robot page if they already have an alive robot ❌
-- SE005 - A user who is not logged in cannot access any pages other than splash, sign up and login ❌
+- SE004 - A user cannot access the create robot page if they already have an alive robot ✅
+- SE005 - A user who is not logged in cannot access any pages other than splash, sign up and login ✅
 
 ## Results
 
-68 ✅ 5 ❌
+74 ✅ 1 ❌
