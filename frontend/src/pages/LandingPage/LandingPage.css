@@ -273,13 +273,3 @@
         opacity: 0.8;
     }
     }
-
-
-    #learning-fail{
-        background-color: rgb(224, 114, 46, 0.8);
-        font-size: 1.5em;
-        width: 40vw;
-        margin: auto;
-        border-radius: 8px;
-        border: 1px solid white;
-    }

@@ -29,16 +29,17 @@ const RobotScreen = (props) => {
                         </div>
                     </div>
                 </div>
+                
+                <div id='robot-speach-container'>
+                    {props.robotSpeach !== '' && <p
+                    id='robot-speach'
+                    >{props.robotSpeach}</p>}
+                </div>
                 <div id='robot-display-message-container'>
                     {
                         props.displayMessage &&
                         <p id='robot-display-message'>{props.displayMessage}</p>
                     }
-                </div>
-                <div id='robot-speach-container'>
-                    {props.robotSpeach !== '' && <p
-                    id='robot-speach'
-                    >{props.robotSpeach}</p>}
                 </div>
                 <div id='learning-fail-container'>
                     {props.didNotLearn && (

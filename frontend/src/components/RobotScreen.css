@@ -75,19 +75,29 @@
     color: #111
 }
 
-#robot-speach-container {
-    max-width: 50vw;
-    display: flex;
-    min-height: 4rem;
-}
-
-#robot-speach {
-    font-size: 0.7rem;
-}
-
 #robot-image{
     width:200px;
     height: 200px;
+}
+
+#robot-speach-container {
+    max-width: 50vw;
+    display: flex;
+    min-height: 2.5rem;
+}
+
+#robot-speach {
+    font-size: 0.9rem;
+    margin: 0.4rem;
+}
+
+#robot-display-message-container, #learning-fail-container {
+    min-height: 2rem;
+    color: #e83511;
+}
+
+#robot-display-message {
+    margin: 0.4rem;
 }
 
 @keyframes spin-hourglass {
