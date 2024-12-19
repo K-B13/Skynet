@@ -37,6 +37,7 @@
     align-items: center;
     margin: 0 0.8rem;
     justify-content: center;
+    color: #f5f5f5;
 }
 
 #BWAM-rules-container, #BWAM-scoreboard-container {
@@ -93,6 +94,7 @@
 #BWAM-result-announcement {
     min-height: 2rem;
     margin: 0.1rem;
+    color: #f5f5f5;
 }
 
 #BWAM-user-choice-pic, #BWAM-current-choice-pic, #BWAM-robot-choice-pic {
@@ -104,11 +106,13 @@
     justify-content: space-around;
     width: 60%;
     min-height: 8.2rem;
+    color: #f5f5f5;
 }
 
 #BWAM-choices-container {
     display: flex;
     justify-content: center;
+    color: #f5f5f5;
 }
 
 #BWAM-choice-motherboard, #BWAM-choice-wires, #BWAM-choice-battery {
@@ -170,4 +174,8 @@
     box-shadow: 0px 0px 0px #111; 
     transform: translate(4px, 4px);
     outline: 0;
+}
+
+#BWAM-currency-won{
+    color: #f5f5f5;
 }
