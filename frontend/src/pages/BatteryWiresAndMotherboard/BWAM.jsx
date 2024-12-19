@@ -147,16 +147,16 @@ const BWAM = () => {
                     selectedChoice={selectedChoice}
                     setSelectedChoice={setSelectedChoice}
                 />
-                {currentChoice && 
                 <div id='BWAM-confirm-decision-container'>
+                {currentChoice && 
                     <button
                         id='BWAM-confirm-decision'
                         onClick={() => {
                         handleDecision()
                     }}
                     >Choose</button>
+                }
                 </div>
-                    }
             </div>:
             <div id='BWAM-return-buttons'>
                 <button

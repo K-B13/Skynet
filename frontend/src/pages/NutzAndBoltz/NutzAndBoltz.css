@@ -1,12 +1,12 @@
 #NAB-page{
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
     left: 0;
     width: 100vw;
     min-height: 100vh;
     margin: auto;
     padding: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
     background-image: url('/nutsBackground.png');
     background-size: cover;
     background-position: center;
@@ -22,7 +22,11 @@
     /* width: 100vw; */
     align-items: center;
     background-color: rgb(17, 17, 17, 0.7);
-    width:90vw;
+    width: 90vw;
+}
+
+#NAB-title {
+    margin: 0.5rem;
 }
 
 #NAB-board-container {
