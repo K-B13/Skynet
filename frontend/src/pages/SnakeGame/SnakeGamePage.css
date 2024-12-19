@@ -32,7 +32,8 @@
     padding: 5px 25px; 
     text-align: center;
     background-color: #2e81e0;
-
+    font-family: 'Jersey 15';
+    font-size: 20px;
     box-shadow: 8px 8px 0px #111;
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
 }

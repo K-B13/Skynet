@@ -109,6 +109,7 @@
 
 #rules-content-container p {
     margin: 1.2rem;
+    font-size: 1rem;
 }
 
 #NAB-view-rules-button {
@@ -120,8 +121,8 @@
     color: #111;
     cursor: pointer;
     display: flex;
-    font-family: Inter, sans-serif;
-    font-size: 0.8rem;
+    font-family: 'Jersey 15';
+    font-size: 1rem;
     height: 48px;
     justify-content: center;
     line-height: 24px;
@@ -162,8 +163,8 @@
     color: #111;
     cursor: pointer;
     display: flex;
-    font-family: Inter, sans-serif;
-    font-size: 0.8rem;
+    font-family: 'Jersey 15';
+    font-size: 1rem;
     height: 48px;
     justify-content: center;
     line-height: 24px;
