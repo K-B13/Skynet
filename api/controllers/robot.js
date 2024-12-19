@@ -295,8 +295,11 @@ async function changeStatsOnLogin(req, res) {
     const randomHardware = Math.floor(Math.random() * 10);
     try{
         const robotId = req.params.id
-        const lastLogin = new Date(req.body.lastLogin);
         const currentDate = new Date(req.body.currentDate)
+        const lastLogin = req.body.lastLogin 
+            ? new Date(req.body.lastLogin) 
+            : new Date(new Date(currentDate).setHours(currentDate.getHours() - 1));
+        
         const differenceInMilliseconds = currentDate.getTime() - lastLogin.getTime();
         const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
         const loggedOutDepletion = Math.floor(differenceInHours * 4)
