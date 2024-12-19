@@ -1,9 +1,29 @@
+#BWAM-page{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    background-image: url('/bwmBackground.png');
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #BWAM-game {
     display: flex;
     flex-direction: column;
     width: 100vw;
     height: 100vh;
     justify-content: space-around;
+    background-color: rgb(17, 17, 17, 0.7);
+    width:90vw;
 }
 
 #BWAM-header {
