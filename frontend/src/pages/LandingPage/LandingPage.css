@@ -114,7 +114,7 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    background-color: #e83511;
+    background-color: #57ea81;
 
     box-shadow: 5px 5px 0px #111;
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
@@ -142,7 +142,7 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    background-color: #e83511;
+    background-color: #e88011;
 
     box-shadow: 5px 5px 0px #111;
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
@@ -194,6 +194,11 @@
     box-shadow: none;
     cursor: not-allowed;
     transform: none;
+}
+
+#play-games-button{
+    background-color: #a672ea;
+    border-radius: 50%;
 }
 
 #sergei-tip-image {
