@@ -223,7 +223,7 @@ const Blackjack = () => {
         )}
       </div>
     <audio ref={audioRef} loop>
-                <source src="/nutsMusic.mp3" type="audio/mp3" />
+                <source src="/blackjackmusic.mp3" type="audio/mp3" />
                 Your browser does not support the audio element.
             </audio>
     </div>

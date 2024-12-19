@@ -174,7 +174,7 @@ export function TriviaGame() {
             </ul>
             </div>
             <audio ref={audioRef} loop>
-                <source src="/bwmMusic.mp3" type="audio/mp3" />
+                <source src="/triviaMusic.mp3" type="audio/mp3" />
                 Your browser does not support the audio element.
             </audio>
         </div>
