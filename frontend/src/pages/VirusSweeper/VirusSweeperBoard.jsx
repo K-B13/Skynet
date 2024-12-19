@@ -176,7 +176,7 @@ const VirusSweeperBoard = ({ robotId, rows, cols, mineCount, mineImage }) => {
                 <div className="game-over-message">
                     <h2>Game Over</h2>
                     <p>Final Score: {score}</p>
-                    <p>Money earned: {score * 5}</p>
+                    <p>Money earned: ${score * 5}</p>
                 </div>
             )}
         </div>

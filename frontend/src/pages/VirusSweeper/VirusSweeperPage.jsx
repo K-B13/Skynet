@@ -31,19 +31,13 @@ const handleStartGame = () => {
         {!gameStarted ? (
             <div id="virus-sweeper-rules">
                     <h2>Rules</h2>
-                    <p>The goal is to reveal all the cells that do not contain a virus.
+                    <p>The goal is to reveal as many cells as possible that do not contain a virus.
                     <br />
                     <br />
-                    Each revealed cell shows a number indicating how many adjacent cells contain mines. 
+                    Each revealed cell shows a number indicating how many adjacent cells contain mines and will reveal all cells in that row with the same number. 
                     <br />
                     <br />
-                    Cells with no adjacent mines are revealed automatically.
-                    <br />
-                    <br/>
-                    The game is won when all non-virus cells are revealed.
-                    <br />
-                    <br />
-                    You will score a point for every safe cell you reveal. 1 point is equal to $1
+                    You will earn $5 for every safe cell you reveal. 1 point is equal to $5
                     </p>
         
                     <h3 id="virus-sweeper-controls">Controls</h3>

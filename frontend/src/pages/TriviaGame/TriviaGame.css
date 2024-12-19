@@ -66,32 +66,36 @@
 }
 
 #trivia-game-question-container p{
-    font-size: 1.25em;
+    font-size: 1.5em;
     color:#111;
 }
 
 #trivia-game-question-container h2{
     color:#111;
+    font-size: 2em;
 }
 
 #trivia-game-question-container h3{
-    color:#2ea8e0;
+    color:#111;
+    font-size: 1.5em;
 }
 
 
 #trivia-score{
     background-color: rgb(46, 168, 224, 0.5);
-    width:40vw;
+    width:20vw;
     margin:auto;
     border-radius: 8px;
     color:#111;
+    padding: 0.8em;
 }
 
 #question{
     background-color: rgb(46, 168, 224, 0.5);
-    width:40vw;
+    width:25vw;
     margin:auto;
     border-radius: 8px;
+    padding:0.8em;
 }
 
 #trivia-game-over{
@@ -113,7 +117,7 @@
     padding: 1px;
     padding-top: 0;
     border-radius: 8px;
-    font-size: 1.25em;
+    font-size: 1.5em;
 }
 
 #trivia-game-over-container p{
