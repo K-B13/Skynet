@@ -38,8 +38,15 @@
 }
 
 #trivia-game-rules-container button:hover{
-    box-shadow: 0px 0px 0px #111; 
+    box-shadow: 0px 0px 0px #111;
     transform: translate(8px, 8px);
     outline: 0;
     color: #000;
+}
+
+#trivia-game-rules-container .clicked {
+    background-color: rgb(50, 80, 96);
+    box-shadow: 0px 0px 0px #111;
+    transform: translate(8px, 8px);
+       
 }
