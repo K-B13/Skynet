@@ -66,6 +66,16 @@ export function GameSelection() {
             })}}
             />
 
+            <button
+            onClick={() => {navigate('/blackjack', {
+                state: {
+                    robotId: robotId
+                }
+            })}}
+            >
+                blackjack
+            </button>
+
         </div>
     </div>
     );

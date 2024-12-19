@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { updateRobotCurrency } from "../../services/robot";
 import "./Blackjack.css";
 
 const Blackjack = () => {
@@ -10,8 +11,21 @@ const Blackjack = () => {
   const [dealerTotal, setDealerTotal] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState("");
+  const [playerWins, setPlayerWins] = useState(0);
   const [gamesPlayed, setGamesPlayed] = useState(0);
+  const [moneyEarned, setMoneyEarned] = useState(0);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { robotId } = location.state;
+  
+
+
+  // Redirect if robotId is missing
+  useEffect(() => {
+    if (!robotId) {
+      navigate("/landingpage");
+    }
+  }, [robotId, navigate]);
 
   function createDeck() {
     const suits = ["♠", "♥", "♦", "♣"];
@@ -76,8 +90,7 @@ const Blackjack = () => {
     setDealerTotal(calculateTotal(dealerStartingHand));
     setGameOver(false);
     setMessage("");
-
-    setGamesPlayed((prevGamesPlayed) => prevGamesPlayed + 1); 
+    setGamesPlayed((prevGamesPlayed) => prevGamesPlayed + 1);
   }
 
   function hit() {
@@ -90,6 +103,7 @@ const Blackjack = () => {
     if (newTotal > 21) {
       setGameOver(true);
       setMessage("You busted! Dealer wins.");
+      // setDealerWins((prev) => prev + 1);
     }
   }
 
@@ -110,24 +124,54 @@ const Blackjack = () => {
     if (dealerNewTotal > 21) {
       setGameOver(true);
       setMessage("Dealer busted! You win!");
+      setPlayerWins((prev) => prev + 1);
     } else if (dealerNewTotal >= playerTotal) {
       setGameOver(true);
       setMessage("Dealer wins!");
+      setDealerWins((prev) => prev + 1);
     } else {
       setGameOver(true);
       setMessage("You win!");
+      setPlayerWins((prev) => prev + 1);
     }
   }
 
   useEffect(() => {
     if (gamesPlayed >= 8) {
-      navigate("/landing");
+      navigate("/landingpage");
     }
   }, [gamesPlayed, navigate]);
 
   useEffect(() => {
     restartGame();
   }, []);
+
+  useEffect(() => {
+    if (gameOver) {
+      const cash = message.includes("You win!") ? playerWins * 50 : 0;
+      setMoneyEarned(cash);
+  
+      const updateCurrency = async () => {
+        try {
+          const response = await updateRobotCurrency(robotId, cash);
+          if (response.message === "robot currency updated") {
+            navigate("/landingpage");
+          }
+        } catch (error) {
+          console.error("Error updating currency:", error);
+        }
+      };
+  
+      const timer = setTimeout(() => {
+        updateCurrency();
+      }, 6000);
+  
+      return () => clearTimeout(timer);
+    }
+  }, [gameOver, playerWins, message, robotId, navigate]);
+  
+
+
 
   return (
     <div className="game-container">
@@ -159,7 +203,8 @@ const Blackjack = () => {
           ))}
         </div>
 
-        {gameOver && <div className="message">{message}</div>}
+        {gameOver && <div className="message">{message}
+        <p>You earned: ${moneyEarned}</p></div>}
         {gameOver && (
           <button onClick={restartGame} style={{ marginTop: "20px" }}>
             Restart Game
