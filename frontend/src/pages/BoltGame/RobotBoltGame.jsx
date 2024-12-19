@@ -14,7 +14,7 @@ const RobotBoltGame = ({robotId}) => {
             console.log(response);
             if(response.message === "robot currency updated"){
                 setTimeout(() => {
-                    navigate('/landingpage');
+                    navigate('/gameselection', {state: {robotId: robotId}});
                 }, 3000); 
             }
         };
