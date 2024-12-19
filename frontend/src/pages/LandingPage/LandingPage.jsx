@@ -17,7 +17,6 @@ import TeachButton from "../../components/TeachButton";
 
 const LandingPage = () => {
     const [robotData, setRobotData] = useState({});
-    const [didNotLearn, setDidNotLearn] = useState(false)
     const [ robotSpeach, setRobotSpeach ] = useState('')
     const [showSergei, setShowSergei] = useState(false);
     const [renderImage, setRenderImage] = useState(false);
@@ -161,15 +160,15 @@ const LandingPage = () => {
         }, 6000)
     }
 
-    useEffect(() => {
-        if (didNotLearn) {
-            const timeoutId = setTimeout(() => {
-            setDidNotLearn(false);
-            }, 5000);
+    // useEffect(() => {
+    //     if (didNotLearn) {
+    //         const timeoutId = setTimeout(() => {
+    //         setDidNotLearn(false);
+    //         }, 5000);
 
-            return () => clearTimeout(timeoutId);
-        }
-        }, [didNotLearn]);
+    //         return () => clearTimeout(timeoutId);
+    //     }
+    //     }, [didNotLearn]);
 
     return (
         <>
@@ -190,7 +189,6 @@ const LandingPage = () => {
                         robotSpeach={robotSpeach}
                         displayMessage={displayMessage}
                         isLoading={isLoading}
-                        didNotLearn={didNotLearn}
                         />
 
                     <div id='button-container'>
@@ -218,7 +216,6 @@ const LandingPage = () => {
                                         showMessage={showMessage}
                                         setRobotData={setRobotData}
                                         robotId={robotData._id}
-                                        setDidNotLearn={setDidNotLearn}
                                         isAlive={robotData.isAlive}
                                     />
                                 </div> 

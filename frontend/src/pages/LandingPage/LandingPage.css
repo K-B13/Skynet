@@ -6,7 +6,7 @@
     background-attachment: fixed;
     margin: 0;
     padding: 0;
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     position: relative;
     display: flex;
@@ -244,7 +244,6 @@
     transform: translateY(20px);
 }
 
-
 .overlay {
     position: fixed;
     top: 0;
@@ -272,14 +271,4 @@
     100% {
         opacity: 0.8;
     }
-    }
-
-
-    #learning-fail{
-        background-color: rgb(224, 114, 46, 0.8);
-        font-size: 1.5em;
-        width: 40vw;
-        margin: auto;
-        border-radius: 8px;
-        border: 1px solid white;
     }

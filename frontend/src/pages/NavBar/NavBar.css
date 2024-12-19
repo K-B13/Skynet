@@ -15,7 +15,19 @@
     margin-top: 0.4rem;
 }
 
-#navbar-left a, #navbar-right a {
+#navbar-left a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#navbar-logo {
+    height: 2.2rem;
+    width: 2.2rem;
+    border-radius: 2rem;
+}
+
+#navbar-right a {
     color: #111;
 }
 

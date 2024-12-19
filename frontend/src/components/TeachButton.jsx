@@ -1,7 +1,7 @@
 import { updateRobotIntelligence} from "../services/robot"
 import { useState, useEffect } from "react";
 
-const TeachButton = ({ showMessage, setRobotData, robotId, setDidNotLearn, isAlive }) => {
+const TeachButton = ({ showMessage, setRobotData, robotId, isAlive }) => {
     const [disableButton, setdisableButton] = useState(false);
 
     useEffect(() => {
@@ -26,9 +26,11 @@ const TeachButton = ({ showMessage, setRobotData, robotId, setDidNotLearn, isAli
             const response = await updateRobotIntelligence(robotId);
             if(response.message === "Robot intelligence increased"){
                 setRobotData(response.robot);
+                return
             }
             if(response.message === "Robot intelligence did not increase"){
-                setDidNotLearn(true)
+                showMessage(response.message)
+                return
             }
             if(!response.robot) {
                 showMessage(response.message)
