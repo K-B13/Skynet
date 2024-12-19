@@ -83,22 +83,25 @@ const LandingPage = () => {
 
     const constructSpeach = async (dealWithOpinions) => {
         setIsLoading(true)
+        let duration;
         if (robotData.intelligence <= 100){
             const initialGreetings = `Hello, I am ${robotData.name}. `
             const likes = dealWithOpinions(robotData.likes, 'like')
             const dislikes = dealWithOpinions(robotData.dislikes, 'dislike')
-            setRobotSpeach(`${initialGreetings} ${likes} ${dislikes}`)
+            const sentence = `${initialGreetings} ${likes} ${dislikes}`
+            duration = calculateSpeechDuration(sentence)
+            setRobotSpeach(sentence)
         } else {
-
             const response = await getRobotSpeach(robotData._id)
             if (response.audio) {
                 const audio = new Audio(response.audio);
                 audio.play()
             }
+            duration = calculateSpeechDuration(response.message)
             setRobotSpeach(response.message)
         }
         setIsLoading(false)
-        speachClearance()
+        speachClearance(duration)
     }
 
     useEffect(() => {
@@ -129,17 +132,24 @@ const LandingPage = () => {
         audioRef2.current.currentTime = 0;
     };
 
-    const speachClearance = () => {
+    const calculateSpeechDuration = (speech) => {
+        const words = speech.split(/\s+/).length;
+        const speechRate = 100
+        const duration = (words / speechRate) * 60 
+        return duration
+    }
+
+    const speachClearance = (duration) => {
         setTimeout(() => {
             setRobotSpeach('')
-        }, 8000)
+        }, duration * 1000)
     }
 
     const createNewRobot =  async () => {
         try {
             const response = await deleteRobot(robotData._id);
             if(response.message === "Robot deleted"){
-                navigate("/createrobot");
+                navigate("/createrobot", {state: {allowAccess: true}});
             }
         } catch (err) {
             console.error("error deleting user robot", err);

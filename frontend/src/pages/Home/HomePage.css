@@ -10,6 +10,11 @@
   width: 100vw;
 }
 
+#home-container {
+  display: flex;
+  justify-content: center;
+}
+
 #sign-in-box{
   display: flex;
   flex-direction: column;
