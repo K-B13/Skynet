@@ -96,7 +96,7 @@ const EnergyButtons = (props) => {
                 <button id='charge-to-full'
                 disabled={disableButton}
                 onClick={handleChargeToFull}>
-                    Charge to full
+                    Charge to Full
                 </button>
                 {/* <button
                 onClick={decreaseBattery}>decreaseBattery [TESTING]</button> */}

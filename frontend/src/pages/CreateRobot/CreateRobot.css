@@ -57,7 +57,7 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    background-color: #ffc433;
+    background-color: #e83511;
 
     box-shadow: 4px 4px 0px #111;
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
@@ -70,20 +70,20 @@
 }
 
 .selected-btn {
-    background-color: #e83511;
+    background-color: #ffc433;
 }
 
 .selected-btn:active {
-    background-color: #e83511;
+    background-color: #ffc433;
     outline: 0;
 }
 
 .not-selected-btn, .add-like-btn, .create-robot-submit  {
-    background-color: #ffc433;
+    background-color: #e83511;
 }
 
 .not-selected-btn:active, .add-like-btn:active, .create-robot-submit:active {
-    background-color: #ffc433;
+    background-color: #e83511;
     outline: 0;
 }
 
