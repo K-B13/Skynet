@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import battery from '/BWAM/battery.jpg'
 import wires from '/BWAM/wires.jpg'
 import motherboard from '/BWAM/motherboard.jpg'
@@ -28,6 +28,7 @@ const BWAM = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const { robotId } = location.state || '';
+    const audioRef = useRef(null);
 
     useEffect(() => {
         if (scoreboard.userScore === 3 || scoreboard.robotScore === 3) {
@@ -35,6 +36,7 @@ const BWAM = () => {
             addCurrency()
         }
     }, [scoreboard])
+
 
     const options = [
         'Battery',
@@ -115,8 +117,12 @@ const BWAM = () => {
         const result = checkWinner()
         setCurrentChoice('')
         setOutcome(result)
+        if (audioRef.current) {
+            audioRef.current.play();
+        }
     }
     return (
+        <div id="BWAM-page">
         <div id='BWAM-game'>
             <NavBar robotId={robotId}/>
             <div id='BWAM-header'>
@@ -167,6 +173,11 @@ const BWAM = () => {
                 </button>
             </div>
             }
+        </div>
+            <audio ref={audioRef} loop>
+                <source src="/bwmMusic.mp3" type="audio/mp3" />
+                Your browser does not support the audio element.
+            </audio>
         </div>
     )
 }
