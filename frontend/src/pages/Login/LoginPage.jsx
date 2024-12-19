@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getPayloadFromToken } from "../../helpfulFunctions/helpfulFunctions";
 import { getRobotByUserId } from "../../services/robot";
-import { changeStatsOnLogin } from "../../services/robot";
+import { changeStatsOnLogin, updateLastLogin } from "../../services/robot";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 
 import { login } from "../../services/authentication";
@@ -15,6 +15,9 @@ export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation()
   let { message } = location.state || '';
+  const [lastLoginDate, setLastLoginDate] = useState('')
+  const currentDate = new Date();
+  const [robotId, setRobotId]=useState('')
 
 
     const fetchRobot = async() => {
@@ -24,14 +27,32 @@ export function LoginPage() {
             const robot = await getRobotByUserId(user.userId);
             if (robot.robot === null ){
                 navigate("/createRobot");
-            } else {
-              await changeStatsOnLogin(robot.robot._id)
+              } else if(robot.message === "Fetched robot by user Id") {
+                if (!lastLoginDate) {
+                    setLastLoginDate(robot.robot.lastLogin);
+                    setRobotId(robot.robot._id)
+                }
+                await changeStatsOnLogin(robot.robot._id, robot.robot.lastLogin, currentDate)
                 navigate("/landingpage");
-            }
+              }
         } catch (err) {
             console.error("error fetching user robot", err);
         }
     }
+    useEffect(() => {
+      const updateLogin = async () => {
+          if (lastLoginDate) {
+              try {
+                  await updateLastLogin(robotId, currentDate);
+                  console.log("Last login updated successfully.");
+              } catch (err) {
+                  console.error("Error updating last login:", err);
+              }
+          }
+      };
+
+      updateLogin();
+  }, [lastLoginDate]);
 
   async function handleSubmit(event) {
     event.preventDefault();

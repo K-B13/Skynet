@@ -1210,9 +1210,12 @@ describe('DELETE Robot', () => {
 describe('PUT change Stats On Login', () => {
     let req, res, mockRobot;
     const findByIdOriginal = Robot.findById
+    const currentDate = new Date(); 
+    const lastLogin = new Date(currentDate.getTime() - (6 * 60 * 60 * 1000));
     beforeEach(() => {
         req = {
-            params: { id: '12345' }
+            params: { id: '12345' },
+            body: { lastLogin: lastLogin, currentDate: currentDate }
         };
         res = {
             status: jest.fn().mockReturnThis(),
@@ -1245,14 +1248,14 @@ describe('PUT change Stats On Login', () => {
         jest.restoreAllMocks();
     });
 
-    it('should reduce battery by 10,hardware by 15 if random num is less than 3', async () => {
+    it('should reduce battery by 34,hardware by 15 if random num is less than 3 and it has been 6 hours since last login', async () => {
         jest.spyOn(global.Math, 'random')
             .mockReturnValueOnce(0.1)
             .mockReturnValueOnce(0.2);
 
         await changeStatsOnLogin(req, res);
 
-        expect(mockRobot.batteryLife).toBe(90);
+        expect(mockRobot.batteryLife).toBe(66);
         expect(mockRobot.hardware).toBe(85);
         expect(mockRobot.currency).toBe(200);
         expect(mockRobot.mood).toBe('Happy');
@@ -1261,14 +1264,14 @@ describe('PUT change Stats On Login', () => {
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
     });
 
-    it('should reduce battery and hardware by 2 when random num above 6', async () => {
+    it('should reduce battery by 26 and hardware by 2 when random num above 6 and it has been 6 hours since last login', async () => {
         jest.spyOn(global.Math, 'random')
             .mockReturnValueOnce(0.7)
             .mockReturnValueOnce(0.8);
 
         await changeStatsOnLogin(req, res);
 
-        expect(mockRobot.batteryLife).toBe(98);
+        expect(mockRobot.batteryLife).toBe(74);
         expect(mockRobot.hardware).toBe(98);
         expect(mockRobot.currency).toBe(200);
         expect(mockRobot.save).toHaveBeenCalled();
@@ -1276,14 +1279,14 @@ describe('PUT change Stats On Login', () => {
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
     });
 
-    it('should reduce battery and hardware by 5 when random num between 3 and 6', async () => {
+    it('should reduce battery by 29 and hardware by 5 when random num between 3 and 6 and it has been 6 hours since last login', async () => {
         jest.spyOn(global.Math, 'random')
             .mockReturnValueOnce(0.3)
             .mockReturnValueOnce(0.4);
 
         await changeStatsOnLogin(req, res);
 
-        expect(mockRobot.batteryLife).toBe(95);
+        expect(mockRobot.batteryLife).toBe(71);
         expect(mockRobot.hardware).toBe(95);
         expect(mockRobot.currency).toBe(200);
         expect(mockRobot.save).toHaveBeenCalled();
@@ -1291,14 +1294,14 @@ describe('PUT change Stats On Login', () => {
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
     });
 
-    it('should reduce battery by 35 and hardware by 5 ', async () => {
+    it('should reduce battery by 59 and hardware by 5 when it has been more than 6 hours since last login ', async () => {
         jest.spyOn(global.Math, 'random')
             .mockReturnValueOnce(0.1)
             .mockReturnValueOnce(0.5);
         mockRobot.batteryLife -= 25
         await changeStatsOnLogin(req, res);
 
-        expect(mockRobot.batteryLife).toBe(65);
+        expect(mockRobot.batteryLife).toBe(41);
         expect(mockRobot.hardware).toBe(95);
         expect(mockRobot.currency).toBe(200);
         expect(mockRobot.save).toHaveBeenCalled();
@@ -1307,7 +1310,7 @@ describe('PUT change Stats On Login', () => {
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
     });
 
-    it('should reduce battery by 40 and hardware by 70 making sure mood is Sad', async () => {
+    it('should reduce battery by 64 and hardware by 70 making sure mood is Sad when it has been more than 6 hours since login', async () => {
         jest.spyOn(global.Math, 'random')
             .mockReturnValueOnce(0.1)
             .mockReturnValueOnce(0.5);
@@ -1317,13 +1320,13 @@ describe('PUT change Stats On Login', () => {
 
         await changeStatsOnLogin(req, res);
 
-        expect(mockRobot.batteryLife).toBe(60);
+        expect(mockRobot.batteryLife).toBe(36);
         expect(mockRobot.hardware).toBe(30);
         expect(mockRobot.currency).toBe(200);
         expect(mockRobot.mood).toBe('Sad')
     });
 
-    it('should reduce battery by 10 and hardware by 70 making sure mood is Sad', async () => {
+    it('should reduce battery by 34 and hardware by 70 making sure mood is Sad when it has been 6 hours since last login', async () => {
         jest.spyOn(global.Math, 'random')
             .mockReturnValueOnce(0.1)
             .mockReturnValueOnce(0.5);
@@ -1332,21 +1335,21 @@ describe('PUT change Stats On Login', () => {
 
         await changeStatsOnLogin(req, res);
 
-        expect(mockRobot.batteryLife).toBe(90);
+        expect(mockRobot.batteryLife).toBe(66);
         expect(mockRobot.hardware).toBe(30);
         expect(mockRobot.currency).toBe(200);
         expect(mockRobot.save).toHaveBeenCalled();
         expect(mockRobot.mood).toBe('Sad')
     });
 
-    it('should change mood to sad if battery <30 && hardware <=50', async () => {
+    it('should change mood to sad if battery <30 && hardware <=50 when it has been more than 6 hours since last login', async () => {
         const mockUserId = new mongoose.Types.ObjectId();
 
         mockRobot = {
             _id: new mongoose.Types.ObjectId(),
             name: "kimi",
             currency: 100,
-            batteryLife: 20,
+            batteryLife: 49,
             memoryCapacity: 128,
             intelligence: 0,
             hardware: 40,
@@ -1369,14 +1372,14 @@ describe('PUT change Stats On Login', () => {
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
     });
 
-    it('should change mood to neutral if battery between 31 & 70 & hardware 50 or more', async () => {
+    it('should change mood to neutral if battery between 31 & 70 & hardware 50 or more and it has been 6 hours since last login', async () => {
         const mockUserId = new mongoose.Types.ObjectId();
 
         mockRobot = {
             _id: new mongoose.Types.ObjectId(),
             name: "kimi",
             currency: 100,
-            batteryLife: 70,
+            batteryLife: 75,
             memoryCapacity: 128,
             intelligence: 0,
             hardware: 65,
@@ -1399,14 +1402,14 @@ describe('PUT change Stats On Login', () => {
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
     });
 
-    it('should change mood to happy if battery is more than 70 & hardware more than 51', async () => {
+    it('should change mood to happy if battery is more than 70 & hardware more than 51 and it has been more than 6 hours since login', async () => {
         const mockUserId = new mongoose.Types.ObjectId();
 
         mockRobot = {
             _id: new mongoose.Types.ObjectId(),
             name: "kimi",
             currency: 100,
-            batteryLife: 100,
+            batteryLife: 110,
             memoryCapacity: 128,
             intelligence: 0,
             hardware: 80,
@@ -1435,6 +1438,34 @@ describe('PUT change Stats On Login', () => {
         expect(res.status).toHaveBeenCalledWith(400);
         expect(res.json).toHaveBeenCalledWith({ message: "Failed to update robot stats" });
     });
+
+    it('Should return a 200 when robot login is updated', async () => {
+        const robot = new Robot({
+            name: "kimi",
+            currency: 100,
+            batteryLife: 90,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 1,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            lastLogin: "2024-12-17T10:00:00Z"
+        });
+        await robot.save()
+        const robotId = robot._id.toString()
+        const currentDate = new Date();
+        const response = await request(app)
+        .put(`/robot/${robotId}/lastlogin`)
+        .send({
+            lastLogin: currentDate
+        });
+        expect(response.statusCode).toBe(200);
+        expect(response.body.robot.lastLogin).toBe(currentDate.toISOString())
+    });
+
 });
 
 describe('PUT lower battery', () => {
