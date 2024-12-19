@@ -129,10 +129,10 @@ export function TriviaGame() {
         return <div>Loading next question...</div>;
     }
 
-    const allAnswers = [
+    const allAnswers = ([
         ...currentQuestion.incorrect_answers,
         currentQuestion.correct_answer,
-    ];
+    ]).sort();
 
     return (
         <div id="trivia-game">
