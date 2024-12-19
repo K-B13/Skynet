@@ -34,6 +34,7 @@
 }
 
 #delete-account, #logout-button {
+    font-family: 'Jersey 15';
     background-color: #e83511;
     color: #111;
     padding: 0.4rem 0.7rem;
