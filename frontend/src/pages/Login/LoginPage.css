@@ -21,6 +21,7 @@
 
 #login-message-display-container {
     min-height: 4rem;
+    color: #f5f5f5;
 }
 
 #login-message-display {

@@ -107,7 +107,7 @@ const LandingPage = () => {
     useEffect(() => {
         if (robotData.isAlive === false) {
             setdisabled(true)
-            if(chance === 1){
+            if(chance ===1){
                 setFlash(true)
                 setRenderTerminatorImage(true); 
                 setTimeout(() => setShowTerminator(true), 10);
