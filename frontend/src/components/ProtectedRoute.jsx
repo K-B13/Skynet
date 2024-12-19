@@ -1,5 +1,6 @@
 import { getPayloadFromToken } from "../helpfulFunctions/helpfulFunctions";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const isTokenValid = (token) => {
     if (!token) return false
@@ -15,12 +16,13 @@ const isTokenValid = (token) => {
 const ProtectedRoute = ({ children }) => {
     const navigate = useNavigate()
     const token = localStorage.getItem('token');
+    useEffect(() => {
+        if (!isTokenValid(token)) {
+            return navigate('/')
+        }
+    }, [token, navigate])
 
-    if (!isTokenValid(token)) {
-        return navigate('/')
-    }
-
-    return children
+    return isTokenValid(token) ? children: null
 }
 
 export default ProtectedRoute
