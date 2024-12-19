@@ -13,7 +13,8 @@ const RobotSchema = new mongoose.Schema({
     mood: { type: String },
     likes: { type: Array },
     dislikes: { type: Array },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User"}
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User"},
+    lastLogin: { type: Date }
 });
 
 const Robot = mongoose.model("Robot", RobotSchema);

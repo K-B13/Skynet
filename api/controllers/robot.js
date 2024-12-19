@@ -36,7 +36,7 @@ async function getRobotByUserId(req, res) {
         
         const singleRobot = await Robot.findOne({userId: loggedInUser})
         
-        res.status(200).json({robot: singleRobot});
+        res.status(200).json({robot: singleRobot, message: "Fetched robot by user Id"});
 
 
     } catch (err) {
@@ -295,16 +295,21 @@ async function changeStatsOnLogin(req, res) {
     const randomHardware = Math.floor(Math.random() * 10);
     try{
         const robotId = req.params.id
+        const lastLogin = new Date(req.body.lastLogin);
+        const currentDate = new Date(req.body.currentDate)
+        const differenceInMilliseconds = currentDate.getTime() - lastLogin.getTime();
+        const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
+        const loggedOutDepletion = Math.floor(differenceInHours * 4)
         const singleRobot = await Robot.findById(robotId)
         if (!singleRobot.isAlive) return res.status(200).json({robot: singleRobot, message: "robot is dead"})
         if(randomBattery <=2){
-            singleRobot.batteryLife = singleRobot.batteryLife -= 10
+            singleRobot.batteryLife -= 10 + loggedOutDepletion
         }
         else if(randomBattery >2 && randomBattery <=6){
-            singleRobot.batteryLife = singleRobot.batteryLife -= 5
+            singleRobot.batteryLife -= 5 + loggedOutDepletion
         }
         else if(randomBattery > 6){
-            singleRobot.batteryLife = singleRobot.batteryLife -= 2
+            singleRobot.batteryLife -= 2 + loggedOutDepletion
         }
 
         if (singleRobot.batteryLife <= 0) {
@@ -329,7 +334,9 @@ async function changeStatsOnLogin(req, res) {
             singleRobot.image = "/deadRobot.png"
         }
 
-        singleRobot.currency = singleRobot.currency += 100
+        if(loggedOutDepletion >= 24){
+            singleRobot.currency += 100
+        }
 
         const battery = singleRobot.batteryLife
         const hardware = singleRobot.hardware
@@ -506,6 +513,20 @@ const randomResponse = (robot) => {
     return userMessage
 }
 
+async function updateLastLogin(req, res) {
+    try{
+        const robotId = req.params.id
+        const dateToAdd = req.body.lastLogin
+        const singleRobot = await Robot.findById(robotId)
+        singleRobot.lastLogin = dateToAdd
+        await singleRobot.save()
+        return res.status(200).json({robot: singleRobot, message: "robot last login updated"});
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({message: "Failed to update robot last login"});
+    };
+};
+
 const RobotsController = {
     createRobot: createRobot,
     updateRobotCurrency: updateRobotCurrency,
@@ -520,7 +541,8 @@ const RobotsController = {
     changeStatsOnLogin: changeStatsOnLogin,
     lowerRobotBattery: lowerRobotBattery,
     robotSpeach: robotSpeach,
-    randomResponse: randomResponse
+    randomResponse: randomResponse,
+    updateLastLogin: updateLastLogin
 };
 
 module.exports = RobotsController;
