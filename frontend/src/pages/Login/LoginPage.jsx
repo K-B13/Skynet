@@ -15,9 +15,9 @@ export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation()
   let { message } = location.state || '';
-  const [lastLoginDate, setLastLoginDate] = useState('')
+  const [ lastLoginDate, setLastLoginDate ] = useState('')
   const currentDate = new Date();
-  const [robotId, setRobotId]=useState('')
+  const [ robotId, setRobotId ] = useState('')
 
 
     const fetchRobot = async() => {
@@ -26,7 +26,7 @@ export function LoginPage() {
         try {
             const robot = await getRobotByUserId(user.userId);
             if (robot.robot === null ){
-                navigate("/createRobot");
+                navigate("/createRobot", {state: {allowAccess: true}});
               } else if(robot.message === "Fetched robot by user Id") {
                 if (!lastLoginDate) {
                     setLastLoginDate(robot.robot.lastLogin);

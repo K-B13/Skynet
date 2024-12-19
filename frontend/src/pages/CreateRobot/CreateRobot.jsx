@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { getPayloadFromToken } from '../../helpfulFunctions/helpfulFunctions'
 import { createRobot } from '../../services/robot'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './CreateRobot.css'
 import AddFavourites from '../../components/CreateRobot/addFavourites'
 import PersonalityBtns from '../../components/CreateRobot/PersonalityBtns'
@@ -17,7 +17,15 @@ const CreateRobot = () => {
     const [ dislikeInputs, setDislikeInputs] = useState([])
 
     const navigate = useNavigate()
+    const location = useLocation()
 
+    const { allowAccess } = location.state || ''
+
+    useEffect(() => {
+        if (!allowAccess) {
+            navigate('/landingpage')
+        }
+    }, [])
     
     const handleChanges = (e) => {
         setFormDetails({ ...formDetails, [e.target.name]: e.target.value })

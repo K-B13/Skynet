@@ -7,8 +7,10 @@ export function HomePage() {
     <div id="home">
       <div id="sign-in-box">
       <h1>Welcome to Skynet!</h1>
-      <Link to="/signup"><button id="sign-up-button">Sign Up</button></Link>
-      <Link to="/login"><button id="login-button">Log in</button></Link>
+      <div id='home-container'>
+        <Link to="/login"><button id="login-button">Log in</button></Link>
+        <Link to="/signup"><button id="sign-up-button">Sign Up</button></Link>        
+      </div>
       </div>
     </div>
   );

@@ -139,7 +139,7 @@ const LandingPage = () => {
         try {
             const response = await deleteRobot(robotData._id);
             if(response.message === "Robot deleted"){
-                navigate("/createrobot");
+                navigate("/createrobot", {state: {allowAccess: true}});
             }
         } catch (err) {
             console.error("error deleting user robot", err);
