@@ -118,6 +118,7 @@ const BWAM = () => {
         setCurrentChoice('')
         setOutcome(result)
         if (audioRef.current) {
+            audioRef.current.volume = 0.2;
             audioRef.current.play();
         }
     }
