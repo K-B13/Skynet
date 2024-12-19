@@ -6,9 +6,21 @@
     background-attachment: fixed;
     margin: 0;
     padding: 0;
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#landing-page-container {
+    margin: 0.8rem;
+    width: 70vw;
+    background-color: rgba(255, 196, 51, 0.7);
+    border-radius: 0.8rem;
+    padding: 0.4rem;
+    border: 0.1rem solid #111;
 }
 
 #button-container {
@@ -18,16 +30,53 @@
     z-index: 1;
 }
 
-#button-contianer-upper {
+#main-upper-button-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+#left-button-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#left-upper-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+#repair-button-container {
+    min-width: 70%;
+}
+
+#energy-buttons {
     display: flex;
 }
 
-#button-contianer-lower {
+#left-lower-button-container {
+    display: flex;
+    justify-content: center;
+    
+    /* flex-grow: 1; */
+}
+
+#teach-button-container {
+    min-width: 70%;
+}
+
+#right-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#button-container-lower {
     display: flex;
     margin: 0.8rem;
 }
 
-#energy-buttons, #memory-buttons, #repair-button-container, #speak-button-container, #kill-robot-container {
+#memory-buttons, #repair-button-container, #teach-button-container {
     display: flex;
     flex-direction: column;
     margin: 0.2rem;
@@ -35,7 +84,15 @@
     z-index: 2;
 }
 
-#memory-buttons button, #energy-buttons button, #repair-button-container button, #kill-robot, #speak-button, #create-new-robot, #play-games-button {
+#speak-button-container, #kill-robot-container, #memory-buttons {
+    display: flex;
+    flex-direction: column;
+    margin: 0.1rem;
+    padding: 0.5rem;
+    z-index: 2;
+}
+
+#energy-buttons button, #repair-button-container button, #create-new-robot, #play-games-button, #teach-button {
     margin: 0.4rem;
     align-items: center;
     border: 2px solid #111;
@@ -44,8 +101,8 @@
     color: #111;
     cursor: pointer;
     display: flex;
-    font-family: Inter, sans-serif;
-    font-size: 0.8rem;
+    font-family: 'Jersey 15';
+    font-size: 1rem;
     height: 48px;
     justify-content: center;
     line-height: 24px;
@@ -57,16 +114,91 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    background-color: #e0722e;
+    background-color: #57ea81;
 
     box-shadow: 5px 5px 0px #111;
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
 }
 
-#memory-buttons button:hover, #energy-buttons button:hover, #repair-button-container button:hover, #kill-robot:hover, #speak-button:hover, #create-new-robot:hover, #play-games-button:hover {
+#memory-buttons button, #speak-button {
+    margin: 0.2rem;
+    align-items: center;
+    border: 2px solid #111;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #111;
+    cursor: pointer;
+    display: flex;
+    font-family: 'Jersey 15';
+    font-size: 1rem;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 1.2rem;
+    position: relative; 
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-color: #e88011;
+
+    box-shadow: 5px 5px 0px #111;
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+#kill-robot {
+    margin: 0.4rem;
+    align-items: center;
+    border: 2px solid #b20c00; 
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #fff; 
+    cursor: pointer;
+    display: flex;
+    font-family: Inter, sans-serif;
+    font-size: 0.8rem;
+    height: 48px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    background-color: #e83511; 
+    box-shadow: 0 0 10px rgba(232, 53, 17, 0.5), 5px 5px 0px #b20c00; 
+    transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
+}
+
+#memory-buttons button:hover, #energy-buttons button:hover, #repair-button-container button:hover, #speak-button:hover, #create-new-robot:hover, #play-games-button:hover, #teach-button:hover {
     box-shadow: 0px 0px 0px #111; 
     transform: translate(5px, 5px);
     outline: 0;
+}
+
+#kill-robot:hover {
+    background-color: #b20c00;
+    box-shadow: 0px 0px 0px #b20c00; 
+    transform: translate(5px, 5px);
+    outline: 0;
+}
+
+
+#memory-buttons button:disabled, #energy-buttons button:disabled, #repair-button-container button:disabled, #kill-robot:disabled, #speak-button:disabled, #create-new-robot:disabled, #play-games-button:disabled, #teach-button:disabled {
+    background-color: lightgray;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#play-games-button{
+    background-color: #a672ea;
+    border-radius: 50%;
 }
 
 #sergei-tip-image {
@@ -89,7 +221,6 @@
     opacity: 0;
     transform: translateY(20px);
 }
-
 
 .terminator-container {
     position: relative;
@@ -118,7 +249,6 @@
     transform: translateY(20px);
 }
 
-
 .overlay {
     position: fixed;
     top: 0;
@@ -146,14 +276,4 @@
     100% {
         opacity: 0.8;
     }
-    }
-
-
-    #learning-fail{
-        background-color: rgb(224, 114, 46, 0.8);
-        font-size: 1.5em;
-        width: 40vw;
-        margin: auto;
-        border-radius: 8px;
-        border: 1px solid white;
     }

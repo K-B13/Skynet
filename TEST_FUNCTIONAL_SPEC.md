@@ -4,8 +4,8 @@
 - Testing the current application against its specification
 - ✅ = pass ❌ = fail
 - Will update periodically as the application progresses
-- Last updated 2pm Wednesday 18th Dec
-- Current results = 68 ✅ 3 ❌
+- Last updated 3pm Thursday 19th Dec
+- Current results = 74 ✅ 1 ❌
 - 47 cases covered with automated tests
 
 ### Accounts and authentication
@@ -24,7 +24,7 @@
 - AA005 - Signed up users can log in if they provide the correct credentials ✅(automated)
 - AA006 - There is clear visual feedback if the user inputs invalid registration/login details ✅(automated)
 - AA007 - Logged in users can log out ✅(automated)
-- AA008 - Users can delete their account ❌
+- AA008 - Users can delete their account ✅
 - AA009 - Users can easily navigate between sign up and log in screens ✅(automated)
 
 ### Robot Creation and Display
@@ -61,7 +61,7 @@
 - RA011 - Hardware will randomly deplete by either 2, 5 or 15 upon logging in ✅
 - RA012 - Battery will randomly deplete by either 2, 5 or - 10 upon logging in ✅
 - RA013 - Currency starts at 500 for a newly-created robot. ✅(automated) There is currently no maximum amount of currency (could be implemented later)
-- RA014 - The user will gain 100 currency for only the first login of every calendar day ❌ (currently every login)
+- RA014 - The user will gain 100 currency for only the first login of every calendar day (pending testing)
 
 ### Upgrades and Actions
 - UP001 - Users can charge their robot, either by 10% or up to full charge. ✅(automated) When charging by full, each 1% of battery charged costs 1 currency ✅ (currently if you do +10 with 91+% battery, you get charged a flat 10 fee)
@@ -74,6 +74,11 @@
 - UP008 - Users can create a new robot of their robot dies ✅(automated)
 - UP009 - Users cannot charge, teach, upgrade hardware or increase memory if they do not have the required currency ✅(automated)
 
+### Speak
+- SP001 - Robots with < 100 intelligence have basic responses ✅
+- SP002 - Robots with 100-999 intelligence have AI generated responses ✅
+- SP003 - Robots with >= 1000 intelligence have AI generated responses with text to speech ✅
+
 ### Minigames
 - MG001 - Users can play mini games in order to earn currency ✅
 - MG002 - Each mini game will have a description that teaches the user how to play the game ✅ (BWAM is nearly there)
@@ -82,7 +87,10 @@
 ### Security Measures
 - SE001 - A user cannot manipulate another user's robot ❌
 - SE002 - A user cannot manipulate another user's account details ✅
+- SE003 - Users cannot gain any advantage by using the API instead of the frontend (pending testing)
+- SE004 - A user cannot access the create robot page if they already have an alive robot ✅
+- SE005 - A user who is not logged in cannot access any pages other than splash, sign up and login ✅
 
 ## Results
 
-68 ✅ 3 ❌
+74 ✅ 1 ❌

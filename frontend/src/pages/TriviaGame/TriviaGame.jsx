@@ -56,7 +56,7 @@ export function TriviaGame() {
                     const response = await updateRobotCurrency(robotId, cash);
                     
                     if(response.message === 'robot currency updated'){
-                        navigate('/landingpage')
+                        navigate('/gameselection', {state: {robotId: robotId}})
                     }
                 } catch (error) {
                     console.error("Error updating currency:", error);
@@ -129,10 +129,10 @@ export function TriviaGame() {
         return <div>Loading next question...</div>;
     }
 
-    const allAnswers = [
+    const allAnswers = ([
         ...currentQuestion.incorrect_answers,
         currentQuestion.correct_answer,
-    ];
+    ]).sort();
 
     return (
         <div id="trivia-game">

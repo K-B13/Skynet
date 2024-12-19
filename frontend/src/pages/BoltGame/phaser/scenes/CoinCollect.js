@@ -217,7 +217,7 @@ triggerGameOver() {
 	if(this.gameOver) return;
 	this.gameOver = true;
     this.coinsEarned = Number(this.score.text)
-	this.gameOverText.setText(`Game Over! Money earned: $${this.coinsEarned}`);
+	this.gameOverText.setText(`Game Over! Money earned: $${this.coinsEarned * 10}`);
     this.gameOverText.setVisible(true);
 
     // Stop the game mechanics

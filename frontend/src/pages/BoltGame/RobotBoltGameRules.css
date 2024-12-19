@@ -45,7 +45,7 @@
     background-color: #2ea8e0;
     font-size: 20px;
     color: #fff;
-
+    font-family: 'Jersey 15';
     box-shadow: 8px 8px 0px #111;
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
 }

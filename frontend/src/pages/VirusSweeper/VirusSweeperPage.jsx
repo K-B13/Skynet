@@ -16,6 +16,7 @@ const { robotId } = location.state || '';
 const handleStartGame = () => {
     setGameStarted(true);
     if (audioRef.current) {
+        audioRef.current.volume = 0.2;
         audioRef.current.play();
     }
 

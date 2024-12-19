@@ -148,10 +148,14 @@ export const killRobot = async (robotId) => {
     return data
 }
 
-export const changeStatsOnLogin = async (robotId) => {
+export const changeStatsOnLogin = async (robotId, lastLogin, currentDate) => {
 
     const requestOptions = {
         method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({lastLogin: lastLogin, currentDate: currentDate})
     }
 
     const response = await fetch(`${BACKEND_URL}/robot/${robotId}/changestats`, requestOptions);
@@ -210,5 +214,28 @@ export const getRobotSpeach = async (robotId) => {
     const data = await response.json()
 
     return data
+}
+
+export const updateLastLogin = async (robotId, lastLogin) => {
+    console.log("HITTING SERVICE");
+    console.log("ROBOT ID in service:", robotId);
+
+
+    const requestOptions = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({lastLogin: lastLogin})
+    }
+
+    const response = await fetch(`${BACKEND_URL}/robot/${robotId}/lastlogin`, requestOptions);
+
+    if (!response.ok) {
+        throw new Error('Failed to update robot last login')
+    }
+
+    const data = await response.json()
+    return data;
 }
 

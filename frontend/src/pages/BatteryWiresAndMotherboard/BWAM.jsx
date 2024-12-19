@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import battery from '/BWAM/battery.jpg'
 import wires from '/BWAM/wires.jpg'
 import motherboard from '/BWAM/motherboard.jpg'
@@ -28,6 +28,7 @@ const BWAM = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const { robotId } = location.state || '';
+    const audioRef = useRef(null);
 
     useEffect(() => {
         if (scoreboard.userScore === 3 || scoreboard.robotScore === 3) {
@@ -35,6 +36,7 @@ const BWAM = () => {
             addCurrency()
         }
     }, [scoreboard])
+
 
     const options = [
         'Battery',
@@ -115,8 +117,13 @@ const BWAM = () => {
         const result = checkWinner()
         setCurrentChoice('')
         setOutcome(result)
+        if (audioRef.current) {
+            audioRef.current.volume = 0.2;
+            audioRef.current.play();
+        }
     }
     return (
+        <div id="BWAM-page">
         <div id='BWAM-game'>
             <NavBar robotId={robotId}/>
             <div id='BWAM-header'>
@@ -129,7 +136,7 @@ const BWAM = () => {
             {
                 !activeGame && 
                 <p id='BWAM-currency-won'>
-                    {scoreboard.robotScore === 3 ? 'You did not win any coins' : `You have won ${150 - (scoreboard.robotScore * 50)} coins`}
+                    {scoreboard.robotScore === 3 ? 'You did not win any money' : `You have won $${150 - (scoreboard.robotScore * 50)}`}
                 </p>
             }
             <BWAMResults outcome={outcome} selectedChoice={selectedChoice} relatedPic={relatedPic} currentChoice={currentChoice}/>
@@ -141,16 +148,16 @@ const BWAM = () => {
                     selectedChoice={selectedChoice}
                     setSelectedChoice={setSelectedChoice}
                 />
-                {currentChoice && 
                 <div id='BWAM-confirm-decision-container'>
+                {currentChoice && 
                     <button
                         id='BWAM-confirm-decision'
                         onClick={() => {
                         handleDecision()
                     }}
                     >Choose</button>
+                }
                 </div>
-                    }
             </div>:
             <div id='BWAM-return-buttons'>
                 <button
@@ -167,6 +174,11 @@ const BWAM = () => {
                 </button>
             </div>
             }
+        </div>
+            <audio ref={audioRef} loop>
+                <source src="/bwmMusic.mp3" type="audio/mp3" />
+                Your browser does not support the audio element.
+            </audio>
         </div>
     )
 }

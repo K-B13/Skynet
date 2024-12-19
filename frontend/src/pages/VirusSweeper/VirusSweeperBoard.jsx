@@ -51,70 +51,103 @@ const VirusSweeperBoard = ({ robotId, rows, cols, mineCount, mineImage }) => {
         setBoard(newBoard);
     };
 
+
     const handleClick = async (row, col) => {
         if (gameOver || revealedCells.has(`${row},${col}`)) return;
-
+    
         const newBoard = [...board];
         const cell = newBoard[row][col];
-
+    
         if (cell.value === 'M') {
-            
-            const newRevealedCells = new Set(revealedCells);
-            newRevealedCells.add(`${row},${col}`);
-            setRevealedCells(newRevealedCells);
-
-            newBoard[row][col].revealed = true;
+            newBoard.forEach((row) =>
+                row.forEach((cell) => {
+                    if (cell.value === 'M') cell.revealed = true;
+                })
+            );
             setBoard(newBoard);
-
+    
             setTimeout(() => {
                 setGameOver(true);
-            }, 300); 
-            const response = await updateRobotCurrency(robotId, score);
-            if(response.message === "robot currency updated"){
+            }, 300);
+    
+            const response = await updateRobotCurrency(robotId, score * 5);
+            if (response.message === "robot currency updated") {
                 setTimeout(() => {
-                    navigate('/landingpage');
-                }, 3000); 
+                    navigate('/gameselection', { state: { robotId: robotId } });
+                }, 3000);
             }
             return;
         }
-
+    
         revealCell(row, col);
     };
 
-
     const revealCell = (row, col) => {
 
-        let stack = [[row, col]];
         const newRevealedCells = new Set(revealedCells);
         const newBoard = [...board];
+    
+        if (newRevealedCells.has(`${row},${col}`)) return;
+    
+        newRevealedCells.add(`${row},${col}`);
+        newBoard[row][col].revealed = true;
+    
+        const cell = newBoard[row][col];
+    
+        if (cell.value === 'M') {
+            setRevealedCells(newRevealedCells);
+            setBoard(newBoard);
+            setGameOver(true);
+            return;
+        }
 
+        if (cell.value !== 'M') {
+            setScore(prevScore => prevScore + 1); 
+            setRevealedCells(newRevealedCells);
+            setBoard(newBoard);
+            return;
+        }
+    
+        if (cell.value !== 0) {
+
+            setRevealedCells(newRevealedCells);
+            setBoard(newBoard);
+            return;
+        }
+
+        
+        let stack = [[row, col]];
+    
         while (stack.length > 0) {
             const [r, c] = stack.pop();
-
+    
             if (newRevealedCells.has(`${r},${c}`)) continue;
-
+    
             newRevealedCells.add(`${r},${c}`);
             newBoard[r][c].revealed = true;
-
-            if (newBoard[row][col].value !== 'M') {
-                setScore(prevScore => prevScore + 1); 
-            }
-
+    
             if (newBoard[r][c].value === 0) {
                 for (let i = -1; i <= 1; i++) {
                     for (let j = -1; j <= 1; j++) {
                         const newRow = r + i;
                         const newCol = c + j;
-                        if (newRow < 0 || newCol < 0 || newRow >= rows || newCol >= cols || (i === 0 && j === 0)) continue;
-                        stack.push([newRow, newCol]);
+    
+
+                        if (newRow >= 0 && newCol >= 0 && newRow < rows && newCol < cols && !(i === 0 && j === 0)) {
+                            if (!newRevealedCells.has(`${newRow},${newCol}`) && newBoard[newRow][newCol].value !== 'M') {
+                                stack.push([newRow, newCol]);
+                            }
+                        }
                     }
                 }
             }
         }
-
+    
         setRevealedCells(newRevealedCells);
         setBoard(newBoard);
     };
+    
+    
 
     return (
         <>
@@ -143,6 +176,7 @@ const VirusSweeperBoard = ({ robotId, rows, cols, mineCount, mineImage }) => {
                 <div className="game-over-message">
                     <h2>Game Over</h2>
                     <p>Final Score: {score}</p>
+                    <p>Money earned: {score * 5}</p>
                 </div>
             )}
         </div>

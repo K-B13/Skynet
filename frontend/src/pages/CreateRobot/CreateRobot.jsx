@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { getPayloadFromToken } from '../../helpfulFunctions/helpfulFunctions'
 import { createRobot } from '../../services/robot'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './CreateRobot.css'
 import AddFavourites from '../../components/CreateRobot/addFavourites'
 import PersonalityBtns from '../../components/CreateRobot/PersonalityBtns'
@@ -17,7 +17,15 @@ const CreateRobot = () => {
     const [ dislikeInputs, setDislikeInputs] = useState([])
 
     const navigate = useNavigate()
+    const location = useLocation()
 
+    const { allowAccess } = location.state || ''
+
+    useEffect(() => {
+        if (!allowAccess) {
+            navigate('/landingpage')
+        }
+    }, [])
     
     const handleChanges = (e) => {
         setFormDetails({ ...formDetails, [e.target.name]: e.target.value })
@@ -43,7 +51,7 @@ const CreateRobot = () => {
         const updatedDetails = clearEmptyLikesAndDislikes()
         const response = await createRobot({...updatedDetails, userId: userId}, token)
         console.log(response)
-        navigate('/landingpage')
+        navigate('/landingpage', { replace: true })
     }
 
     const clearEmptyLikesAndDislikes =  () => {
@@ -71,23 +79,25 @@ const CreateRobot = () => {
                 }}
             >
                 <div id='create-robot-name-outer-container'>
-                    <div 
-                        id='create-robot-name-inner-container' 
-                        className='name-container'
-                    >
-                        <input
-                            type='text'
-                            id='create-robot-name'
-                            name='name'
-                            className='name-input'
-                            maxLength='40'
-                            value={formDetails.name}
-                            onChange={handleChanges}
-                            required
-                        />
-                        <label htmlFor='create-robot-name' className='name-label' id='create-robot-name-label'>Name</label>
-                        <div className='name-topline' id='create-robot-name-topline'></div>
-                        <div className='name-underline' id='create-robot-name-underline'></div>
+                    <div id='create-robot-name-inner-container' >
+                        <div 
+                            id='create-robot-name-container' 
+                            className='name-container'
+                        >
+                            <input
+                                type='text'
+                                id='create-robot-name'
+                                name='name'
+                                className='name-input'
+                                maxLength='40'
+                                value={formDetails.name}
+                                onChange={handleChanges}
+                                required
+                            />
+                            <label htmlFor='create-robot-name' className='name-label' id='create-robot-name-label'>Name</label>
+                            <div className='name-topline' id='create-robot-name-topline'></div>
+                            <div className='name-underline' id='create-robot-name-underline'></div>
+                        </div>
                     </div>
                 </div>
                 <div id='create-robot-personality-btns'>

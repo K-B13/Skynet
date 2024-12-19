@@ -196,7 +196,7 @@ describe("/users", () => {
       .set("Authorization", `Bearer ${token}`)
       .send({ password: "Something" });
       expect(response.status).toEqual(400)
-      expect(response.body.passwordErrors).toEqual(['Password does not have special character', 'Password does not have an integer'])
+      expect(response.body.passwordErrors).toEqual(['Password does not have special character', 'Password does not have a number'])
       const foundUser = await User.findById(user._id)
       expect(foundUser.email).toEqual("someone@example.com");
       expect(foundUser.password).toEqual("Something1?");

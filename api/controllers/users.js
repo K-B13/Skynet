@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Robot = require('../models/robot')
 const { allPasswordChecks } = require('../validation/passwordValidation')
 const { allEmailChecks } = require('../validation/emailValidation')
 
@@ -56,6 +57,8 @@ const deleteUser = async (req, res) => {
   }
 
   try {
+    await Robot.findOneAndDelete({ userId: id})
+
     await User.findByIdAndDelete(id)
     res.status(202).json({ message: 'Deleted user' })
   } catch (err) {

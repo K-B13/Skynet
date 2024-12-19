@@ -10,11 +10,11 @@ const RobotBoltGame = ({robotId}) => {
     useEffect(() => {
         const handleGameOver = async (finalScore) => {
             
-            const response = await updateRobotCurrency(robotId, finalScore);
+            const response = await updateRobotCurrency(robotId, finalScore * 10);
             console.log(response);
             if(response.message === "robot currency updated"){
                 setTimeout(() => {
-                    navigate('/landingpage');
+                    navigate('/gameselection', {state: {robotId: robotId}});
                 }, 3000); 
             }
         };
@@ -22,6 +22,7 @@ const RobotBoltGame = ({robotId}) => {
         const createdGame = createGame('game-container', handleGameOver);
 
         if (audioRef.current) {
+            audioRef.current.volume = 0.2;
             audioRef.current.play();
         }
 

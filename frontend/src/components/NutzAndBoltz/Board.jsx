@@ -1,9 +1,10 @@
 import Tile from "./Tile";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import washer from "/NAB/washer.png";
 import screw from "/NAB/screw.png";
 
 const Board = ({ winner, setWinner }) => {
+    const audioRef = useRef(null);
     const [currentIcon, setCurrentIcon] = useState(screw);
     const [disableUserClick, setDisableUserClick] = useState(false);
     const [boardState, setBoardState] = useState(Array(9).fill(null));
@@ -38,6 +39,10 @@ const Board = ({ winner, setWinner }) => {
     };
 
     const handleTileClick = (e) => {
+        if (audioRef.current) {
+            audioRef.current.volume = 0.2;
+            audioRef.current.play();
+        }
         const tile = e.target.value;
 
         if (winner || boardState[tile] !== null) return;
@@ -152,6 +157,10 @@ const Board = ({ winner, setWinner }) => {
                     <Tile num='8' icon={boardState[8]} handleTileClick={handleTileClick} winner={winner} disableUserClick={disableUserClick}/>
                 </div>
             </div>
+            <audio ref={audioRef} loop>
+                <source src="/nutsMusic.mp3" type="audio/mp3" />
+                Your browser does not support the audio element.
+            </audio>
         </div>
     )
 }

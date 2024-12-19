@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect} from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import Board from "../../components/NutzAndBoltz/Board"
 import { updateRobotCurrency } from "../../services/robot"
@@ -24,6 +24,7 @@ const NutzAndBoltz = () => {
         await updateRobotCurrency(robotId, additionalCurrency)
     }
     return (
+        <div id="NAB-page">
         <div id='NAB-game'>
             <NavBar robotId={robotId}/>
             <h2 id='NAB-title'>Nutz and Boltz</h2>
@@ -36,7 +37,7 @@ const NutzAndBoltz = () => {
                 <p
                     id='NAB-currency-won'
                 >
-                    {winner === 'Draw' ? 'You have won 50 coins': (winner === 'User' ? 'You have won 100 coins': 'You have won 0 coins')}
+                    {winner === 'Draw' ? 'You have won $50': (winner === 'User' ? 'You have won $100': 'You have not won any money')}
                 </p>
             </div>
             }
@@ -67,6 +68,7 @@ const NutzAndBoltz = () => {
                     </div>
                 }
             </div>
+        </div>
         </div>
     )
 }

@@ -13,6 +13,7 @@ const SnakeGame = ({robotId}) => {
     const [gameOver, setGameOver] = useState(false);
     const navigate = useNavigate();
 
+
     const cellSize = 20;
     const canvasSize = 600;
     const edgeBuffer = 2; 
@@ -80,7 +81,7 @@ const SnakeGame = ({robotId}) => {
 
     useEffect(() => {
         if (!gameOver) {
-            const interval = setInterval(moveSnake, 200);
+            const interval = setInterval(moveSnake, 150);
             return () => clearInterval(interval);
         }
     }, [snake, direction, nextDirection, gameOver]);
@@ -118,7 +119,7 @@ const SnakeGame = ({robotId}) => {
         const response = await updateRobotCurrency(robotId, money);
             if(response.message === "robot currency updated"){
                 setTimeout(() => {
-                    navigate('/landingpage');
+                    navigate('/gameselection', {state: {robotId: robotId}});
                 }, 3000); 
             }
     }

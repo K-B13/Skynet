@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Jersey 15", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -9,10 +9,12 @@ a {
 }
 
 a:hover {
+  font-family: 'Jersey 15';
   color: #535bf2;
 }
 
 body {
+  font-family: 'Jersey 15';
   margin: 0;
   display: flex;
   min-width: 320px;
@@ -20,6 +22,7 @@ body {
 }
 
 h1 {
+  font-family: 'Jersey 15';
   font-size: 3.2em;
   line-height: 1.1;
 }

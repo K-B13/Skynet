@@ -7,7 +7,7 @@
 }
 
 #robot-screen-main {
-    background-color: #e0722e;
+    background-color: rgb(0, 0, 0, 0.3);
     border: solid black 1px;
     border-radius: 2rem;
     padding: 0.4rem;
@@ -24,7 +24,6 @@
     min-width: 65vw;
     justify-content: space-between;
     flex-grow: 1;
-    
 }
 
 #robot-image-container {
@@ -43,10 +42,20 @@
     width: 8rem;
     display: flex;
     padding: 0 0 0 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#currency-container-inner {
+    background-color: #11c8e8;
+    border-radius: 0.6rem;
+    padding: 0.6rem;
 }
 
 #currency {
-    font-size: 0.8rem;
+    font-size: 1rem;
+    color: #111;
+    margin: 0.3rem 0;
 }
 
 #robot-stats {
@@ -54,27 +63,44 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    font-size: 1rem;
     padding: 0.3rem;
+    background-color: #11c8e8;
+    border-radius: 0.5rem;
 }
 
 #robot-stats p {
     margin: 0.2rem;
-    font-size: 0.8rem;
-}
-
-#robot-speach-container {
-    max-width: 50vw;
-    display: flex;
-    min-height: 4rem;
-}
-
-#robot-speach {
-    font-size: 0.7rem;
+    font-size: 1rem;
+    /* color: #fbfaf9; */
+    color: #111
 }
 
 #robot-image{
     width:200px;
     height: 200px;
+}
+
+#robot-speach-container {
+    max-width: 50vw;
+    display: flex;
+    min-height: 2.5rem;
+}
+
+#robot-speach {
+
+    font-size: 0.9rem;
+    margin: 0.4rem;
+
+}
+
+#robot-display-message-container, #learning-fail-container {
+    min-height: 2rem;
+    /* color: #e83511; */
+}
+
+#robot-display-message {
+    margin: 0.4rem;
 }
 
 @keyframes spin-hourglass {
