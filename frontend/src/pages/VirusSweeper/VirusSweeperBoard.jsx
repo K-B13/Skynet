@@ -59,7 +59,6 @@ const VirusSweeperBoard = ({ robotId, rows, cols, mineCount, mineImage }) => {
         const cell = newBoard[row][col];
     
         if (cell.value === 'M') {
-            // Reveal all mines
             newBoard.forEach((row) =>
                 row.forEach((cell) => {
                     if (cell.value === 'M') cell.revealed = true;
@@ -147,13 +146,6 @@ const VirusSweeperBoard = ({ robotId, rows, cols, mineCount, mineImage }) => {
         setRevealedCells(newRevealedCells);
         setBoard(newBoard);
     };
-    
-    
-    
-    
-    
-    
-    
     
     
 
