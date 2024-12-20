@@ -1212,6 +1212,7 @@ describe('PUT change Stats On Login', () => {
     const findByIdOriginal = Robot.findById
     const currentDate = new Date(); 
     const lastLogin = new Date(currentDate.getTime() - (6 * 60 * 60 * 1000));
+    const lastLogin24 = new Date(currentDate.getTime() - (25 * 60 * 60 * 1000));
     beforeEach(() => {
         req = {
             params: { id: '12345' },
@@ -1247,6 +1248,8 @@ describe('PUT change Stats On Login', () => {
         Robot.findById = findByIdOriginal
         jest.restoreAllMocks();
     });
+
+    
 
     it('should reduce battery by 34,hardware by 15 if random num is less than 3 and it has been 6 hours since last login', async () => {
         jest.spyOn(global.Math, 'random')
@@ -1427,6 +1430,37 @@ describe('PUT change Stats On Login', () => {
         await changeStatsOnLogin(req, res);
 
         expect(mockRobot.mood).toBe("Happy");
+        expect(mockRobot.save).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });
+    });
+
+    it('should give 100 coins login bonus if it has been more than 24hrs since last login', async () => {
+        const mockUserId = new mongoose.Types.ObjectId();
+
+        mockRobot = {
+            _id: new mongoose.Types.ObjectId(),
+            name: "kimi",
+            currency: 100,
+            batteryLife: 110,
+            memoryCapacity: 128,
+            intelligence: 0,
+            hardware: 80,
+            image: "",
+            isAlive: true,
+            mood: "Neutral",
+            likes: ["apples", "politics"],
+            dislikes: ["oranges"],
+            lastLogin: lastLogin24,
+            userId: mockUserId,
+            save: jest.fn().mockResolvedValue(true)
+        };
+
+        Robot.findById = jest.fn().mockResolvedValue(mockRobot);
+
+        await changeStatsOnLogin(req, res);
+
+        expect(mockRobot.currency).toBe(200);
         expect(mockRobot.save).toHaveBeenCalled();
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({ robot: mockRobot });

@@ -21,6 +21,7 @@
 
 #login-message-display-container {
     min-height: 4rem;
+    color: #f5f5f5;
 }
 
 #login-message-display {
@@ -76,6 +77,7 @@
 #login-hide, #login-reveal {
     margin: 0 0 0 1.2rem;
     padding: 0.4rem;
+    color: #f5f5f5;
 }
 
 #login-hide:hover, #login-reveal:hover {

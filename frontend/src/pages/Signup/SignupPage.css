@@ -15,6 +15,7 @@
 
 #signup-title {
     margin: 0.9rem;
+    color: #f5f5f5
 }
 
 #criteria-component {
@@ -22,6 +23,7 @@
     margin: 0 0 0.4rem 0;
     padding: 0 1.2rem 0.8rem 1.2rem;
     border-radius: 0.5rem;
+    color: #f5f5f5;
 }
 
 #criteria-component p {
@@ -58,6 +60,7 @@
 #signup-hide, #signup-reveal {
     margin: 0 0 0 1.2rem;
     padding: 0.4rem;
+    color: #f5f5f5
 }
 
 #signup-hide:hover, #signup-reveal:hover {
